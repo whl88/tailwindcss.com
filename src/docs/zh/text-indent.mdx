@@ -1,0 +1,74 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "text-indent";
+export const description = "用于控制段落首行缩进量的工具类。";
+
+<ApiTable
+  rows={[
+    ["indent-<number>", "text-indent: calc(var(--spacing) * <number>);"],
+    ["-indent-<number>", "text-indent: calc(var(--spacing) * -<number>);"],
+    ["indent-px", "text-indent: 1px;"],
+    ["-indent-px", "text-indent: -1px;"],
+    ["indent-(<custom-property>)", "text-indent: var(<custom-property>);"],
+    ["indent-[<value>]", "text-indent: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `indent-2`、`indent-8` 等 `indent-<number>` 工具类，设置块内文本前的首行缩进量：
+
+<Figure>
+
+<Example>
+  {
+    <p className="mx-auto max-w-sm indent-8 text-gray-900 dark:text-gray-200">
+      So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my
+      way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of
+      all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:indent-8] -->
+<p class="indent-8">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 使用负值
+
+想使用负的 text-indent 值，可以在类名前加一个短横线，把它变成负值：
+
+<Figure>
+
+<Example>
+  {
+    <p className="mx-auto max-w-sm -indent-8 text-gray-900 dark:text-gray-200">
+      So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my
+      way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of
+      all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:-indent-8] -->
+<p class="-indent-8">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue element="p" utility="indent" name="text indentation" value="50%" variable="indentation" />
+
+### 响应式设计
+
+<ResponsiveDesign element="p" property="text-indent" defaultClass="indent-4" featuredClass="indent-8" />

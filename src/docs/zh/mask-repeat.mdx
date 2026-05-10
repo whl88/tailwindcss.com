@@ -1,0 +1,169 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "mask-repeat";
+export const description = "用于控制 mask 图像平铺方式的工具类。";
+
+<ApiTable
+  rows={[
+    ["mask-repeat", "mask-repeat: repeat;"],
+    ["mask-no-repeat", "mask-repeat: no-repeat;"],
+    ["mask-repeat-x", "mask-repeat: repeat-x;"],
+    ["mask-repeat-y", "mask-repeat: repeat-y;"],
+    ["mask-repeat-space", "mask-repeat: space;"],
+    ["mask-repeat-round", "mask-repeat: round;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `mask-repeat` 工具类，让 mask 图像在水平和垂直方向同时平铺：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-col py-8">
+      <Stripes className="h-40 w-full rounded-lg" border>
+        <div className="h-full rounded-lg bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] mask-radial-from-100% mask-radial-closest-side bg-cover bg-center mask-size-[50px_50px] mask-center mask-repeat"></div>
+      </Stripes>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-repeat] -->
+<div class="mask-repeat mask-[url(/img/circle.png)] mask-size-[50px_50px] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 沿水平方向平铺
+
+使用 `mask-repeat-x` 工具类，只让 mask 图像沿水平方向平铺：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-col py-8">
+      <Stripes className="h-40 w-full rounded-lg" border>
+        <div className="h-full rounded-lg bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] mask-radial-from-100% mask-radial-closest-side bg-cover bg-center mask-size-[50px_50px] mask-center mask-repeat-x"></div>
+      </Stripes>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-repeat-x] -->
+<div class="mask-repeat-x mask-[url(/img/circle.png)] mask-size-[50px_50px] bg-[url(/img/mountains.jpg)]..."></div>
+```
+
+</Figure>
+
+### 沿垂直方向平铺
+
+使用 `mask-repeat-y` 工具类，只让 mask 图像沿垂直方向平铺：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-col py-8">
+      <Stripes className="h-40 w-full rounded-lg" border>
+        <div className="h-full rounded-lg bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] mask-radial-from-100% mask-radial-closest-side bg-cover bg-center mask-size-[50px_50px] mask-center mask-repeat-y"></div>
+      </Stripes>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-repeat-y] -->
+<div class="mask-repeat-y mask-[url(/img/circle.png)] mask-size-[50px_50px] bg-[url(/img/mountains.jpg)]..."></div>
+```
+
+</Figure>
+
+### 避免被裁剪
+
+使用 `mask-repeat-space` 工具类，平铺 mask 图像但不裁剪：
+
+<Figure>
+
+<Example resizable>
+  {
+    <div className="flex flex-col py-8">
+      <Stripes className="h-40 w-full rounded-lg" border>
+        <div className="h-full rounded-lg bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] mask-radial-from-100% mask-radial-closest-side bg-cover bg-center mask-size-[50px_50px] mask-repeat-space"></div>
+      </Stripes>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-repeat-space] -->
+<div class="mask-repeat-space mask-[url(/img/circle.png)] mask-size-[50px_50px] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 避免被裁剪 and gaps
+
+使用 `mask-repeat-round` 工具类，平铺 mask 图像且不裁剪，必要时会拉伸以避免出现缝隙：
+
+<Figure>
+
+<Example resizable>
+  {
+    <div className="flex flex-col py-8">
+      <Stripes className="h-40 w-full rounded-lg" border>
+        <div className="h-full rounded-lg bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] mask-radial-from-100% mask-radial-closest-side bg-cover bg-center mask-size-[50px_50px] mask-repeat-round"></div>
+      </Stripes>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-repeat-round] -->
+<div class="mask-repeat-round mask-[url(/img/circle.png)] mask-size-[50px_50px] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 禁用平铺
+
+使用 `mask-no-repeat` 工具类，禁止 mask 图像平铺：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-col py-8">
+      <Stripes className="h-40 w-full rounded-lg" border>
+        <div className="h-full rounded-lg bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] mask-radial-from-100% mask-radial-closest-side bg-cover bg-center mask-size-[50px_50px] mask-center mask-no-repeat"></div>
+      </Stripes>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-no-repeat] -->
+<div class="mask-no-repeat mask-[url(/img/circle.png)] mask-size-[50px_50px] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign property="mask-repeat" defaultClass="mask-repeat" featuredClass="mask-repeat-x" />

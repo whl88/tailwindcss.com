@@ -1,0 +1,322 @@
+import { CodeExampleStack } from "@/components/code-example";
+
+export const title = "函数与指令";
+export const description = "Tailwind 提供的自定义 CSS 函数与指令参考。";
+
+## 指令
+
+指令是 Tailwind 专属的自定义 [at-rule](https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule)，可在 CSS 中使用，为 Tailwind CSS 项目提供专门的能力。
+
+<h3 id="import-directive">
+  <a href="#import-directive">@import</a>
+</h3>
+
+使用 `@import` 指令内联导入 CSS 文件，包括 Tailwind 本身：
+
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+```
+
+<h3 id="theme-directive">
+  <a href="#theme-directive">@theme</a>
+</h3>
+
+使用 `@theme` 指令定义项目自定义的设计令牌，例如字体、颜色、断点等：
+
+```css
+/* [!code filename:CSS] */
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+
+  --breakpoint-3xl: 120rem;
+
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+  --color-avocado-400: oklch(0.92 0.19 114.08);
+  --color-avocado-500: oklch(0.84 0.18 117.33);
+  --color-avocado-600: oklch(0.53 0.12 118.34);
+
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ... */
+}
+```
+
+更多关于自定义主题的内容请参阅[主题变量文档](/docs/theme)。
+
+<h3 id="source-directive">
+  <a href="#source-directive">@source</a>
+</h3>
+
+使用 `@source` 指令显式指定 Tailwind 自动内容检测未能发现的源文件：
+
+```css
+/* [!code filename:CSS] */
+@source "../node_modules/@my-company/ui-lib";
+```
+
+更多关于自动内容检测的内容，请参阅[在源文件中检测类名](/docs/detecting-classes-in-source-files)文档。
+
+<h3 id="utility-directive">
+  <a href="#utility-directive">@utility</a>
+</h3>
+
+使用 `@utility` 指令为项目添加自定义工具类，使其支持 `hover`、`focus`、`lg` 等变体：
+
+```css
+/* [!code filename:CSS] */
+@utility tab-4 {
+  tab-size: 4;
+}
+```
+
+更多关于注册自定义工具类的内容，请参阅[添加自定义工具类文档](/docs/adding-custom-styles#adding-custom-utilities)。
+
+<h3 id="variant-directive">
+  <a href="#variant-directive">@variant</a>
+</h3>
+
+使用 `@variant` 指令将 Tailwind 变体应用到你 CSS 的样式上：
+
+```css
+/* [!code filename:CSS] */
+.my-element {
+  background: white;
+
+  /* [!code highlight:4] */
+  @variant dark {
+    background: black;
+  }
+}
+```
+
+更多关于使用变体的内容，请参阅[使用变体文档](/docs/adding-custom-styles#using-variants)。
+
+<h3 id="custom-variant-directive">
+  <a href="#custom-variant-directive">@custom-variant</a>
+</h3>
+
+使用 `@custom-variant` 指令在项目中添加自定义变体：
+
+```css
+/* [!code filename:CSS] */
+@custom-variant theme-midnight (&:where([data-theme="midnight"] *));
+```
+
+之后你就可以编写 `theme-midnight:bg-black`、`theme-midnight:text-white` 这样的工具类。
+
+更多关于添加自定义变体的内容，请参阅[添加自定义变体文档](/docs/adding-custom-styles#adding-custom-variants)。
+
+<h3 id="apply-directive">
+  <a href="#apply-directive">@apply</a>
+</h3>
+
+使用 `@apply` 指令把已有的工具类内联到你自己的自定义 CSS 中：
+
+```css
+/* [!code filename:CSS] */
+.select2-dropdown {
+  /* [!code highlight:2] */
+  @apply rounded-b-lg shadow-md;
+}
+
+.select2-search {
+  /* [!code highlight:2] */
+  @apply rounded border border-gray-300;
+}
+
+.select2-results__group {
+  /* [!code highlight:2] */
+  @apply text-lg font-bold text-gray-900;
+}
+```
+
+当你需要写自定义 CSS（例如覆盖第三方库的样式）但又想沿用设计令牌、并保持你在 HTML 中熟悉的语法时，这个指令非常有用。
+
+<h3 id="reference-directive">
+  <a href="#reference-directive">@reference</a>
+</h3>
+
+如果你想在 Vue 或 Svelte 组件的 `<style>` 块中、或者 CSS modules 中使用 `@apply` 或 `@variant`，需要先导入主题变量、自定义工具类与自定义变体，使这些值在该上下文中可用。
+
+为了在不重复输出任何 CSS 的前提下做到这一点，使用 `@reference` 指令以仅引用的方式导入主样式表，但不真正包含其样式：
+
+```html
+<!-- [!code filename:Vue] -->
+<template>
+  <h1>Hello world!</h1>
+</template>
+
+<style>
+  /* [!code highlight:2] */
+  @reference "../../app.css";
+
+  h1 {
+    @apply text-2xl font-bold text-red-500;
+  }
+</style>
+```
+
+如果你只使用默认主题、未做任何自定义（例如未使用 `@theme`、`@custom-variant`、`@plugin` 等），可以直接 `@reference` 引用 `tailwindcss`：
+
+```html
+<!-- [!code filename:Vue] -->
+<template>
+  <h1>Hello world!</h1>
+</template>
+
+<style>
+  /* [!code highlight:2] */
+  @reference "tailwindcss";
+
+  h1 {
+    @apply text-2xl font-bold text-red-500;
+  }
+</style>
+```
+
+### 子路径导入
+
+使用 CLI、Vite 或 PostCSS 时，`@import`、`@reference`、`@plugin`、`@config` 这些指令都支持 [subpath imports](https://nodejs.org/api/packages.html#subpath-imports)，工作方式类似打包工具与 TypeScript 的路径别名：
+
+```json
+// [!code filename:package.json]
+{
+  // ...
+  "imports": {
+    /* [!code highlight:2] */
+    "#app.css": "./src/css/app.css"
+  }
+}
+```
+
+```html
+<!-- [!code filename:Vue] -->
+<template>
+  <h1>Hello world!</h1>
+</template>
+
+<style>
+  /* [!code highlight:2] */
+  @reference "#app.css";
+
+  h1 {
+    @apply text-2xl font-bold text-red-500;
+  }
+</style>
+```
+
+## 函数
+
+Tailwind 提供以下构建期函数，方便你处理颜色与间距刻度。
+
+<h3 id="alpha-function">
+  <a href="#alpha-function">--alpha()</a>
+</h3>
+
+使用 `--alpha()` 函数调整某种颜色的不透明度：
+
+<CodeExampleStack>
+
+```css
+/* [!code filename:输入 CSS] */
+.my-element {
+  /* [!code highlight:2] */
+  color: --alpha(var(--color-lime-300) / 50%);
+}
+```
+
+```css
+/* [!code filename:编译后的 CSS] */
+.my-element {
+  color: color-mix(in oklab, var(--color-lime-300) 50%, transparent);
+}
+```
+
+</CodeExampleStack>
+
+<h3 id="spacing-function">
+  <a href="#spacing-function">--spacing()</a>
+</h3>
+
+使用 `--spacing()` 函数基于你的主题生成一个间距值：
+
+<CodeExampleStack>
+
+```css
+/* [!code filename:输入 CSS] */
+.my-element {
+  /* [!code highlight:2] */
+  margin: --spacing(4);
+}
+```
+
+```css
+/* [!code filename:编译后的 CSS] */
+.my-element {
+  margin: calc(var(--spacing) * 4);
+}
+```
+
+</CodeExampleStack>
+
+它也可以用于任意值中，尤其是与 `calc()` 配合：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:py-[calc(--spacing(4)-1px)]] -->
+<div class="py-[calc(--spacing(4)-1px)]">
+  <!-- ... -->
+</div>
+```
+
+## 兼容性
+
+以下指令与函数仅为兼容 Tailwind CSS v3.x 而保留。
+
+`@config` 与 `@plugin` 指令可与 `@theme`、`@utility` 等 CSS 驱动的特性结合使用。这能让你逐步把主题、自定义配置、工具类、变体与预设迁移到 CSS 中。CSS 中定义的内容在可能时会与配置合并，否则将优先于 config、preset 与 plugin 中的定义。
+
+<h3 id="config-directive">
+  <a href="#config-directive">@config</a>
+</h3>
+
+使用 `@config` 指令加载基于 JavaScript 的旧版配置文件：
+
+```css
+/* [!code filename:CSS] */
+@config "../../tailwind.config.js";
+```
+
+JavaScript 配置中的 `corePlugins`、`safelist` 与 `separator` 选项在 v4.0 中不再支持。在 v4 中安全名单请使用 [`@source inline()`](/docs/detecting-classes-in-source-files#safelisting-specific-utilities)。
+
+<h3 id="plugin-directive">
+  <a href="#plugin-directive">@plugin</a>
+</h3>
+
+使用 `@plugin` 指令加载基于 JavaScript 的旧版插件：
+
+```css
+/* [!code filename:CSS] */
+@plugin "@tailwindcss/typography";
+```
+
+`@plugin` 接受包名或本地路径。
+
+<h3 id="theme-function">
+  <a href="#theme-function">theme()</a>
+</h3>
+
+使用 `theme()` 函数以点号语法访问 Tailwind 的主题值：
+
+```css
+/* [!code filename:CSS] */
+.my-element {
+  /* [!code highlight:2] */
+  margin: theme(spacing.12);
+}
+```
+
+该函数已不推荐使用，建议改为[使用 CSS 主题变量](/docs/theme#using-your-theme-variables)。

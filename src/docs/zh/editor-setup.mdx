@@ -1,0 +1,90 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+import { CustomizingYourTheme } from "@/components/content.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "编辑器配置";
+export const description = "提升 Tailwind CSS 开发体验的相关工具配置。";
+
+## 语法支持
+
+Tailwind CSS 使用了 `@theme`、`@variant`、`@source` 等自定义 CSS 语法，部分编辑器在不识别这些规则时会触发警告或报错。
+
+如果你使用 VS Code，我们官方的 [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) 插件提供了一个专属的 Tailwind CSS 语言模式，支持 Tailwind 使用的所有自定义 at-rule 与函数。
+
+某些情况下，如果你的编辑器对 CSS 文件中的语法非常严格，你可能需要禁用原生的 CSS lint/校验。
+
+## Cursor
+
+[Cursor](https://cursor.com/?utm_source=tailwind) 是一款 AI 原生的代码编辑器，提供上下文感知的自动补全和内置的代码代理。由于它支持 VS Code 扩展，你已经熟悉的所有 Tailwind CSS 工具都开箱即用——包括官方的 [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) 扩展，以及用于类名排序的 [Prettier 插件](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)。
+
+<img
+  src={require("../img/cursor-intellisense.png").default.src}
+  alt="Tailwind CSS IntelliSense extension for Cursor"
+  width={1344}
+  height={672}
+  className="rounded-lg"
+/>
+
+前往 [Cursor](https://cursor.com/?utm_source=tailwind) 了解并下载。
+
+## Zed
+
+[Zed](https://zed.dev/?utm_source=tailwind) 是一款快速、现代的代码编辑器，从底层为最前沿的开发工作流（包括与 AI 协作的代理式编辑）而设计。它内置 Tailwind CSS 自动补全、lint 与悬停预览，无需另装扩展。它还与 Prettier 紧密集成，安装后官方的 [Prettier 插件](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)即可与 Zed 无缝协作。
+
+<img
+  src={require("../img/zed-intellisense.png").default.src}
+  alt="Built-in support for Tailwind CSS in Zed via Tailwind CSS IntelliSense"
+  width={1344}
+  height={672}
+  className="rounded-lg"
+/>
+
+前往 [Zed](https://zed.dev/?utm_source=tailwind) 查看，并了解 [Zed 与 Tailwind CSS 的协作方式](https://zed.dev/docs/languages/tailwindcss?utm_source=tailwind)。
+
+## VS Code 的 IntelliSense
+
+VS Code 官方扩展 [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) 通过自动补全、语法高亮与 lint 等高级特性，提升 Tailwind 开发体验。
+
+<img
+  src={require("../img/intellisense.png").default.src}
+  alt="Tailwind CSS IntelliSense extension for Visual Studio Code"
+  width={1344}
+  height={672}
+  className="rounded-lg"
+/>
+
+- **自动补全** —— 为工具类以及 [CSS 函数与指令](/docs/functions-and-directives)提供智能建议。
+- **Lint 检查** —— 在 CSS 与标记中高亮显示错误与潜在 bug。
+- **悬停预览** —— 鼠标悬停在工具类上时显示其完整 CSS。
+- **语法高亮** —— 让使用自定义 CSS 语法的 Tailwind 特性正确高亮。
+
+更多信息请查看 [GitHub 仓库](https://github.com/tailwindcss/intellisense)，或[添加到 VS Code](vscode:extension/bradlc.vscode-tailwindcss) 立即开始使用。
+
+## 使用 Prettier 排序类名
+
+我们维护了 Tailwind CSS 官方的 [Prettier 插件](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)，按[推荐的类顺序](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier#how-classes-are-sorted)自动排序你的类名。
+
+<img src={require("../img/prettier-banner.jpg").default.src} alt="" width={2400} height={819} className="rounded-lg" />
+
+它能与自定义的 Tailwind 配置无缝协作；并且因为它就是一个 Prettier 插件，所以 Prettier 能用的地方它都能用——包括所有主流编辑器与 IDE，当然也包括命令行。
+
+{/* prettier-ignore */}
+```html
+<!-- [!code filename:HTML] -->
+<!-- Before -->
+<button class="text-white px-4 sm:px-8 py-2 sm:py-3 bg-sky-700 hover:bg-sky-800">Submit</button>
+
+<!-- After -->
+<button class="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3">Submit</button>
+```
+
+更多信息与开始使用方式请查看 [GitHub 仓库](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)。
+
+## JetBrains 系列 IDE
+
+WebStorm、PhpStorm 等 JetBrains 系列 IDE 已内置 HTML 中 Tailwind CSS 智能补全的支持。
+
+[了解 JetBrains IDE 中的 Tailwind CSS 支持 &rarr;](https://www.jetbrains.com/help/webstorm/tailwind-css.html)

@@ -1,0 +1,129 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "flex-grow";
+export const description = "用于控制 flex 子项放大比例的工具类。";
+
+<ApiTable
+  rows={[
+    ["grow", "flex-grow: 1;"],
+    ["grow-<number>", "flex-grow: <number>;"],
+    ["grow-[<value>]", "flex-grow: <value>;"],
+    ["grow-(<custom-property>)", "flex-grow: var(<custom-property>);"],
+  ]}
+/>
+
+## 示例
+
+### 允许子项放大
+
+使用 `grow`，允许 flex 子项放大以填满可用空间：
+
+<Figure>
+
+<Example resizable>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 flex gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex size-14 flex-none items-center justify-center rounded-lg bg-sky-300 dark:bg-sky-800 dark:text-sky-400">
+          01
+        </div>
+        <div className="flex size-14 grow items-center justify-center rounded-lg bg-sky-500 p-4">02</div>
+        <div className="flex size-14 flex-none items-center justify-center rounded-lg bg-sky-300 p-4 dark:bg-sky-800 dark:text-sky-400">
+          03
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:grow] -->
+<div class="flex ...">
+  <div class="size-14 flex-none ...">01</div>
+  <div class="size-14 grow ...">02</div>
+  <div class="size-14 flex-none ...">03</div>
+</div>
+```
+
+</Figure>
+
+### 按因子设定放大比例
+
+使用 `grow-3` 等 `grow-<number>` 工具类，让 flex 子项按各自的放大系数等比例放大、按相对比例分配可用空间：
+
+<Figure>
+
+<Example resizable>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 flex gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex size-14 grow-3 items-center justify-center rounded-lg bg-indigo-300 dark:bg-indigo-800 dark:text-indigo-400">
+          01
+        </div>
+        <div className="flex size-14 grow-7 items-center justify-center rounded-lg bg-indigo-500 p-4">02</div>
+        <div className="flex size-14 grow-3 items-center justify-center rounded-lg bg-indigo-300 p-4 dark:bg-indigo-800 dark:text-indigo-400">
+          03
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:grow-3,grow-7] -->
+<div class="flex ...">
+  <div class="size-14 grow-3 ...">01</div>
+  <div class="size-14 grow-7 ...">02</div>
+  <div class="size-14 grow-3 ...">03</div>
+</div>
+```
+
+</Figure>
+
+### 禁止子项放大
+
+使用 `grow-0`，禁止 flex 子项放大：
+
+<Figure>
+
+<Example resizable>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 flex gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex size-14 grow items-center justify-center rounded-lg bg-pink-300 p-4 dark:bg-pink-800 dark:text-pink-400">
+          01
+        </div>
+        <div className="flex size-14 shrink-0 grow-0 items-center justify-center rounded-lg bg-pink-500">02</div>
+        <div className="hidden size-14 grow items-center justify-center rounded-lg bg-pink-300 p-4 md:flex dark:bg-pink-800 dark:text-pink-400">
+          03
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:grow-0] -->
+<div class="flex ...">
+  <div class="size-14 grow ...">01</div>
+  <div class="size-14 grow-0 ...">02</div>
+  <div class="size-14 grow ...">03</div>
+</div>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue utility="grow" name="flex grow factor" value="25vw" />
+
+### 响应式设计
+
+<ResponsiveDesign property="flex-grow" defaultClass="grow" featuredClass="grow-0" />

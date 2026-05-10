@@ -1,0 +1,104 @@
+import maskImg from "@/docs/img/mask.png";
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "mask-size";
+export const description = "用于控制 mask 图像尺寸的工具类。";
+
+<ApiTable
+  rows={[
+    ["mask-auto", "mask-size: auto;"],
+    ["mask-cover", "mask-size: cover;"],
+    ["mask-contain", "mask-size: contain;"],
+    ["mask-size-(<custom-property>)", "mask-size: var(<custom-property>);"],
+    ["mask-size-[<value>]", "mask-size: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 填满容器
+
+使用 `mask-cover` 工具类，将 mask 图像缩放到完全填满 mask 图层，必要时会裁剪图像：
+
+<Figure>
+
+<Example>
+  {
+    <Stripes border className="mx-auto h-48 w-96 overflow-hidden rounded-lg sm:w-96">
+      <div
+        className="h-full w-full bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] bg-cover bg-center bg-no-repeat mask-cover mask-center"
+        style={{ maskImage: `url(${maskImg.src})` }}
+      ></div>
+    </Stripes>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-cover] -->
+<div class="mask-cover mask-[url(/img/scribble.png)] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 填满但不裁剪
+
+使用 `mask-contain` 工具类，将 mask 图像缩放到外边界，但不裁剪也不拉伸：
+
+<Figure>
+
+<Example>
+  {
+    <Stripes border className="mx-auto h-48 w-96 overflow-hidden rounded-lg sm:w-96">
+      <div
+        className="h-full w-full bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] bg-cover bg-center bg-no-repeat mask-contain mask-center mask-no-repeat"
+        style={{ maskImage: `url(${maskImg.src})` }}
+      ></div>
+    </Stripes>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-contain] -->
+<div class="mask-contain mask-[url(/img/scribble.png)] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 使用默认尺寸
+
+使用 `mask-auto` 工具类，按 mask 图像的默认尺寸显示：
+
+<Figure>
+
+<Example>
+  {
+    <Stripes border className="mx-auto h-48 w-96 overflow-hidden rounded-lg sm:w-96">
+      <div
+        className="h-full w-full bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=80)] bg-cover bg-center bg-no-repeat mask-auto mask-center mask-no-repeat"
+        style={{ maskImage: `url(${maskImg.src})` }}
+      ></div>
+    </Stripes>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:mask-auto] -->
+<div class="mask-auto mask-[url(/img/scribble.png)] bg-[url(/img/mountains.jpg)] ..."></div>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue utility="mask-size" value="auto_100px" name="mask image size" variable="mask-size" />
+
+### 响应式设计
+
+<ResponsiveDesign property="mask-size" defaultClass="mask-auto" featuredClass="mask-contain" />

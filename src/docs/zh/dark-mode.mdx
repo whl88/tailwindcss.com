@@ -1,0 +1,191 @@
+import { TipGood, TipBad, TipInfo } from "@/components/tips";
+import { Iframe } from "@/components/iframe";
+import { Example } from "@/components/example";
+import { Figure } from "@/components/figure";
+
+export const title = "深色模式";
+export const description = "通过变体为站点添加深色模式样式。";
+
+## 概览
+
+如今深色模式已经是许多操作系统的一等公民功能，为站点设计一份深色版本与默认设计搭配也越来越普遍。
+
+为了尽可能简化这件事，Tailwind 提供了 `dark` 变体，让你可以为深色模式下的站点单独设置样式：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="grid grid-cols-1 sm:grid-cols-2">
+      <div className="p-8 pt-7">
+        <p className="mb-2 text-sm font-medium text-gray-500">Light mode</p>
+        <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring ring-gray-900/5">
+          <div>
+            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+              <svg
+                className="h-6 w-6 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </span>
+          </div>
+          <p className="mt-5 text-base font-medium tracking-tight text-gray-900">Writes upside-down</p>
+          <p
+            className="mt-2 text-sm text-gray-500"
+            children={`The Zero Gravity Pen can be used to write in any orientation,
+          including upside-down. It even works in outer space.`}
+          />
+        </div>
+      </div>
+      <div className="bg-gray-900 p-8 pt-7">
+        <p className="mb-2 text-sm font-medium text-gray-400">Dark mode</p>
+        <div className="rounded-lg bg-gray-800 px-6 py-8 shadow-xl ring ring-gray-900/5">
+          <div>
+            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+              <svg
+                className="h-6 w-6 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </span>
+          </div>
+          <p className="mt-5 text-base font-medium tracking-tight text-white">Writes upside-down</p>
+          <p
+            className="mt-2 text-sm text-gray-400"
+            children={`The Zero Gravity Pen can be used to write in any orientation,
+          including upside-down. It even works in outer space.`}
+          />
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code word:dark\:bg-gray-800] -->
+<!-- prettier-ignore -->
+<div class="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+  <div>
+    <span class="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+      <svg class="h-6 w-6 stroke-white" ...>
+        <!-- ... -->
+      </svg>
+    </span>
+  </div>
+  <!-- prettier-ignore -->
+  <!-- [!code word:dark\:text-white] -->
+  <h3 class="text-gray-900 dark:text-white mt-5 text-base font-medium tracking-tight ">Writes upside-down</h3>
+  <!-- prettier-ignore -->
+  <!-- [!code word:dark\:text-gray-400] -->
+  <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm ">
+    The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
+  </p>
+</div>
+```
+
+</Figure>
+
+默认情况下 `dark` 变体使用 `prefers-color-scheme` CSS 媒体特性；你也可以通过覆盖 `dark` 变体来构建[手动切换深色模式](#toggling-dark-mode-manually)的站点。
+
+## 手动切换深色模式
+
+如果你希望深色主题由 CSS 选择器（而非 `prefers-color-scheme` 媒体查询）驱动，覆盖 `dark` 变体使其使用你的自定义选择器：
+
+```css
+/* [!code filename:app.css] */
+@import "tailwindcss";
+
+/* [!code highlight:2] */
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+这样 `dark:*` 工具类不再依据 `prefers-color-scheme` 应用，而是会在 HTML 树中较高位置存在 `dark` 类时生效：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:dark\:bg-black] -->
+<!-- [!code word:dark] -->
+<html class="dark">
+  <body>
+    <div class="bg-white dark:bg-black">
+      <!-- ... -->
+    </div>
+  </body>
+</html>
+```
+
+如何把 `dark` 类加到 `html` 元素上由你决定，常见做法是用一小段 JavaScript 更新 `class` 属性，并把偏好同步到 `localStorage` 之类的位置。
+
+### 使用 data 属性
+
+如果想用 data 属性而不是类来激活深色模式，把 `dark` 变体覆盖为属性选择器即可：
+
+```css
+/* [!code filename:app.css] */
+@import "tailwindcss";
+
+/* [!code highlight:2] */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+```
+
+之后只要祖先节点的 `data-theme` 属性被设为 `dark`，深色模式工具类就会生效：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:dark\:bg-black] -->
+<!-- [!code word:data-theme="dark"] -->
+<html data-theme="dark">
+  <body>
+    <div class="bg-white dark:bg-black">
+      <!-- ... -->
+    </div>
+  </body>
+</html>
+```
+
+### 支持系统主题
+
+要构建支持浅色、深色与跟随系统三态切换的主题开关，可以使用自定义的深色模式选择器，并借助 [`window.matchMedia()` API](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) 检测系统主题，按需更新 `html` 元素。
+
+下面是一个支持浅色、深色与跟随操作系统偏好的简单示例：
+
+```js
+// [!code filename:spaghetti.js]
+// 页面加载或切换主题时，最好将这段脚本内联到 `head` 中，避免 FOUC
+document.documentElement.classList.toggle(
+  "dark",
+  localStorage.theme === "dark" ||
+    (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+);
+
+// 用户显式选择浅色模式
+localStorage.theme = "light";
+
+// 用户显式选择深色模式
+localStorage.theme = "dark";
+
+// 用户显式选择跟随系统偏好
+localStorage.removeItem("theme");
+```
+
+同样地，你可以按自己的方式管理这件事，甚至可以把偏好存储在服务端数据库里、在服务端渲染时输出对应的类——完全由你决定。

@@ -1,0 +1,397 @@
+import dedent from "dedent";
+import { ApiTable } from "@/components/api-table.tsx";
+import { CustomizingYourSpacingScale, ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "margin";
+export const description = "用于控制元素 margin 的工具类。";
+
+<ApiTable
+  rows={[
+    ...[
+      ["m", "margin"],
+      ["mx", "margin-inline"],
+      ["my", "margin-block"],
+      ["ms", "margin-inline-start"],
+      ["me", "margin-inline-end"],
+      ["mbs", "margin-block-start"],
+      ["mbe", "margin-block-end"],
+      ["mt", "margin-top"],
+      ["mr", "margin-right"],
+      ["mb", "margin-bottom"],
+      ["ml", "margin-left"],
+    ].flatMap(([prefix, property]) => [
+      [`${prefix}-<number>`, `${property}: calc(var(--spacing) * <number>);`],
+      [`-${prefix}-<number>`, `${property}: calc(var(--spacing) * -<number>);`],
+      [`${prefix}-auto`, `${property}: auto;`],
+      [`${prefix}-px`, `${property}: 1px;`],
+      [`-${prefix}-px`, `${property}: -1px;`],
+      [`${prefix}-(<custom-property>)`, `${property}: var(<custom-property>);`],
+      [`${prefix}-[<value>]`, `${property}: <value>;`],
+    ]),
+    ...[
+      ["space-x", "margin-inline"],
+      ["space-y", "margin-block"],
+    ].flatMap(([prefix, property]) => [
+      [
+        `${prefix}-<number>`,
+        dedent`& > :not(:last-child) {
+          --tw-${prefix}-reverse: 0;
+          ${property}-start: calc(calc(var(--spacing) * <number>) * var(--tw-${prefix}-reverse));
+          ${property}-end: calc(calc(var(--spacing) * <number>) * calc(1 - var(--tw-${prefix}-reverse)));
+        };`,
+      ],
+      [
+        `-${prefix}-<number>`,
+        dedent`& > :not(:last-child) {
+          --tw-${prefix}-reverse: 0;
+          ${property}-start: calc(calc(var(--spacing) * -<number>) * var(--tw-${prefix}-reverse));
+          ${property}-end: calc(calc(var(--spacing) * -<number>) * calc(1 - var(--tw-${prefix}-reverse)));
+        };`,
+      ],
+      [
+        `${prefix}-px`,
+        dedent`& > :not(:last-child) {
+          --tw-${prefix}-reverse: 0;
+          ${property}-start: calc(1px * var(--tw-${prefix}-reverse));
+          ${property}-end: calc(1px * calc(1 - var(--tw-${prefix}-reverse)));
+        };`,
+      ],
+      [
+        `-${prefix}-px`,
+        dedent`& > :not(:last-child) {
+          --tw-${prefix}-reverse: 0;
+          ${property}-start: calc(-1px * var(--tw-${prefix}-reverse));
+          ${property}-end: calc(-1px * calc(1 - var(--tw-${prefix}-reverse)));
+        };`,
+      ],
+      [
+        `${prefix}-(<custom-property>)`,
+        dedent`& > :not(:last-child) {
+          --tw-${prefix}-reverse: 0;
+          ${property}-start: calc(var(<custom-property>) * var(--tw-${prefix}-reverse));
+          ${property}-end: calc(var(<custom-property>) * calc(1 - var(--tw-${prefix}-reverse)));
+        };`,
+      ],
+      [
+        `${prefix}-[<value>]`,
+        dedent`& > :not(:last-child) {
+          --tw-${prefix}-reverse: 0;
+          ${property}-start: calc(<value> * var(--tw-${prefix}-reverse));
+          ${property}-end: calc(<value> * calc(1 - var(--tw-${prefix}-reverse)));
+        };`,
+      ],
+    ]),
+    [
+      "space-x-reverse",
+      dedent`& > :not(:last-child)) {
+        --tw-space-x-reverse: 1;
+      }`,
+    ],
+    [
+      "space-y-reverse",
+      dedent`& > :not(:last-child)) {
+        --tw-space-y-reverse: 1;
+      }`,
+    ],
+
+]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `m-4`、`m-8` 等 `m-<number>` 工具类，统一控制元素四周的 margin：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-center font-mono text-sm leading-6 font-bold text-white">
+      <div className="relative flow-root rounded-lg">
+        <div className="absolute inset-0">
+          <Stripes border className="h-full rounded-lg" />
+        </div>
+        <div className="relative m-8 rounded-lg bg-blue-500 p-4">m-8</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:m-8] -->
+<div class="m-8 ...">m-8</div>
+```
+
+</Figure>
+
+### 设置某一侧的 margin
+
+使用 `ml-2`、`mt-6` 等 `mt-<number>`、`mr-<number>`、`mb-<number>`、`ml-<number>` 工具类，单独控制元素某一侧的 margin：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="relative h-56 font-mono text-sm leading-6 font-bold text-white">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 md:-ml-24">
+        <div className="relative pt-6">
+          <Stripes border="x" className="absolute inset-0 rounded-b-lg" />
+          <div className="relative rounded-lg bg-purple-500 p-4">mt-6</div>
+        </div>
+      </div>
+      <div className="absolute top-1/2 right-0 -translate-y-1/2">
+        <div className="relative pr-4">
+          <Stripes border="y" className="absolute inset-0 rounded-l-lg" />
+          <div className="relative rounded-lg bg-purple-500 p-4">mr-4</div>
+        </div>
+      </div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 md:ml-24">
+        <div className="relative pb-8">
+          <Stripes border="x" className="absolute inset-0 rounded-t-lg" />
+          <div className="relative rounded-lg bg-purple-500 p-4">mb-8</div>
+        </div>
+      </div>
+      <div className="absolute top-1/2 left-0 -translate-y-1/2">
+        <div className="relative pl-2">
+          <Stripes border="y" className="absolute inset-0 rounded-r-lg" />
+          <div className="relative rounded-lg bg-purple-500 p-4">ml-2</div>
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:mt-6,mr-4,mb-8,ml-2] -->
+<div class="mt-6 ...">mt-6</div>
+<div class="mr-4 ...">mr-4</div>
+<div class="mb-8 ...">mb-8</div>
+<div class="ml-2 ...">ml-2</div>
+```
+
+</Figure>
+
+### 设置水平 margin
+
+使用 `mx-4`、`mx-8` 等 `mx-<number>` 工具类，控制元素的水平 margin：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-center font-mono text-sm leading-6 font-bold text-white">
+      <div className="relative rounded-lg">
+        <div className="absolute inset-0">
+          <Stripes border className="h-full rounded-lg" />
+        </div>
+        <div className="relative mx-8 rounded-lg bg-indigo-500 p-4">mx-8</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:mx-8] -->
+<div class="mx-8 ...">mx-8</div>
+```
+
+</Figure>
+
+### 设置垂直 margin
+
+使用 `my-4`、`my-8` 等 `my-<number>` 工具类，控制元素的垂直 margin：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-center font-mono text-sm leading-6 font-bold text-white">
+      <div className="relative flow-root rounded-lg">
+        <div className="absolute inset-0">
+          <Stripes border className="h-full rounded-lg" />
+        </div>
+        <div className="relative my-8 rounded-lg bg-pink-500 p-4">my-8</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:my-8] -->
+<div class="my-8 ...">my-8</div>
+```
+
+</Figure>
+
+### 使用负值
+
+如需使用负的 margin 值，在类名前加上连字符即可将其转换为负值：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-center font-mono text-sm leading-6 font-bold text-white">
+      <div className="flex flex-col items-center">
+        <div className="relative h-16 w-36 overflow-hidden rounded-md border border-sky-700/10 bg-sky-400/20"></div>
+        <div className="relative -mt-8 flex items-center justify-center rounded-md bg-sky-500 p-4">-mt-8</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:-mt-8] -->
+<div class="h-16 w-36 bg-sky-400 opacity-20 ..."></div>
+<div class="-mt-8 bg-sky-300 ...">-mt-8</div>
+```
+
+</Figure>
+
+### 使用逻辑属性
+
+使用 `ms-4`、`me-8` 等 `ms-<number>` 或 `me-<number>` 工具类，设置 `margin-inline-start` 与 `margin-inline-end` 这两个逻辑属性：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-2 place-items-center gap-x-4">
+      <div className="flex flex-col items-start gap-y-4" dir="ltr">
+        <p className="text-sm font-medium">Left-to-right</p>
+        <div className="relative flex rounded-lg font-mono text-sm leading-6 font-bold text-white">
+          <Stripes border className="absolute min-h-full w-full rounded-lg" />
+          <div className="relative ms-8 rounded-lg bg-indigo-500 p-4">ms-8</div>
+        </div>
+        <div className="relative mt-4 flex rounded-lg font-mono text-sm leading-6 font-bold text-white">
+          <Stripes border className="absolute min-h-full w-full rounded-lg" />
+          <div className="relative me-8 rounded-lg bg-indigo-500 p-4">me-8</div>
+        </div>
+      </div>
+      <div className="flex flex-col items-start gap-y-4" dir="rtl">
+        <p className="text-sm font-medium">Right-to-left</p>
+        <div className="relative flex rounded-lg font-mono text-sm leading-6 font-bold text-white">
+          <Stripes border className="absolute min-h-full w-full rounded-lg" />
+          <div className="relative ms-8 rounded-lg bg-indigo-500 p-4">ms-8</div>
+        </div>
+        <div className="relative mt-4 flex rounded-lg font-mono text-sm leading-6 font-bold text-white">
+          <Stripes border className="absolute min-h-full w-full rounded-lg" />
+          <div className="relative me-8 rounded-lg bg-indigo-500 p-4">me-8</div>
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:ms-8,me-8] -->
+<!-- [!code word:dir="ltr"] -->
+<!-- [!code word:dir="rtl"] -->
+<div>
+  <div dir="ltr">
+    <div class="ms-8 ...">ms-8</div>
+    <div class="me-8 ...">me-8</div>
+  </div>
+  <div dir="rtl">
+    <div class="ms-8 ...">ms-8</div>
+    <div class="me-8 ...">me-8</div>
+  </div>
+</div>
+```
+
+</Figure>
+
+使用 `mbs-<number>` 与 `mbe-<number>` 工具类，设置 `margin-block-start` 与 `margin-block-end` 这两个逻辑属性——它们会根据书写模式映射到顶部或底部：
+
+```html
+<!-- [!code classes:mbs-8] -->
+<div class="mbs-8 ...">mbs-8</div>
+```
+
+### 在子元素之间添加间距
+
+使用 `space-x-4`、`space-y-8` 等 `space-x-<number>` 或 `space-y-<number>` 工具类，控制相邻元素之间的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-start font-mono text-sm leading-6 font-bold text-white">
+      <div className="relative flex space-x-4 rounded-lg">
+        <div className="absolute inset-0">
+          <Stripes border="y" className="h-full rounded-lg" />
+        </div>
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500">01</div>
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500">02</div>
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500">03</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:space-x-4] -->
+<div class="flex space-x-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+</div>
+```
+
+</Figure>
+
+#### Reversing children order
+
+如果元素是反向排列的（例如使用了 `flex-row-reverse` 或 `flex-col-reverse`），请使用 `space-x-reverse` 或 `space-y-reverse` 工具类，确保间距被加到每个元素正确的一侧：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-end font-mono text-sm leading-6 font-bold text-white">
+      <div className="relative flex flex-row-reverse space-x-4 space-x-reverse rounded-lg">
+        <div className="absolute inset-0">
+          <Stripes border="y" className="h-full rounded-lg" />
+        </div>
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500">01</div>
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500">02</div>
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500">03</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:flex-row-reverse,space-x-4,space-x-reverse] -->
+<div class="flex flex-row-reverse space-x-4 space-x-reverse ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+</div>
+```
+
+</Figure>
+
+#### Limitations
+
+The space utilities are really just a shortcut for adding margin to all-but-the-last-item in a group, and aren't designed to handle complex cases like grids, layouts that wrap, or situations where the children are rendered in a complex custom order rather than their natural DOM order.
+
+For those situations, it's better to use the [gap utilities](/docs/gap) when possible, or add margin to every element with a matching negative margin on the parent.
+
+另外，`space-*` 工具类并未针对与[分隔线工具类](/docs/border-width#between-children)同时使用做设计。这种场景建议改为给子元素添加 margin/padding 工具类。
+
+### 使用自定义值
+
+<UsingACustomValue utilities={["m", "mx", "mb"]} name="margin" variable="margin" value="5px" />
+
+### 响应式设计
+
+<ResponsiveDesign property="margin" defaultClass="mt-4" featuredClass="mt-8" />
+
+## 自定义主题
+
+<CustomizingYourSpacingScale utilities={["m", "mx", "my", "ms", "me", "mbs", "mbe", "mt", "mr", "mb", "ml"]} />

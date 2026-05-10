@@ -1,0 +1,635 @@
+import { CodeExampleStack } from "@/components/code-example";
+
+export const title = "添加自定义样式";
+export const description = "在 Tailwind 项目中添加自定义样式的最佳实践。";
+
+使用框架时最大的挑战之一，往往是当你需要的能力框架本身没有提供时，你不知道该怎么做。
+
+Tailwind 从一开始就被设计为可扩展、可定制，因此无论你在构建什么，都不应感觉到自己在与框架对抗。
+
+本指南覆盖以下话题：自定义你的设计令牌、必要时如何突破这些约束、添加自己的自定义 CSS、以及通过插件扩展框架。
+
+## 自定义主题
+
+如果你想修改调色板、间距刻度、字号刻度或断点等内容，使用 CSS 中的 `@theme` 指令添加你的自定义：
+
+```css
+/* [!code filename:CSS] */
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+
+  --breakpoint-3xl: 120rem;
+
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+  --color-avocado-400: oklch(0.92 0.19 114.08);
+  --color-avocado-500: oklch(0.84 0.18 117.33);
+  --color-avocado-600: oklch(0.53 0.12 118.34);
+
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ... */
+}
+```
+
+更多关于自定义主题的内容请参阅[主题变量文档](/docs/theme)。
+
+## 使用任意值
+
+虽然你通常可以用一组受约束的设计令牌完成大部分精雕细琢的设计工作，但偶尔你需要突破这些约束以达到像素级精度。
+
+当你确实需要 `top: 117px` 这种数值来把某张背景图放到合适的位置时，使用 Tailwind 的方括号语法即可基于任意值即时生成一个类：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:top-[117px]] -->
+<div class="top-[117px]">
+  <!-- ... -->
+</div>
+```
+
+这基本上就是内联样式，但有一个关键好处：你可以把它与 `hover` 等交互修饰符以及 `lg` 等响应式修饰符组合起来：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:top-[117px],lg:top-[344px]] -->
+<div class="top-[117px] lg:top-[344px]">
+  <!-- ... -->
+</div>
+```
+
+这对框架内的所有内容都成立，包括背景色、字号、伪元素 content 等：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:bg-[#bada55],text-[22px],before:content-['Festivus']] -->
+<div class="bg-[#bada55] text-[22px] before:content-['Festivus']">
+  <!-- ... -->
+</div>
+```
+
+如果你要把 CSS 变量作为任意值来引用，可以使用自定义属性语法：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:fill-(--my-brand-color)] -->
+<div class="fill-(--my-brand-color) ...">
+  <!-- ... -->
+</div>
+```
+
+这等价于 <code>fill-{'[var(--my-brand-color)]'}</code> 的简写——Tailwind 会自动为你加上 `var()` 函数。
+
+### 任意属性
+
+如果你需要使用 Tailwind 默认未提供工具类的某个 CSS 属性，也可以用方括号语法写完全任意的 CSS：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:[mask-type:luminance]] -->
+<div class="[mask-type:luminance]">
+  <!-- ... -->
+</div>
+```
+
+这_真的_就像内联样式，但同样可以搭配修饰符：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:[mask-type:luminance],hover:[mask-type:alpha]] -->
+<div class="[mask-type:luminance] hover:[mask-type:alpha]">
+  <!-- ... -->
+</div>
+```
+
+这对 CSS 变量也很有用，尤其是在不同条件下需要切换变量值时：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:[--scroll-offset:56px],lg:[--scroll-offset:44px]] -->
+<div class="[--scroll-offset:56px] lg:[--scroll-offset:44px]">
+  <!-- ... -->
+</div>
+```
+
+### 任意变体
+
+任意_变体_类似任意值，但用于即时调整选择器——就像内置的伪类变体 `hover:{utility}` 或响应式变体 `md:{utility}`，只是直接在 HTML 里用方括号语法。
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:\[&\:nth-child(-n+3)\]] -->
+<ul role="list">
+  {#each items as item}
+  <li class="lg:[&:nth-child(-n+3)]:hover:underline">{item}</li>
+  {/each}
+</ul>
+```
+
+更多内容请参阅[任意变体](/docs/hover-focus-and-other-states#using-arbitrary-variants)文档。
+
+### 处理空白
+
+当任意值需要包含空格时，请改用下划线（`_`），Tailwind 会在构建期自动转换为空格：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:grid-cols-[1fr_500px_2fr]] -->
+<div class="grid grid-cols-[1fr_500px_2fr]">
+  <!-- ... -->
+</div>
+```
+
+在下划线常见且空格不合法的情形（例如 URL 中），Tailwind 会保留下划线而不会转换为空格：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:bg-[url('/what_a_rush.png')]] -->
+<div class="bg-[url('/what_a_rush.png')]">
+  <!-- ... -->
+</div>
+```
+
+少见情形下，你确实需要使用下划线、且因为空格也合法导致语义存在歧义时，用反斜杠转义下划线，Tailwind 就不会把它转换为空格：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:before:content-['hello\_world']] -->
+<div class="before:content-['hello\_world']">
+  <!-- ... -->
+</div>
+```
+
+如果你在 JSX 中使用，反斜杠会从最终渲染的 HTML 中被剥离，请使用 [String.raw()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/raw) 让反斜杠不被当作 JavaScript 转义字符：
+
+```jsx
+<div className={String.raw`before:content-['hello\_world']`}>
+  <!-- ... -->
+</div>
+```
+
+### 解决歧义
+
+Tailwind 中许多工具类共享同一命名空间，但映射到不同的 CSS 属性。例如 `text-lg` 与 `text-black` 都共享 `text-` 命名空间，但前者用于 `font-size`，后者用于 `color`。
+
+使用任意值时，Tailwind 通常能根据你传入的值自动消歧：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:text-[22px],text-[#bada55]] -->
+<!-- 会生成 font-size 工具类 -->
+<div class="text-[22px]">...</div>
+
+<!-- 会生成 color 工具类 -->
+<div class="text-[#bada55]">...</div>
+```
+
+但有时确实存在歧义，例如使用 CSS 变量时：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:text-(--my-var)] -->
+<div class="text-(--my-var)">...</div>
+```
+
+这种情况下，你可以在值前加上 [CSS 数据类型](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Types)给 Tailwind 一个底层类型的"提示"：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:text-(length:--my-var),text-(color:--my-var)] -->
+<!-- 会生成 font-size 工具类 -->
+<div class="text-(length:--my-var)">...</div>
+
+<!-- 会生成 color 工具类 -->
+<div class="text-(color:--my-var)">...</div>
+```
+
+## 使用自定义 CSS
+
+虽然 Tailwind 旨在覆盖你绝大部分样式需求，但需要时直接写普通 CSS 也完全没问题：
+
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+
+/* [!code highlight:4] */
+.my-custom-style {
+  /* ... */
+}
+```
+
+### 添加基础样式
+
+如果你只是想为页面设置一些默认值（如文本颜色、背景色、字体），最简单的方式就是在 `html` 或 `body` 元素上加几个类：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:bg-gray-100,font-serif,text-gray-900] -->
+<!doctype html>
+<html lang="en" class="bg-gray-100 font-serif text-gray-900">
+  <!-- ... -->
+</html>
+```
+
+这能让你的基础样式决策与其他样式一起留在标记中，而不是藏在另一个文件里。
+
+如果你想为特定 HTML 元素添加默认基础样式，使用 `@layer` 指令把它们放进 Tailwind 的 `base` 层：
+
+```css
+/* [!code filename:CSS] */
+/* [!code highlight:2] */
+@layer base {
+  h1 {
+    font-size: var(--text-2xl);
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+  }
+  /* [!code highlight:2] */
+}
+```
+
+### 添加组件类
+
+把更复杂、但你仍希望可以被工具类覆盖的类放到 `components` 层。
+
+传统上这类类通常是 `card`、`btn`、`badge` 这种。
+
+```css
+/* [!code filename:CSS] */
+/* [!code highlight:2] */
+@layer components {
+  .card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: --spacing(6);
+    box-shadow: var(--shadow-xl);
+  }
+  /* [!code highlight:2] */
+}
+```
+
+把组件类定义在 `components` 层后，必要时仍可用工具类覆盖：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:card,rounded-none] -->
+<!-- 看起来像 card，但是直角边 -->
+<div class="card rounded-none">
+  <!-- ... -->
+</div>
+```
+
+使用 Tailwind 时，你可能没那么需要这类类。请参阅我们关于[管理重复](/docs/styling-with-utility-classes#managing-duplication)的指南了解推荐做法。
+
+`components` 层也是你为正在使用的第三方组件添加自定义样式的合适位置：
+
+```css
+/* [!code filename:CSS] */
+@layer components {
+  .select2-dropdown {
+    /* ... */
+  }
+}
+```
+
+### 使用变体
+
+使用 `@variant` 指令在自定义 CSS 中应用 Tailwind 变体：
+
+<CodeExampleStack>
+
+```css
+/* [!code filename:app.css] */
+.my-element {
+  background: white;
+
+  /* [!code highlight:4] */
+  @variant dark {
+    background: black;
+  }
+}
+```
+
+```css
+/* [!code filename:编译后的 CSS] */
+.my-element {
+  background: white;
+
+  /* [!code highlight:4] */
+  @media (prefers-color-scheme: dark) {
+    background: black;
+  }
+}
+```
+
+</CodeExampleStack>
+
+如果你需要同时应用多个变体，使用嵌套：
+
+<CodeExampleStack>
+
+```css
+/* [!code filename:app.css] */
+.my-element {
+  background: white;
+
+  /* [!code highlight:6] */
+  @variant dark {
+    @variant hover {
+      background: black;
+    }
+  }
+}
+```
+
+```css
+/* [!code filename:编译后的 CSS] */
+.my-element {
+  background: white;
+
+  /* [!code highlight:7] */
+  @media (prefers-color-scheme: dark) {
+    &:hover {
+      @media (hover: hover) {
+        background: black;
+      }
+    }
+  }
+}
+```
+
+</CodeExampleStack>
+
+## 添加自定义工具类
+
+### 简单工具类
+
+除了使用 Tailwind 自带的工具类，你也可以添加自己的自定义工具类。当项目中需要使用 Tailwind 默认未提供工具类的 CSS 特性时，这非常有用。
+
+使用 `@utility` 指令为项目添加一个自定义工具类：
+
+```css
+/* [!code filename:CSS] */
+@utility content-auto {
+  content-visibility: auto;
+}
+```
+
+随后即可在 HTML 中使用这个工具类：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:content-auto] -->
+<div class="content-auto">
+  <!-- ... -->
+</div>
+```
+
+它也能与 `hover`、`focus`、`lg` 等变体配合：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:hover:content-auto] -->
+<div class="hover:content-auto">
+  <!-- ... -->
+</div>
+```
+
+自定义工具类会被自动插入到 `utilities` 层，与框架内置工具类放在一起。
+
+### 复杂工具类
+
+如果你的自定义工具类不止一个简单类名，使用嵌套来定义：
+
+```css
+/* [!code filename:CSS] */
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+```
+
+### 函数式工具类
+
+除了用 `@utility` 注册简单工具类外，你还可以注册接受参数的函数式工具类：
+
+```css
+/* [!code filename:CSS] */
+@utility tab-* {
+  /* prettier-ignore */
+  tab-size: --value(--tab-size-*);
+}
+```
+
+特殊的 `--value()` 函数用于解析工具类的值。
+
+#### 匹配主题值
+
+使用 `--value(--theme-key-*)` 语法以一组主题键来解析工具类的值：
+
+```css
+/* [!code filename:CSS] */
+@theme {
+  --tab-size-2: 2;
+  --tab-size-4: 4;
+  --tab-size-github: 8;
+}
+
+@utility tab-* {
+  /* [!code highlight:2] */
+  /* prettier-ignore */
+  tab-size: --value(--tab-size-*);
+}
+```
+
+这会匹配 `tab-2`、`tab-4`、`tab-github` 等工具类。
+
+#### 裸值
+
+要把值解析为裸值（bare value），使用 `--value({type})` 语法，其中 `{type}` 是你希望对裸值进行校验的数据类型：
+
+```css
+/* [!code filename:CSS] */
+@utility tab-* {
+  tab-size: --value(integer);
+}
+```
+
+这会匹配 `tab-1`、`tab-76` 等工具类。
+
+可用的裸值数据类型有：`number`、`integer`、`ratio`、`percentage`。
+
+#### 字面值
+
+要支持字面值，使用 `--value('literal')` 语法（注意引号）：
+
+```css
+/* [!code filename:CSS] */
+@utility tab-* {
+  tab-size: --value("inherit", "initial", "unset");
+}
+```
+
+这会匹配 `tab-inherit`、`tab-initial`、`tab-unset` 等工具类。
+
+#### 任意值
+
+要支持任意值，使用 `--value([{type}])` 语法（注意方括号）告诉 Tailwind 可作为任意值传入的类型：
+
+```css
+/* [!code filename:CSS] */
+@utility tab-* {
+  tab-size: --value([integer]);
+}
+```
+
+这会匹配 `tab-[1]`、`tab-[76]` 等工具类。
+
+可用的任意值数据类型有：`absolute-size`、`angle`、`bg-size`、`color`、`family-name`、`generic-name`、`image`、`integer`、`length`、`line-width`、`number`、`percentage`、`position`、`ratio`、`relative-size`、`url`、`vector`、以及 `*`。
+
+#### 同时支持主题、裸值与任意值
+
+`--value()` 函数的三种形式可以在同一规则中作为多个声明并存，无法解析的声明会从输出中被忽略：
+
+```css
+/* [!code filename:CSS] */
+@theme {
+  --tab-size-github: 8;
+}
+
+@utility tab-* {
+  tab-size: --value([integer]);
+  tab-size: --value(integer);
+  /* prettier-ignore */
+  tab-size: --value(--tab-size-*);
+}
+```
+
+这让你可以在不同情形下对值做不同处理——例如把裸整数转换为百分比：
+
+```css
+/* [!code filename:CSS] */
+@utility opacity-* {
+  opacity: --value([percentage]);
+  /* [!code highlight:2] */
+  opacity: calc(--value(integer) * 1%);
+  /* prettier-ignore */
+  opacity: --value(--opacity-*);
+}
+```
+
+如果你不需要在不同情形下区分返回值，`--value()` 也可以接收多个参数，按从左到右的顺序解析：
+
+```css
+/* [!code filename:CSS] */
+@theme {
+  --tab-size-github: 8;
+}
+
+@utility tab-* {
+  /* [!code highlight:2] */
+  /* prettier-ignore */
+  tab-size: --value(--tab-size-*, integer, [integer]);
+}
+
+@utility opacity-* {
+  opacity: calc(--value(integer) * 1%);
+  /* [!code highlight:2] */
+  /* prettier-ignore */
+  opacity: --value(--opacity-*, [percentage]);
+}
+```
+
+#### 负值
+
+要支持负值，把正值与负值分别注册到不同的声明中：
+
+```css
+/* [!code filename:CSS] */
+@utility inset-* {
+  inset: --spacing(--value(integer));
+  inset: --value([percentage], [length]);
+}
+
+/* [!code highlight:4] */
+@utility -inset-* {
+  inset: --spacing(--value(integer) * -1);
+  inset: calc(--value([percentage], [length]) * -1);
+}
+```
+
+#### 修饰符
+
+修饰符通过 `--modifier()` 函数处理，其工作方式与 `--value()` 完全一致，但作用对象是修饰符（如果存在）：
+
+```css
+/* [!code filename:CSS] */
+@utility text-* {
+  /* prettier-ignore */
+  font-size: --value(--text-*, [length]);
+  /* [!code highlight:2] */
+  /* prettier-ignore */
+  line-height: --modifier(--leading-*, [length], [*]);
+}
+```
+
+如果没有提供修饰符，则任何依赖该修饰符的声明都不会出现在输出中。
+
+#### 分数
+
+要处理分数，需要依赖 CSS 的 `ratio` 数据类型。把它用于 `--value()` 时，相当于告诉 Tailwind 把"值与修饰符"一起当作一个值：
+
+```css
+/* [!code filename:CSS] */
+@utility aspect-* {
+  /* [!code word:ratio, \[ratio\]] */
+  /* prettier-ignore */
+  aspect-ratio: --value(--aspect-ratio-*, ratio, [ratio]);
+}
+```
+
+这会匹配 `aspect-square`、`aspect-3/4`、`aspect-[7/9]` 等工具类。
+
+## 添加自定义变体
+
+除了使用 Tailwind 自带的变体，你也可以使用 `@custom-variant` 指令添加自定义变体：
+
+```css
+@custom-variant theme-midnight {
+  &:where([data-theme="midnight"] *) {
+    @slot;
+  }
+}
+```
+
+之后即可在 HTML 中使用 `theme-midnight:<utility>` 变体：
+
+```html
+<!-- [!code classes:theme-midnight:bg-black] -->
+<html data-theme="midnight">
+  <button class="theme-midnight:bg-black ..."></button>
+</html>
+```
+
+不需要嵌套时，可以使用简写语法创建变体：
+
+```css
+@custom-variant theme-midnight (&:where([data-theme="midnight"] *));
+```
+
+当一个自定义变体包含多条规则时，可以彼此嵌套：
+
+```css
+@custom-variant any-hover {
+  @media (any-hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+```

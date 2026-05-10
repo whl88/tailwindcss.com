@@ -1,0 +1,144 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "text-wrap";
+export const description = "用于控制元素中文本换行方式的工具类。";
+
+<ApiTable
+  rows={[
+    ["text-wrap", "text-wrap: wrap;"],
+    ["text-nowrap", "text-wrap: nowrap;"],
+    ["text-balance", "text-wrap: balance;"],
+    ["text-pretty", "text-wrap: pretty;"],
+  ]}
+/>
+
+## 示例
+
+### 允许文本换行
+
+使用 `text-wrap` 工具类，让溢出的文本在逻辑断点处换行成多行：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto grid max-w-xs gap-4 border-x border-x-pink-400/30 py-8 text-gray-700 dark:text-gray-400">
+      <div className="text-xl font-semibold text-gray-900 dark:text-white">Beloved Manhattan soup stand closes</div>
+      <p className="text-sm/6">
+        New Yorkers are facing the winter chill with less warmth this year as the city's most revered soup stand
+        unexpectedly shutters, following a series of events that have left the community puzzled.
+      </p>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-wrap] -->
+<article class="text-wrap">
+  <h3>Beloved Manhattan soup stand closes</h3>
+  <p>New Yorkers are facing the winter chill...</p>
+</article>
+```
+
+</Figure>
+
+### 禁止文本换行
+
+使用 `text-nowrap` 工具类，禁止文本换行，必要时允许其溢出：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="overflow-hidden">
+      <div className="mx-auto grid max-w-xs gap-4 border-x border-x-pink-400/30 py-8 text-gray-700 dark:text-gray-400">
+        <div className="text-xl font-semibold text-nowrap text-gray-900 dark:text-white">
+          Beloved Manhattan soup stand closes
+        </div>
+        <p className="text-sm/6 text-nowrap">
+          New Yorkers are facing the winter chill with less warmth this year as the city's most revered soup stand
+          unexpectedly shutters, following a series of events that have left the community puzzled.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-nowrap] -->
+<article class="text-nowrap">
+  <h3>Beloved Manhattan soup stand closes</h3>
+  <p>New Yorkers are facing the winter chill...</p>
+</article>
+```
+
+</Figure>
+
+### 均衡换行（balance）
+
+使用 `text-balance` 工具类，让文本在每一行之间均匀分布：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto grid max-w-xs gap-4 border-x border-x-pink-400/30 py-8 text-gray-700 dark:text-gray-400">
+      <div className="text-xl font-semibold text-balance text-gray-900 dark:text-white">
+        Beloved Manhattan soup stand closes
+      </div>
+      <p className="text-sm/6">
+        New Yorkers are facing the winter chill with less warmth this year as the city's most revered soup stand
+        unexpectedly shutters, following a series of events that have left the community puzzled.
+      </p>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-balance] -->
+<article>
+  <h3 class="text-balance">Beloved Manhattan soup stand closes</h3>
+  <p>New Yorkers are facing the winter chill...</p>
+</article>
+```
+
+</Figure>
+
+For performance reasons browsers limit text balancing to blocks that are ~6 lines or less, making it best suited for headings.
+
+### 优化换行（pretty）
+
+使用 `text-pretty` 工具类，以牺牲一定性能为代价换取更好的换行和排版效果。各浏览器的实现不同，常见做法包括避免文本块末尾出现孤行（最后一行只有一个单词）：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto grid max-w-xs gap-4 border-x border-x-pink-400/30 py-8 text-gray-700 dark:text-gray-400">
+      <div className="text-xl font-semibold text-pretty text-gray-900 dark:text-white">
+        Beloved Manhattan soup stand closes
+      </div>
+      <p className="text-sm/6">
+        New Yorkers are facing the winter chill with less warmth this year as the city's most revered soup stand
+        unexpectedly shutters, following a series of events that have left the community puzzled.
+      </p>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-pretty] -->
+<article>
+  <h3 class="text-pretty">Beloved Manhattan soup stand closes</h3>
+  <p>New Yorkers are facing the winter chill...</p>
+</article>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign element="h1" property="text-wrap" defaultClass="text-pretty" featuredClass="text-balance" />

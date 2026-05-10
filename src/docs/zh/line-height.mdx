@@ -1,0 +1,147 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { CustomizingYourSpacingScale, ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+
+export const title = "line-height";
+export const description = "用于控制元素行高（line-height）的工具类。";
+
+<ApiTable
+  rows={[
+    ["text-<size>/<number>", "font-size: <size>;\nline-height: calc(var(--spacing) * <number>);"],
+    ["text-<size>/(<custom-property>)", "font-size: <size>;\nline-height: var(<custom-property>);"],
+    ["text-<size>/[<value>]", "font-size: <size>;\nline-height: <value>;"],
+    ["leading-none", "line-height: 1;"],
+    ["leading-<number>", "line-height: calc(var(--spacing) * <number>);"],
+    ["leading-(<custom-property>)", "line-height: var(<custom-property>);"],
+    ["leading-[<value>]", "line-height: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `text-sm/6`、`text-lg/7` 等字号工具类，一次性设置元素的字号和行高：
+
+<Figure>
+
+<Example>{
+  <div className="flex flex-col gap-8">
+    <div>
+      <span className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">text-sm/6</span>
+      <p className="text-sm/6 text-gray-900 dark:text-gray-200">
+        So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+        my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship
+        of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+      </p>
+    </div>
+    <div>
+      <span className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">text-sm/7</span>
+      <p className="text-sm/7 text-gray-900 dark:text-gray-200">
+        So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+        my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship
+        of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+      </p>
+    </div>
+    <div>
+      <span className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">text-sm/8</span>
+      <p className="text-sm/8 text-gray-900 dark:text-gray-200">
+        So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+        my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship
+        of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+      </p>
+    </div>
+
+  </div>
+}</Example>
+
+```html
+<!-- [!code classes:text-base/6,text-base/7,text-base/8] -->
+<p class="text-base/6 ...">So I started to walk into the water...</p>
+<p class="text-base/7 ...">So I started to walk into the water...</p>
+<p class="text-base/8 ...">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+Each font size utility also sets a default line height when one isn't provided. You can learn more about these values and how to customize them in the [font-size documentation](/docs/font-size).
+
+### 单独设置 line-height
+
+使用 `leading-6`、`leading-7` 等 `leading-<number>` 工具类，独立于字号设置元素的行高：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-col gap-8">
+      <div>
+        <span className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">leading-6</span>
+        <p className="leading-6 text-gray-900 dark:text-gray-200">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+      <div>
+        <span className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">leading-7</span>
+        <p className="leading-7 text-gray-900 dark:text-gray-200">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+      <div>
+        <span className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">leading-8</span>
+        <p className="leading-8 text-gray-900 dark:text-gray-200">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:leading-6,leading-7,leading-8] -->
+<p class="text-sm leading-6">So I started to walk into the water...</p>
+<p class="text-sm leading-7">So I started to walk into the water...</p>
+<p class="text-sm leading-8">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 去掉行距
+
+使用 `leading-none` 工具类，把元素的行高设为与字号相等：
+
+<Figure>
+
+<Example>
+  {
+    <p className="mx-auto max-w-2xs text-2xl leading-none text-gray-900 dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:leading-none] -->
+<p class="text-2xl leading-none ...">The quick brown fox...</p>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue element="p" utility="leading" name="line height" variable="line-height" value="1.5" />
+
+### 响应式设计
+
+<ResponsiveDesign element="p" property="line-height" defaultClass="leading-5" featuredClass="leading-6" />
+
+## 自定义主题
+
+<CustomizingYourSpacingScale utility="leading" />

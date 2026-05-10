@@ -1,0 +1,62 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "font-style";
+export const description = "用于控制文本字形样式（斜体等）的工具类。";
+
+<ApiTable
+  rows={[
+    ["italic", "font-style: italic;"],
+    ["not-italic", "font-style: normal;"],
+  ]}
+/>
+
+## 示例
+
+### 设置为斜体
+
+使用 `italic` 工具类，把文本设为斜体：
+
+<Figure>
+
+<Example>
+  {
+    <p className="text-center text-lg font-medium text-gray-900 italic dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:italic] -->
+<p class="italic ...">The quick brown fox ...</p>
+```
+
+</Figure>
+
+### 恢复为正体
+
+使用 `not-italic` 工具类，让文本以正体显示：
+
+<Figure>
+
+<Example>
+  {
+    <p className="text-center text-lg font-medium text-gray-900 not-italic dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:not-italic] -->
+<p class="not-italic ...">The quick brown fox ...</p>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign property="font-style" defaultClass="italic" featuredClass="not-italic" element="p" />

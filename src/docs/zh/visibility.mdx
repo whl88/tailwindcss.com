@@ -1,0 +1,287 @@
+import { Stripes } from "@/components/stripes.tsx";
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "visibility";
+export const description = "用于控制元素可见性（visibility）的工具类。";
+
+<ApiTable
+  rows={[
+    ["visible", "visibility: visible;"],
+    ["invisible", "visibility: hidden;"],
+    ["collapse", "visibility: collapse;"],
+  ]}
+/>
+
+## 示例
+
+### 让元素隐藏但占位
+
+使用 `invisible` 工具类，让元素隐藏但仍占据原本的位置，从而继续影响其他元素的布局：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid grid-cols-3 gap-4 font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex items-center justify-center rounded-lg bg-cyan-500 p-4">01</div>
+        <div className="invisible flex items-center justify-center rounded-lg bg-cyan-500 p-4">02</div>
+        <div className="flex items-center justify-center rounded-lg bg-cyan-500 p-4">03</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:invisible] -->
+<div class="grid grid-cols-3 gap-4">
+  <div>01</div>
+  <div class="invisible ...">02</div>
+  <div>03</div>
+</div>
+```
+
+</Figure>
+
+如果要把元素彻底从文档中移除，请改用 [display](/docs/display#hidden) 属性。
+
+### 折叠表格行/列
+
+使用 `collapse` 工具类，把表格的行、行组、列、列组隐藏，效果类似 `display: none`，但不会影响其他行列的尺寸：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="py-8">
+      <div className="mb-3 pl-4 text-sm font-medium text-gray-500 dark:text-gray-400">Showing all rows</div>
+      <table className="w-full border-collapse border-y border-gray-400 bg-white text-sm dark:border-gray-500 dark:bg-gray-800">
+        <thead className="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Invoice #
+            </th>
+            <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Client
+            </th>
+            <th className="border border-gray-300 px-4 py-3 text-right font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #100
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              Pendant Publishing
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $2,000.00
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #101
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              Kruger Industrial Smoothing
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $545.00
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #102
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              J. Peterman
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $10,000.25
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="mt-10 mb-3 pl-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+        Hiding a row using <code className="text-xs text-gray-700 dark:text-gray-300">`collapse`</code>
+      </div>
+      <table className="w-full border-collapse border-y border-gray-400 bg-white text-sm dark:border-gray-500 dark:bg-gray-800">
+        <thead className="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Invoice #
+            </th>
+            <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Client
+            </th>
+            <th className="border border-gray-300 px-4 py-3 text-right font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #100
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              Pendant Publishing
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $2,000.00
+            </td>
+          </tr>
+          <tr className="collapse">
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #101
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              Kruger Industrial Smoothing
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $545.00
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #102
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              J. Peterman
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $10,000.25
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="mt-10 mb-3 pl-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+        Hiding a row using <code className="text-xs text-gray-700 dark:text-gray-300">`hidden`</code>
+      </div>
+      <table className="w-full border-collapse border-y border-gray-400 bg-white text-sm dark:border-gray-500 dark:bg-gray-800">
+        <thead className="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Invoice #
+            </th>
+            <th className="border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Client
+            </th>
+            <th className="border border-gray-300 px-4 py-3 text-right font-semibold text-gray-900 first:border-l-0 last:border-r-0 dark:border-gray-600 dark:text-gray-200">
+              Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #100
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              Pendant Publishing
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $2,000.00
+            </td>
+          </tr>
+          <tr className="hidden">
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #101
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              Kruger Industrial Smoothing
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $545.00
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              #102
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-gray-500 first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              J. Peterman
+            </td>
+            <td className="border border-gray-300 px-4 py-3 text-right text-gray-500 tabular-nums first:border-l-0 last:border-r-0 dark:border-gray-700 dark:text-gray-400">
+              $10,000.25
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:collapse] -->
+<table>
+  <thead>
+    <tr>
+      <th>Invoice #</th>
+      <th>Client</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>#100</td>
+      <td>Pendant Publishing</td>
+      <td>$2,000.00</td>
+    </tr>
+    <tr class="collapse">
+      <td>#101</td>
+      <td>Kruger Industrial Smoothing</td>
+      <td>$545.00</td>
+    </tr>
+    <tr>
+      <td>#102</td>
+      <td>J. Peterman</td>
+      <td>$10,000.25</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+</Figure>
+
+这样就可以在不影响表格布局的前提下，动态切换某些行或列的显示。
+
+### 让元素可见
+
+使用 `visible` 工具类，让元素显示出来：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-3 gap-4 font-mono text-sm leading-6 font-bold text-white">
+      <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">01</div>
+      <div className="visible flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">02</div>
+      <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">03</div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:visible] -->
+<div class="grid grid-cols-3 gap-4">
+  <div>01</div>
+  <div class="visible ...">02</div>
+  <div>03</div>
+</div>
+```
+
+</Figure>
+
+主要用于在不同屏幕尺寸下撤销 `invisible` 工具类。
+
+### 响应式设计
+
+<ResponsiveDesign property="visibility" defaultClass="visible" featuredClass="invisible" />

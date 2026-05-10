@@ -1,0 +1,147 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "object-fit";
+export const description = "用于控制替换元素内容如何适配容器的工具类。";
+
+<ApiTable
+  rows={[
+    ["object-contain", "object-fit: contain;"],
+    ["object-cover", "object-fit: cover;"],
+    ["object-fill", "object-fit: fill;"],
+    ["object-none", "object-fit: none;"],
+    ["object-scale-down", "object-fit: scale-down;"],
+  ]}
+/>
+
+## 示例
+
+### 缩放到覆盖容器
+
+使用 `object-cover` 工具类，调整元素内容尺寸以完全覆盖其容器：
+
+<Figure>
+
+<Example>
+  {
+    <img
+      className="mx-auto h-48 w-96 rounded-lg object-cover"
+      src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+    />
+  }
+</Example>
+
+```html
+<!-- [!code classes:object-cover] -->
+<img class="h-48 w-96 object-cover ..." src="/img/mountains.jpg" />
+```
+
+</Figure>
+
+### 完整放入容器
+
+使用 `object-contain` 工具类，调整元素内容尺寸以确保完整显示在其容器内：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto w-96">
+      <Stripes border className="absolute inset-0 h-full rounded-lg" />
+      <img
+        className="relative h-48 w-full object-contain"
+        src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:object-contain] -->
+<img class="h-48 w-96 object-contain ..." src="/img/mountains.jpg" />
+```
+
+</Figure>
+
+### 拉伸填满
+
+使用 `object-fill` 工具类，将元素内容拉伸以填满其容器：
+
+<Figure>
+
+<Example>
+  {
+    <img
+      className="mx-auto h-48 w-96 rounded-lg object-fill"
+      src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+    />
+  }
+</Example>
+
+```html
+<!-- [!code classes:object-fill] -->
+<img class="h-48 w-96 object-fill ..." src="/img/mountains.jpg" />
+```
+
+</Figure>
+
+### 必要时按比例缩小
+
+使用 `object-scale-down` 工具类，按元素内容的原始尺寸显示，必要时再缩小以适配容器：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto w-96 rounded-lg">
+      <Stripes border className="absolute inset-0 h-full rounded-lg" />
+      <img
+        className="relative h-48 w-full object-scale-down"
+        src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=128&h=160&q=80"
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:object-scale-down] -->
+<img class="h-48 w-96 object-scale-down ..." src="/img/mountains.jpg" />
+```
+
+</Figure>
+
+### 使用原始尺寸
+
+使用 `object-none` 工具类，按元素内容的原始尺寸显示，忽略容器尺寸：
+
+<Figure>
+
+<Example>
+  {
+    <img
+      className="mx-auto h-48 w-96 rounded-lg object-none"
+      src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+    />
+  }
+</Example>
+
+```html
+<!-- [!code classes:object-none] -->
+<img class="h-48 w-96 object-none ..." src="/img/mountains.jpg" />
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign property="object-fit">
+
+```html
+<!-- [!code classes:md:object-cover] -->
+<img class="object-contain md:object-cover" src="/img/mountains.jpg" />
+```
+
+</ResponsiveDesign>

@@ -1,0 +1,211 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "white-space";
+export const description = "用于控制元素 white-space 属性的工具类。";
+
+<ApiTable
+  rows={[
+    ["whitespace-normal", "white-space: normal;"],
+    ["whitespace-nowrap", "white-space: nowrap;"],
+    ["whitespace-pre", "white-space: pre;"],
+    ["whitespace-pre-line", "white-space: pre-line;"],
+    ["whitespace-pre-wrap", "white-space: pre-wrap;"],
+    ["whitespace-break-spaces", "white-space: break-spaces;"],
+  ]}
+/>
+
+## 示例
+
+### Normal 常规
+
+使用 `whitespace-normal` 工具类，让元素内的文本按常规方式换行，连续的换行符和空格会被合并：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto max-w-sm border-x border-x-pink-400/30 py-8 text-gray-900 dark:text-gray-200">
+      <p
+        className="whitespace-normal"
+        children={
+          "Hey everyone!\n\nIt’s almost 2022       and we still don’t know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.\n\nYou will never know."
+        }
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:whitespace-normal] -->
+<!-- prettier-ignore -->
+<p class="whitespace-normal">Hey everyone!
+
+It's almost 2022       and we still don't know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.
+
+You will never know.</p>
+```
+
+</Figure>
+
+### No Wrap 不换行
+
+使用 `whitespace-nowrap` 工具类，禁止元素内的文本换行，连续的换行符和空格会被合并：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto max-w-sm border-x border-x-pink-400/30 py-8 text-gray-900 dark:text-gray-200">
+      <p
+        className="whitespace-nowrap"
+        children={
+          "Hey everyone!\n\nIt’s almost 2022       and we still don’t know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.\n\nYou will never know."
+        }
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:whitespace-nowrap] -->
+<!-- prettier-ignore -->
+<p class="overflow-auto whitespace-nowrap">Hey everyone!
+
+It's almost 2022       and we still don't know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.
+
+You will never know.</p>
+```
+
+</Figure>
+
+### Pre 保留全部空白
+
+使用 `whitespace-pre` 工具类，保留元素内的换行符和空格，且不进行自动换行：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto max-w-sm border-x border-x-pink-400/30 py-8 text-gray-900 dark:text-gray-200">
+      <p
+        className="whitespace-pre"
+        children={
+          "Hey everyone!\n\nIt’s almost 2022       and we still don’t know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.\n\nYou will never know."
+        }
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:whitespace-pre] -->
+<!-- prettier-ignore -->
+<p class="overflow-auto whitespace-pre">Hey everyone!
+
+It's almost 2022       and we still don't know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.
+
+You will never know.</p>
+```
+
+</Figure>
+
+### Pre Line 保留换行
+
+使用 `whitespace-pre-line` 工具类，保留元素内的换行符但合并多余空格，文本仍会按常规方式换行：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto max-w-sm border-x border-x-pink-400/30 py-8 text-gray-900 dark:text-gray-200">
+      <p
+        className="whitespace-pre-line"
+        children={
+          "Hey everyone!\n\nIt’s almost 2022       and we still don’t know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.\n\nYou will never know."
+        }
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:whitespace-pre-line] -->
+<!-- prettier-ignore -->
+<p class="whitespace-pre-line">Hey everyone!
+
+It's almost 2022       and we still don't know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.
+
+You will never know.</p>
+```
+
+</Figure>
+
+### Pre Wrap 保留换行和空格
+
+使用 `whitespace-pre-wrap` 工具类，保留元素内的换行符和空格，文本仍会按常规方式换行：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto max-w-sm border-x border-x-pink-400/30 py-8 text-gray-900 dark:text-gray-200">
+      <p
+        className="whitespace-pre-wrap"
+        children={
+          "Hey everyone!\n\nIt’s almost 2022       and we still don’t know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.\n\nYou will never know."
+        }
+      />
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:whitespace-pre-wrap] -->
+<!-- prettier-ignore -->
+<p class="whitespace-pre-wrap">Hey everyone!
+
+It's almost 2022       and we still don't know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.
+
+You will never know.</p>
+```
+
+</Figure>
+
+### Break Spaces 行尾空白也换行
+
+使用 `whitespace-break-spaces` 工具类，保留元素内的换行符和空格；行尾的空白不会悬挂，而是会换到下一行：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="mx-auto max-w-sm border-x border-x-pink-400/30 py-8 text-gray-900 dark:text-gray-200">
+      <p
+        className="whitespace-break-spaces"
+        children={
+          "Hey everyone!\n\nIt’s almost 2022       and we still don’t know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.\n\nYou will never know."
+        }
+      />
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:whitespace-break-spaces] -->
+<!-- prettier-ignore -->
+<p class="whitespace-break-spaces">Hey everyone!
+
+It's almost 2022       and we still don't know if there             are aliens living among us, or do we? Maybe the person writing this is an alien.
+
+You will never know.</p>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign element="p" property="white-space" defaultClass="whitespace-pre" featuredClass="whitespace-normal" />

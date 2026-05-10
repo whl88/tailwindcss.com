@@ -1,0 +1,70 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "box-decoration-break";
+export const description = "用于控制元素跨行、跨列或跨页时分段如何渲染的工具类。";
+
+<ApiTable
+  rows={[
+    ["box-decoration-clone", "box-decoration-break: clone;"],
+    ["box-decoration-slice", "box-decoration-break: slice;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `box-decoration-slice` 和 `box-decoration-clone` 工具类，控制 background、border、border-image、box-shadow、clip-path、margin、padding 等属性在元素跨行时是当作一个整体片段渲染，还是按每段独立渲染：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1 gap-10 px-10 font-mono font-bold sm:grid-cols-2">
+      <div className="flex flex-col">
+        <p className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">box-decoration-slice</p>
+        <div className="font-sans text-5xl leading-none font-extrabold tracking-tight">
+          <span className="bg-linear-to-r from-indigo-600 to-pink-500 box-decoration-slice px-2 leading-[3.5rem] text-white">
+            Hello
+            <br />
+            World
+          </span>
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <p className="mb-3 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">box-decoration-clone</p>
+        <div className="font-sans text-5xl leading-none font-extrabold tracking-tight">
+          <span className="bg-linear-to-r from-indigo-600 to-pink-500 box-decoration-clone px-2 leading-[3.5rem] text-white">
+            Hello
+            <br />
+            World
+          </span>
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+{/* prettier-ignore */}
+```html
+<!-- [!code classes:box-decoration-slice,box-decoration-clone] -->
+<span class="box-decoration-slice bg-linear-to-r from-indigo-600 to-pink-500 px-2 text-white ...">
+  Hello<br />World
+</span>
+<span class="box-decoration-clone bg-linear-to-r from-indigo-600 to-pink-500 px-2 text-white ...">
+  Hello<br />World
+</span>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign
+  property="box-decoration-break"
+  defaultClass="box-decoration-clone"
+  featuredClass="box-decoration-slice"
+/>

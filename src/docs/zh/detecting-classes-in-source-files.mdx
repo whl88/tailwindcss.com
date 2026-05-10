@@ -1,0 +1,315 @@
+import { TipGood, TipBad, TipInfo } from "@/components/tips";
+import { Iframe } from "@/components/iframe";
+import { Example } from "@/components/example";
+import { Figure } from "@/components/figure";
+import { CodeExampleStack } from "@/components/code-example";
+
+export const title = "在源文件中检测类名";
+export const description = "了解并自定义 Tailwind 扫描源文件的方式。";
+
+## 概览
+
+Tailwind 的工作方式是扫描你的项目以发现工具类，然后基于你实际用到的类生成所需的 CSS。
+
+这能让你的 CSS 体积尽可能小，也是 [任意值](/docs/adding-custom-styles#using-arbitrary-values) 等特性得以实现的基础。
+
+### 类名是如何被检测的
+
+Tailwind 把你所有的源文件当作纯文本处理，并不会以任何方式真正解析为代码。
+
+它只是在文件中查找符合 Tailwind 类名所允许字符集的 token：
+
+```jsx
+// [!code filename:JSX]
+// [!code word:bg-blue-500]
+// [!code word:rounded-full]
+// [!code word:text-white]
+// [!code word:text-black]
+// [!code word:font-medium]
+// [!code word:text-sm\/6]
+// [!code word:font-sans]
+// [!code word:bg-black]
+// [!code word:bg-white]
+// [!code word:className]
+// [!code word:function]
+// [!code word:children]
+// [!code word:button]
+// [!code word:shadow]
+// [!code word:export]
+// [!code word:colors]
+// [!code word:color]
+// [!code word:black]
+// [!code word:white]
+// [!code word:const]
+// [!code word:blue]
+// [!code word:return]
+// [!code word:py-1.5]
+// [!code word:px-2]
+export function Button({ color, children }) {
+  const colors = {
+    black: "bg-black text-white",
+    blue: "bg-blue-500 text-white",
+    white: "bg-white text-black",
+  };
+
+  return (
+    <button className={`${colors[color]} rounded-full px-2 py-1.5 font-sans text-sm/6 font-medium shadow`}>
+      {children}
+    </button>
+  );
+}
+```
+
+接下来 Tailwind 会尝试为这些 token 生成 CSS，并丢弃任何无法对应到框架已知工具类的 token。
+
+### 动态类名
+
+由于 Tailwind 把你的源文件当作纯文本扫描，它无法理解你所用编程语言中的字符串拼接或插值。
+
+<TipBad>{<>不要动态拼接类名</>}</TipBad>
+
+```html
+<!-- [!code filename:HTML] -->
+<div class="text-{{ error ? 'red' : 'green' }}-600"></div>
+```
+
+上面的例子中，字符串 `text-red-600` 与 `text-green-600` 并不真正存在，因此 Tailwind 不会生成它们。
+
+请确保你使用的所有类名都以完整形式出现：
+
+<TipGood>{<>始终使用完整的类名</>}</TipGood>
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:text-red-600] -->
+<!-- [!code word:text-green-600] -->
+<div class="{{ error ? 'text-red-600' : 'text-green-600' }}"></div>
+```
+
+如果你使用 React 或 Vue 这类组件库，这意味着不要用 props 动态拼接类名：
+
+<TipBad>不要用 props 动态拼接类名</TipBad>
+
+```jsx
+// [!code filename:JSX]
+function Button({ color, children }) {
+  return <button className={`bg-${color}-600 hover:bg-${color}-500 ...`}>{children}</button>;
+}
+```
+
+而是把 props 映射到完整的、构建期可静态识别的类名：
+
+<TipGood>始终把 props 映射到静态类名</TipGood>
+
+```jsx
+// [!code filename:JSX]
+function Button({ color, children }) {
+  const colorVariants = {
+    blue: "bg-blue-600 hover:bg-blue-500",
+    red: "bg-red-600 hover:bg-red-500",
+  };
+
+  return <button className={`${colorVariants[color]} ...`}>{children}</button>;
+}
+```
+
+这样做还有额外的好处：你可以将不同的 prop 值映射到不同的颜色明度等：
+
+```jsx
+// [!code filename:JSX]
+function Button({ color, children }) {
+  const colorVariants = {
+    blue: "bg-blue-600 hover:bg-blue-500 text-white",
+    red: "bg-red-500 hover:bg-red-400 text-white",
+    yellow: "bg-yellow-300 hover:bg-yellow-400 text-black",
+  };
+
+  return <button className={`${colorVariants[color]} ...`}>{children}</button>;
+}
+```
+
+只要你在代码中始终使用完整的类名，Tailwind 每次都能完美地生成你需要的 CSS。
+
+### 哪些文件会被扫描
+
+Tailwind 会扫描你项目中的每个文件以查找类名，但以下情况除外：
+
+- 在 `.gitignore` 中被忽略的文件
+- 位于 `node_modules` 目录中的文件
+- 图片、视频、压缩包等二进制文件
+- CSS 文件
+- 常见的包管理器锁文件
+
+如果你需要扫描 Tailwind 默认忽略的文件，可以[显式注册](#explicitly-registering-sources)这些来源。
+
+## 显式注册源
+
+使用 `@source` 显式注册相对于样式表的源路径：
+
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+/* [!code highlight:2] */
+@source "../node_modules/@acmecorp/ui-lib";
+```
+
+当你需要扫描某个用 Tailwind 构建的外部库时，这尤其有用——因为依赖通常列在 `.gitignore` 中，被 Tailwind 默认忽略。
+
+### 设置基础路径
+
+默认情况下，Tailwind 在扫描类名时以当前工作目录为起点。
+
+要显式设置源检测的基础路径，请在 CSS 中导入 Tailwind 时使用 `source()` 函数：
+
+```css
+/* [!code filename:CSS] */
+/* [!code word:source("../src")] */
+@import "tailwindcss" source("../src");
+```
+
+在 monorepo 这种构建命令在仓库根目录执行（而非每个子项目根目录）的场景中，这一设置很有用。
+
+### 忽略指定路径
+
+使用 `@source not` 在扫描类名时忽略相对于样式表的指定路径：
+
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+/* [!code highlight:2] */
+@source not "../src/components/legacy";
+```
+
+当你的项目中存在一些已知不会用到 Tailwind 类名的大目录（例如遗留组件或第三方库）时，这一设置很有用。
+
+### 关闭自动检测
+
+使用 `source(none)` 完全关闭自动源检测，从而显式注册全部源：
+
+```css
+/* [!code filename:CSS] */
+/* [!code word:source("../src")] */
+@import "tailwindcss" source(none);
+
+@source "../admin";
+@source "../shared";
+```
+
+在拥有多个 Tailwind 样式表的项目中，这能确保每张样式表只包含其所需的类。
+
+## 安全名单：强制生成特定工具类
+
+如果你需要确保 Tailwind 生成某些并不存在于内容文件中的类名，使用 `@source inline()` 强制生成它们：
+
+<CodeExampleStack>
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+/* [!code highlight:2] */
+@source inline("underline");
+```
+
+```css
+/* [!code filename:生成的 CSS] */
+.underline {
+  text-decoration-line: underline;
+}
+```
+
+</CodeExampleStack>
+
+### 安全名单中包含变体
+
+`@source inline()` 也能用来生成带变体的类。例如，要生成带 hover 与 focus 变体的 `underline` 类，给输入加上 `{hover:,focus:,}`：
+
+<CodeExampleStack>
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+/* [!code highlight:2] */
+@source inline("{hover:,focus:,}underline");
+```
+
+```css
+/* [!code filename:生成的 CSS] */
+.underline {
+  text-decoration-line: underline;
+}
+@media (hover: hover) {
+  .hover\:underline:hover {
+    text-decoration-line: underline;
+  }
+}
+@media (focus: focus) {
+  .focus\:underline:focus {
+    text-decoration-line: underline;
+  }
+}
+```
+
+</CodeExampleStack>
+
+### 使用范围批量安全名单
+
+源输入会进行 [大括号展开](https://www.gnu.org/software/bash/manual/html_node/Brace-Expansion.html)，因此可以一次性生成多个类。例如，要生成所有红色背景颜色（含 hover 变体），使用范围语法：
+
+<CodeExampleStack>
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+/* [!code highlight:2] */
+@source inline("{hover:,}bg-red-{50,{100..900..100},950}");
+```
+
+```css
+/* [!code filename:生成的 CSS] */
+.bg-red-50 {
+  background-color: var(--color-red-50);
+}
+.bg-red-100 {
+  background-color: var(--color-red-100);
+}
+.bg-red-200 {
+  background-color: var(--color-red-200);
+}
+
+/* ... */
+
+.bg-red-800 {
+  background-color: var(--color-red-800);
+}
+.bg-red-900 {
+  background-color: var(--color-red-900);
+}
+.bg-red-950 {
+  background-color: var(--color-red-950);
+}
+@media (hover: hover) {
+  .hover\:bg-red-50:hover {
+    background-color: var(--color-red-50);
+  }
+
+  /* ... */
+
+  .hover\:bg-red-950:hover {
+    background-color: var(--color-red-950);
+  }
+}
+```
+
+</CodeExampleStack>
+
+这会生成从 100 到 900（步长 100）的红色背景颜色，再加上首尾的 50 与 950，并且为它们都添加 `hover:` 变体。
+
+### 显式排除某些类
+
+使用 `@source not inline()` 阻止某些类被生成，即便它们出现在你的源文件中：
+
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+/* [!code highlight:2] */
+@source not inline("{hover:,focus:,}bg-red-{50,{100..900..100},950}");
+```
+
+这会显式排除红色背景工具类（连同 hover 与 focus 变体）的生成。

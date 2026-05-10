@@ -1,0 +1,39 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+
+export const title = "scroll-behavior";
+export const description = "用于控制元素滚动行为（scroll-behavior）的工具类。";
+
+<ApiTable
+  rows={[
+    ["scroll-auto", "scroll-behavior: auto;"],
+    ["scroll-smooth", "scroll-behavior: smooth;"],
+  ]}
+/>
+
+## 示例
+
+### 启用平滑滚动
+
+使用 `scroll-smooth` 工具类，让元素内部启用平滑滚动：
+
+```html
+<!-- [!code classes:scroll-smooth] -->
+<html class="scroll-smooth">
+  <!-- ... -->
+</html>
+```
+
+设置 `scroll-behavior` 仅影响由浏览器触发的滚动事件。
+
+### 使用默认滚动
+
+使用 `scroll-auto` 工具类，恢复浏览器默认的滚动行为：
+
+```html
+<!-- [!code classes:scroll-auto] -->
+<html class="scroll-smooth md:scroll-auto">
+  <!-- ... -->
+</html>
+```

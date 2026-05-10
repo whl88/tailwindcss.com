@@ -1,0 +1,129 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { CustomizingYourTheme } from "@/components/content.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "content";
+export const description = "用于控制 ::before / ::after 伪元素 content 属性的工具类。";
+
+<ApiTable
+  rows={[
+    ["content-[<value>]", "content: <value>;"],
+    ["content-(<custom-property>)", "content: var(<custom-property>);"],
+    ["content-none", "content: none;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+配合 `before` 和 `after` 变体，使用 `content-[<value>]` 语法设置 `::before` 与 `::after` 伪元素的内容：
+
+<Figure>
+
+<Example>
+  {
+    <div className="mx-auto w-full max-w-md text-gray-500 dark:text-gray-400">
+      Higher resolution means more than just a better-quality image. With a Retina 6K display,{" "}
+      <a
+        href="https://www.apple.com/pro-display-xdr/"
+        className="font-medium text-blue-600 after:text-sm after:font-bold after:content-['_↗'] dark:text-sky-400"
+        target="_blank"
+      >
+        Pro Display XDR
+      </a>{" "}
+      gives you nearly 40 percent more screen real estate than a 5K display.
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:after:content-['_↗']] -->
+<!-- prettier-ignore -->
+<p>Higher resolution means more than just a better-quality image. With a
+Retina 6K display, <a class="text-blue-600 after:content-['_↗']" href="...">
+Pro Display XDR</a> gives you nearly 40 percent more screen real estate than
+a 5K display.</p>
+```
+
+</Figure>
+
+### 引用属性值
+
+使用 `content-[attr(<name>)]` 语法，借助 CSS 的 `attr()` 函数引用属性中保存的值：
+
+<Figure>
+
+<Example>
+  {
+    <p
+      before="Hello World"
+      className="text-center font-semibold text-gray-900 before:content-[attr(before)] dark:text-gray-200"
+    />
+  }
+</Example>
+
+```html
+<!-- [!code classes:before:content-[attr(before)]] -->
+<p before="Hello World" class="before:content-[attr(before)] ...">
+  <!-- ... -->
+</p>
+```
+
+</Figure>
+
+### 使用空格与下划线
+
+Since whitespace denotes the end of a class in HTML, replace any spaces in an arbitrary value with an underscore:
+
+<Figure>
+
+<Example>
+  {<p className="text-center font-semibold text-gray-900 before:content-['Hello_World'] dark:text-gray-200" />}
+</Example>
+
+```html
+<!-- [!code classes:before:content-['Hello_World']] -->
+<p class="before:content-['Hello_World'] ..."></p>
+```
+
+</Figure>
+
+如果需要插入一个真正的下划线，可以用反斜杠对其进行转义：
+
+<Figure>
+
+<Example>
+  {<p className="text-center font-semibold text-gray-900 before:content-['Hello\_World'] dark:text-gray-200" />}
+</Example>
+
+```html
+<!-- [!code classes:before:content-['Hello\_World']] -->
+<p class="before:content-['Hello\_World']"></p>
+```
+
+</Figure>
+
+### 使用 CSS 变量
+
+使用 <code>content-{'(<custom-property>)'}</code> 语法，从 CSS 变量读取 `::before` 与 `::after` 伪元素的内容：
+
+```html
+<!-- [!code classes:content-(--my-content)] -->
+<p class="content-(--my-content)"></p>
+```
+
+这只是 <code>content-{'[var(<custom-property>)]'}</code> 的简写，会自动帮你套上 `var()` 函数。
+
+### 响应式设计
+
+<ResponsiveDesign property="content">
+
+```html
+<!-- [!code classes:md:before:content-['Desktop']] -->
+<p class="before:content-['Mobile'] md:before:content-['Desktop'] ..."></p>
+```
+
+</ResponsiveDesign>

@@ -1,0 +1,43 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "grid-auto-rows";
+export const description = "用于控制隐式生成的网格行尺寸的工具类。";
+
+<ApiTable
+  rows={[
+    ["auto-rows-auto", "grid-auto-rows: auto;"],
+    ["auto-rows-min", "grid-auto-rows: min-content;"],
+    ["auto-rows-max", "grid-auto-rows: max-content;"],
+    ["auto-rows-fr", "grid-auto-rows: minmax(0, 1fr);"],
+    ["auto-rows-(<custom-property>)", "grid-auto-rows: var(<custom-property>);"],
+    ["auto-rows-[<value>]", "grid-auto-rows: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `auto-rows-min`、`auto-rows-max` 等工具类，控制隐式生成的网格行尺寸：
+
+```html
+<!-- [!code classes:auto-rows-max] -->
+<div class="grid grid-flow-row auto-rows-max">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+</div>
+```
+
+### 使用自定义值
+
+<UsingACustomValue utility="auto-rows" name="size of implicitly-created grid rows" value="minmax(0,2fr)" />
+
+### 响应式设计
+
+<ResponsiveDesign
+  property="grid-auto-rows"
+  defaultClass="grid grid-flow-row auto-rows-max"
+  featuredClass="auto-rows-min"
+/>

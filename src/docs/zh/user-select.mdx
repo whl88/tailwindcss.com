@@ -1,0 +1,114 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "user-select";
+export const description = "用于控制元素中文本是否可选中的工具类。";
+
+<ApiTable
+  rows={[
+    ["select-none", "user-select: none;"],
+    ["select-text", "user-select: text;"],
+    ["select-all", "user-select: all;"],
+    ["select-auto", "user-select: auto;"],
+  ]}
+/>
+
+## 示例
+
+### 禁用文本选择
+
+使用 `select-none` 工具类，禁止选中元素及其子元素中的文本：
+
+<Figure hint="Try selecting the text to see the expected behavior">
+
+<Example>
+  {
+    <div className="flex justify-center">
+      <div className="dark:highlight-white/5 inline-flex rounded-lg bg-white px-4 py-3 text-center font-sans text-sm font-semibold text-gray-900 ring-1 ring-gray-900/5 select-none dark:bg-gray-800 dark:text-gray-200 dark:ring-0">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:select-none] -->
+<div class="select-none ...">The quick brown fox jumps over the lazy dog.</div>
+```
+
+</Figure>
+
+### 允许选择文本
+
+使用 `select-text` 工具类，允许选中元素及其子元素中的文本：
+
+<Figure hint="Try selecting the text to see the expected behavior">
+
+<Example>
+  {
+    <div className="flex justify-center">
+      <div className="dark:highlight-white/5 inline-flex rounded-lg bg-white px-4 py-3 text-center font-sans text-sm font-semibold text-gray-900 ring-1 ring-gray-900/5 select-text dark:bg-gray-800 dark:text-gray-200 dark:ring-0">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:select-text] -->
+<div class="select-text ...">The quick brown fox jumps over the lazy dog.</div>
+```
+
+</Figure>
+
+### 一键选中全部文本
+
+使用 `select-all` 工具类，让用户点击元素时自动选中其中的全部文本：
+
+<Figure hint="Try clicking the text to see the expected behavior">
+
+<Example>
+  {
+    <div className="flex justify-center">
+      <div className="dark:highlight-white/5 inline-flex rounded-lg bg-white px-4 py-3 text-center font-sans text-sm font-semibold text-gray-900 ring-1 ring-gray-900/5 select-all dark:bg-gray-800 dark:text-gray-200 dark:ring-0">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:select-all] -->
+<div class="select-all ...">The quick brown fox jumps over the lazy dog.</div>
+```
+
+</Figure>
+
+### 使用 auto select behavior
+
+使用 `select-auto` 工具类，按浏览器默认行为处理文本选择：
+
+<Figure hint="Try selecting the text to see the expected behavior">
+
+<Example>
+  {
+    <div className="flex justify-center">
+      <div className="dark:highlight-white/5 inline-flex rounded-lg bg-white px-4 py-3 text-center font-sans text-sm font-semibold text-gray-900 ring-1 ring-gray-900/5 select-auto dark:bg-gray-800 dark:text-gray-200 dark:ring-0">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:select-auto] -->
+<div class="select-auto ...">The quick brown fox jumps over the lazy dog.</div>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign property="user-select" defaultClass="select-none" featuredClass="select-all" />

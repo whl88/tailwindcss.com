@@ -1,0 +1,163 @@
+{
+  "LocaleSwitcher": {
+    "label": "Language",
+    "zh": "中文",
+    "en": "English"
+  },
+  "NotFound": {
+    "title": "404",
+    "description": "This page could not be found."
+  },
+  "Header": {
+    "homeAria": "Home",
+    "docs": "Docs",
+    "sponsor": "Sponsor",
+    "search": "Search",
+    "nav": "Navigation",
+    "githubRepo": "GitHub repository",
+    "selectVersion": "Select version of library",
+    "github": "GitHub"
+  },
+  "Footer": {
+    "copyright": "Copyright © {year} Tailwind Labs Inc.",
+    "trademark": "Trademark Policy",
+    "sectionTailwind": "Tailwind CSS",
+    "documentation": "Documentation",
+    "playground": "Playground",
+    "sponsor": "Sponsor",
+    "sectionResources": "Resources",
+    "refactoringUi": "Refactoring UI",
+    "headlessUi": "Headless UI",
+    "heroicons": "Heroicons",
+    "heroPatterns": "Hero Patterns"
+  },
+  "Home": {
+    "hero": {
+      "title": "Rapidly build modern websites without ever leaving your HTML.",
+      "description": "A utility-first CSS framework packed with classes like <c1>flex</c1>, <c2>pt-4</c2>, <c3>text-center</c3> and <c4>rotate-90</c4> that can be composed to build any design, directly in your markup.",
+      "getStarted": "Get started",
+      "quickSearch": "Quick search",
+      "demoHeading": "Class Warfare",
+      "demoSubtitle": "The Anti-Patterns",
+      "demoIssueNumber": "No. 4"
+    },
+    "partners": {
+      "category": "Sponsors",
+      "title": "Supported by the best.",
+      "description": "Tailwind is supported by incredible partners and sponsors who make it possible for a team of talented designers and engineers to maintain the framework full-time.",
+      "cta": "Become a sponsor"
+    },
+    "explainer": {
+      "category": "How it works",
+      "title": "Ship faster and smaller.",
+      "description": "Tailwind automatically removes all unused CSS when building for production, which means your final CSS bundle is the smallest it could possibly be. In fact, most Tailwind projects ship less than 10kB of CSS to the client.",
+      "doneIn": "Done in",
+      "tabTerminal": "Terminal",
+      "tabBarAria": "Tab Bar",
+      "htmlPanelAria": "panel, HTML editor, animated",
+      "terminalPanelAria": "panel, terminal, animated",
+      "cssPanelAria": "panel, built CSS, animated",
+      "editorHtmlAria": "editor, readonly, html file",
+      "editorCssAria": "editor, readonly, built CSS"
+    },
+    "why": {
+      "category": "Why Tailwind CSS?",
+      "title": "Built for the modern web.",
+      "description": "Tailwind is unapologetically modern, and takes advantage of all the latest and greatest CSS features to make the developer experience as enjoyable as possible.",
+      "responsiveDesign": {
+        "title": "Responsive design",
+        "description": "Okay, it's not exactly cutting edge, but just throw a screen size in front of literally any utility to apply it at a specific breakpoint."
+      },
+      "mobileLabel": "Mobile",
+      "entireHouse": "Entire house",
+      "beachHouseTitle": "Beach House on Lake Huron",
+      "reviews": "({count} reviews)",
+      "listingDescription": "This sunny and spacious room is for those traveling light and looking for a comfy and cozy place to lay their head for a night... ",
+      "showMore": "Show more",
+      "checkAvailability": "Check availability",
+      "filters": {
+        "title": "Filters",
+        "description": "What's a website these days without a few backdrop blurs? Keep stacking filters until your designer asks you to please, please stop."
+      },
+      "darkMode": {
+        "title": "Dark mode",
+        "intro": "If you're not a fan of burning your retinas, just stick ",
+        "outro": " in front of any color to apply it in dark mode."
+      },
+      "cssVariables": {
+        "title": "CSS variables",
+        "description": "Customizing your theme is as simple as creating a few CSS variables."
+      },
+      "p3Colors": {
+        "title": "P3 colors",
+        "description": "The color palette now uses more vibrant wide gamut colors without you needing to understand what any of that even means."
+      },
+      "cssGridLayout": {
+        "title": "CSS grid layout",
+        "description": "Using grid utilities directly in your HTML makes it so much easier to reason about complex layouts.",
+        "browseHeading": "Browse properties",
+        "treehouses": "Treehouses",
+        "mansions": "Mansions",
+        "lakefrontCottages": "Lakefront cottages",
+        "designerHomes": "Designer homes"
+      },
+      "transitions": {
+        "title": "Transitions and animations",
+        "description": "Transitions that work the way you'd expect — throw a few utilities on an element and you're in business."
+      },
+      "cascadeLayers": {
+        "title": "Cascade layers",
+        "description": "Tailwind uses CSS layers so you don't have to worry about specificity issues."
+      },
+      "logicalProperties": {
+        "title": "Logical properties",
+        "description": "Supporting multiple language text directions is no longer a nightmare.",
+        "nameWill": "Will Winton",
+        "roleWill": "Director of Operations",
+        "nameKristin": "Kristin Yardly",
+        "roleKristin": "Marketing Coordinator",
+        "nameEmanual": "Emanual Cuccittini",
+        "roleEmanual": "Staff Engineer",
+        "nameKiara": "Kiara Smith",
+        "roleKiara": "VP of Engineering"
+      },
+      "containerQueries": {
+        "title": "Container queries",
+        "description": "Tag an element as a container to let children adapt to changes in its size."
+      },
+      "gradients": {
+        "title": "Gradients",
+        "description": "No need to remember that complicated gradient syntax — create silky-smooth gradients with just a few utility classes.",
+        "eyebrow": "Power Meets Precision",
+        "heading": "Redefining real-time performance",
+        "body": "Our next-generation rendering engine delivers unmatched speed and efficiency, empowering creators to push boundaries like never before.",
+        "chart1Label": "Render time performance",
+        "chart2Label": "Real-time frame rate",
+        "chart3Label": "Multi-platform build time"
+      },
+      "transforms3d": {
+        "title": "3D transforms",
+        "description": "Sometimes two dimensions aren't enough. Scale, rotate, and translate any element in 3D space to add a touch of depth."
+      }
+    },
+    "buildAnything": {
+      "category": "Tailwind in the wild",
+      "title": "Build whatever you want, without touching your CSS file.",
+      "description": "Because Tailwind is so low-level, it never encourages you to design the same site twice. Some of your favorite sites are built with Tailwind, and you probably had no idea."
+    }
+  },
+  "InstallationTabs": {
+    "eyebrow": "Installation",
+    "title": "Get started with Tailwind CSS",
+    "description": "Tailwind CSS works by scanning all of your HTML files, JavaScript components, and any other templates for class names, generating the corresponding styles and then writing them to a static CSS file.",
+    "tagline": "It's fast, flexible, and reliable — with zero-runtime.",
+    "tabSectionHeading": "Installation",
+    "tabs": {
+      "usingVite": "Using Vite",
+      "usingPostcss": "Using PostCSS",
+      "tailwindCli": "Tailwind CLI",
+      "frameworkGuides": "Framework Guides",
+      "playCdn": "Play CDN"
+    }
+  }
+}

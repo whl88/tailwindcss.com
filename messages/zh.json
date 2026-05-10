@@ -1,0 +1,188 @@
+{
+  "LocaleSwitcher": {
+    "label": "语言",
+    "zh": "中文",
+    "en": "English"
+  },
+  "NotFound": {
+    "title": "404",
+    "description": "找不到该页面。"
+  },
+  "Header": {
+    "homeAria": "首页",
+    "docs": "文档",
+    "sponsor": "赞助",
+    "search": "搜索",
+    "nav": "导航",
+    "githubRepo": "GitHub 仓库",
+    "selectVersion": "选择库版本",
+    "github": "GitHub"
+  },
+  "Footer": {
+    "copyright": "Copyright © {year} Tailwind Labs Inc.",
+    "trademark": "商标政策",
+    "sectionTailwind": "Tailwind CSS",
+    "documentation": "文档",
+    "playground": "演练场",
+    "sponsor": "赞助",
+    "sectionResources": "资源",
+    "refactoringUi": "Refactoring UI",
+    "headlessUi": "Headless UI",
+    "heroicons": "Heroicons",
+    "heroPatterns": "Hero Patterns"
+  },
+  "Home": {
+    "hero": {
+      "title": "无需离开 HTML，也能快速搭建现代网站。",
+      "description": "这是一款实用优先的 CSS 框架，提供 <c1>flex</c1>、<c2>pt-4</c2>、<c3>text-center</c3>、<c4>rotate-90</c4> 等工具类，可以直接在标记中组合出你想要的任意设计。",
+      "getStarted": "开始使用",
+      "quickSearch": "快速搜索",
+      "demoHeading": "类名战争",
+      "demoSubtitle": "反模式",
+      "demoIssueNumber": "第 4 期"
+    },
+    "partners": {
+      "category": "赞助商",
+      "title": "优秀伙伴，一路同行。",
+      "description": "Tailwind 离不开出色的合作伙伴与赞助者，是他们的支持让这个团队得以全职投入，持续维护和改进框架。",
+      "cta": "成为赞助商"
+    },
+    "explainer": {
+      "category": "工作原理",
+      "title": "交付更快，样式更轻。",
+      "description": "构建生产版本时，Tailwind 会自动剔除未使用的 CSS，因此最终发往浏览器的样式包尽量小到极限。事实上，多数 Tailwind 项目交付给前端的 CSS 还不到 10kB。",
+      "doneIn": "耗时",
+      "tabTerminal": "终端",
+      "tabBarAria": "标签栏",
+      "htmlPanelAria": "面板：HTML 编辑器（动画演示）",
+      "terminalPanelAria": "面板：终端（动画演示）",
+      "cssPanelAria": "面板：构建产物 CSS（动画演示）",
+      "editorHtmlAria": "编辑器：只读 HTML 文件",
+      "editorCssAria": "编辑器：只读 CSS 文件"
+    },
+    "why": {
+      "category": "为何是 Tailwind CSS？",
+      "title": "为现代 Web 打造。",
+      "description": "Tailwind 毫不掩饰自己的「现代」取向：积极采用 CSS 的前沿能力，只为了让开发体验尽可能地顺手、愉悦。",
+      "responsiveDesign": {
+        "title": "响应式布局",
+        "description": "好吧，说不上多前沿——不过在任意工具类名前加上屏幕尺寸前缀，就能在对应断点下生效。"
+      },
+      "mobileLabel": "移动",
+      "entireHouse": "整栋房屋",
+      "beachHouseTitle": "休伦湖畔海滨别墅",
+      "reviews": "（{count} 条评价）",
+      "listingDescription": "这间阳光充足又宽敞的房间，适合轻装出行的旅人落脚一晚，舒适又温馨…… ",
+      "showMore": "展开更多",
+      "checkAvailability": "查看档期",
+      "filters": {
+        "title": "滤镜",
+        "description": "现在做站点哪少得了几层 backdrop-blur？滤镜尽管叠，叠到设计师求你别再加为止。"
+      },
+      "darkMode": {
+        "title": "深色模式",
+        "intro": "不想被亮色晃眼？只要在任意颜色类名前加上 ",
+        "outro": "，就会在深色模式下应用对应样式。"
+      },
+      "cssVariables": {
+        "title": "CSS 变量",
+        "description": "想定制主题？写几项 CSS 变量就行。"
+      },
+      "p3Colors": {
+        "title": "P3 广色域",
+        "description": "调色盘现在默认用上更艳丽的广色域色值——你不必搞懂术语，也能坐享视觉冲击。"
+      },
+      "cssGridLayout": {
+        "title": "CSS 网格布局",
+        "description": "把网格相关的工具类直接写进 HTML，复杂版式也会变得好懂很多。",
+        "browseHeading": "浏览房源",
+        "treehouses": "树屋",
+        "mansions": "豪宅",
+        "lakefrontCottages": "湖滨小屋",
+        "designerHomes": "设计师住宅"
+      },
+      "transitions": {
+        "title": "过渡与动画",
+        "description": "过渡效果和直觉一致：往元素上加几枚工具类，动效就立刻开工。"
+      },
+      "cascadeLayers": {
+        "title": "层叠层级",
+        "description": "Tailwind 使用 CSS `@layer`，让你少为优先级问题头疼。"
+      },
+      "logicalProperties": {
+        "title": "逻辑属性",
+        "description": "要同时照顾多种语言和文字方向？不再像以前那样痛苦。",
+        "nameWill": "Will Winton",
+        "roleWill": "运营总监",
+        "nameKristin": "Kristin Yardly",
+        "roleKristin": "市场专员",
+        "nameEmanual": "Emanual Cuccittini",
+        "roleEmanual": "资深工程师",
+        "nameKiara": "Kiara Smith",
+        "roleKiara": "工程副总裁"
+      },
+      "containerQueries": {
+        "title": "容器查询",
+        "description": "把某个元素标记为容器，其子元素便能随容器尺寸变化而自适应。"
+      },
+      "gradients": {
+        "title": "渐变",
+        "description": "不必啃复杂冗长的渐变语法——几枚工具类就能做出顺滑的渐变。",
+        "eyebrow": "强劲与精妙并存",
+        "heading": "重新定义实时渲染表现",
+        "body": "新一代渲染管线带来出色的速度与能效，让创作者前所未有地尽兴发挥。",
+        "chart1Label": "渲染耗时表现",
+        "chart2Label": "实时帧率",
+        "chart3Label": "多平台构建耗时"
+      },
+      "transforms3d": {
+        "title": "三维变换",
+        "description": "有时平面不够看。缩放、旋转、平移任一元素的三维坐标，加一点纵深与层次。"
+      }
+    },
+    "buildAnything": {
+      "category": "线上实拍",
+      "title": "想做什么界面都行，大可不必去改那根全局 CSS。",
+      "description": "Tailwind 的粒度非常底层，不会让你把两套站做成一模一样的样板。你每天逛的许多网站其实都在用它——只是你可能一直没留意。"
+    }
+  },
+  "InstallationTabs": {
+    "eyebrow": "安装",
+    "title": "开始使用 Tailwind CSS",
+    "description": "Tailwind CSS 会扫描你的 HTML、JavaScript 组件以及其它模板中的类名，生成对应样式，再写入静态 CSS 文件。",
+    "tagline": "快速、灵活、可靠——完全零运行时。",
+    "tabSectionHeading": "安装",
+    "tabs": {
+      "usingVite": "使用 Vite",
+      "usingPostcss": "使用 PostCSS",
+      "tailwindCli": "Tailwind 命令行",
+      "frameworkGuides": "框架指南",
+      "playCdn": "通过 CDN 使用"
+    }
+  },
+  "InstallationFrameworkGuides": {
+    "intro": "下面这些指南针对不同框架，介绍我们在各类流行环境里安装 Tailwind CSS 的推荐方式。",
+    "srTitle": "框架指南",
+    "tiles": {
+      "nextjs": "功能完备的 React 框架，开发者体验出色。",
+      "laravel": "语法优雅、表现力强的 PHP Web 应用框架。",
+      "nuxt": "直观的 Vue 框架，适合构建通用（同构）应用。",
+      "solidjs": "用于构建简洁、高性能、响应式用户界面的工具。",
+      "sveltekit": "用 Svelte 快速打造各种体量应用的优选方案。",
+      "gatsby": "基于 React 与 GraphQL 的静态站点框架。",
+      "angular": "构建移动端与桌面端 Web 应用的开发平台。",
+      "ruby-on-rails": "自带齐全工具的全栈框架，助你打造出众的 Web 应用。",
+      "react-router": "聚焦 Web 标准、可随时部署的现代路由方案。",
+      "tanstack-start": "基于 TanStack Router、面向 React 与 Solid 的全栈框架。",
+      "phoenix": "使用 Elixir 构建富交互应用的框架。",
+      "parcel": "面向 Web 的零配置构建工具。",
+      "symfony": "用于创建网站与 Web 应用的 PHP 框架。",
+      "meteor": "面向跨平台应用开发的全栈 JavaScript 框架。",
+      "adonisjs": "功能完备的 Node.js Web 框架。",
+      "emberjs": "适合追求工程化与雄心的前端团队的 JavaScript 框架。",
+      "astro": "为速度而生的「一体化」Web 框架。",
+      "qwik": "更轻松打造可即时交互的 Web 应用。",
+      "rspack": "基于 Rust 的高速 Web 打包工具。"
+    }
+  }
+}

@@ -1,0 +1,194 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "vertical-align";
+export const description = "用于控制行内元素或表格单元格垂直对齐方式的工具类。";
+
+<ApiTable
+  rows={[
+    ["align-baseline", "vertical-align: baseline;"],
+    ["align-top", "vertical-align: top;"],
+    ["align-middle", "vertical-align: middle;"],
+    ["align-bottom", "vertical-align: bottom;"],
+    ["align-text-top", "vertical-align: text-top;"],
+    ["align-text-bottom", "vertical-align: text-bottom;"],
+    ["align-sub", "vertical-align: sub;"],
+    ["align-super", "vertical-align: super;"],
+    ["align-(<custom-property>)", "vertical-align: var(<custom-property>);"],
+    ["align-[<value>]", "vertical-align: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 对齐到基线
+
+使用 `align-baseline` 工具类，让元素的基线与父元素的基线对齐：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto max-w-md leading-none">
+      <span className="inline-block h-8 w-0 align-baseline">
+        <span className="absolute top-0 h-8 w-full border-t border-b border-dashed border-pink-400/50"></span>
+        <span className="absolute top-0 h-4 w-full border-b border-dashed border-pink-400/50"></span>
+      </span>
+      <span className="relative z-10 px-4 font-medium text-gray-700 dark:text-gray-200">
+        The quick brown fox jumps over the lazy dog.
+      </span>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:align-baseline] -->
+<span class="inline-block align-baseline">The quick brown fox...</span>
+```
+
+</Figure>
+
+### 对齐到顶部
+
+使用 `align-top` 工具类，让元素及其子元素的顶部与整行的顶部对齐：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto max-w-md leading-none">
+      <span className="inline-block h-8 w-0 align-top">
+        <span className="absolute top-0 h-8 w-full border-t border-b border-dashed border-pink-400/50"></span>
+        <span className="absolute top-0 h-4 w-full border-b border-dashed border-pink-400/50"></span>
+      </span>
+      <span className="relative z-10 px-4 font-medium text-gray-700 dark:text-gray-200">
+        The quick brown fox jumps over the lazy dog.
+      </span>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:align-top] -->
+<span class="inline-block align-top">The quick brown fox...</span>
+```
+
+</Figure>
+
+### 对齐到中线
+
+使用 `align-middle` 工具类，让元素的中线对齐到父元素基线再加上 x 高度的一半的位置：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto max-w-md leading-none">
+      <span className="inline-block h-8 w-0 align-middle">
+        <span className="absolute top-0 h-8 w-full border-t border-b border-dashed border-pink-400/50"></span>
+        <span className="absolute top-0 h-4 w-full border-b border-dashed border-pink-400/50"></span>
+      </span>
+      <span className="relative z-10 px-4 font-medium text-gray-700 dark:text-gray-200">
+        The quick brown fox jumps over the lazy dog.
+      </span>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:align-middle] -->
+<span class="inline-block align-middle">The quick brown fox...</span>
+```
+
+</Figure>
+
+### 对齐到底部
+
+使用 `align-bottom` 工具类，让元素及其子元素的底部与整行的底部对齐：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto max-w-md leading-none">
+      <span className="inline-block h-8 w-0 align-bottom">
+        <span className="absolute top-0 h-8 w-full border-t border-b border-dashed border-pink-400/50"></span>
+        <span className="absolute top-0 h-4 w-full border-b border-dashed border-pink-400/50"></span>
+      </span>
+      <span className="relative z-10 px-4 font-medium text-gray-700 dark:text-gray-200">
+        The quick brown fox jumps over the lazy dog.
+      </span>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:align-bottom] -->
+<span class="inline-block align-bottom">The quick brown fox...</span>
+```
+
+</Figure>
+
+### 对齐到父字体顶部
+
+使用 `align-text-top` 工具类，让元素的顶部与父元素字体的顶部对齐：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto max-w-md leading-none">
+      <span className="inline-block h-8 w-0 align-text-top">
+        <span className="absolute top-0 h-8 w-full border-t border-b border-dashed border-pink-400/50"></span>
+        <span className="absolute top-0 h-4 w-full border-b border-dashed border-pink-400/50"></span>
+      </span>
+      <span className="relative z-10 px-4 font-medium text-gray-700 dark:text-gray-200">
+        The quick brown fox jumps over the lazy dog.
+      </span>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:align-text-top] -->
+<span class="inline-block align-text-top">The quick brown fox...</span>
+```
+
+</Figure>
+
+### 对齐到父字体底部
+
+使用 `align-text-bottom` 工具类，让元素的底部与父元素字体的底部对齐：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto max-w-md leading-none">
+      <span className="inline-block h-8 w-0 align-text-bottom">
+        <span className="absolute top-0 h-8 w-full border-t border-b border-dashed border-pink-400/50"></span>
+        <span className="absolute top-0 h-4 w-full border-b border-dashed border-pink-400/50"></span>
+      </span>
+      <span className="relative z-10 px-4 font-medium text-gray-700 dark:text-gray-200">
+        The quick brown fox jumps over the lazy dog.
+      </span>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:align-text-bottom] -->
+<span class="inline-block align-text-bottom">The quick brown fox...</span>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue element="span" utility="align" name="vertical alignment" value="4px" variable="alignment" />
+
+### 响应式设计
+
+<ResponsiveDesign element="span" property="vertical-align" defaultClass="align-middle" featuredClass="align-top" />

@@ -1,0 +1,94 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "order";
+export const description = "用于控制 flex / grid 子项排列顺序的工具类。";
+
+<ApiTable
+  rows={[
+    ["order-<number>", "order: <number>;"],
+    ["-order-<number>", "order: calc(<number> * -1);"],
+    ["order-first", "order: -9999;"],
+    ["order-last", "order: 9999;"],
+    ["order-none", "order: 0;"],
+    ["order-(<custom-property>)", "order: var(<custom-property>);"],
+    ["order-[<value>]", "order: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 显式设置排序顺序
+
+使用 `order-1`、`order-3` 等 `order-<number>` 工具类，让 flex / grid 子项按不同于文档中的顺序渲染：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-between font-mono text-sm leading-6 font-bold text-white">
+      <div className="order-3 flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500">01</div>
+      <div className="order-1 flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500">02</div>
+      <div className="order-2 flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500">03</div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:order-1,order-2,order-3] -->
+<div class="flex justify-between ...">
+  <div class="order-3 ...">01</div>
+  <div class="order-1 ...">02</div>
+  <div class="order-2 ...">03</div>
+</div>
+```
+
+</Figure>
+
+### 把子项放到最前或最后
+
+使用 `order-first` 和 `order-last` 工具类，把 flex / grid 子项渲染到最前或最后：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-between font-mono text-sm leading-6 font-bold text-white">
+      <div className="order-last flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500">01</div>
+      <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500">02</div>
+      <div className="order-first flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500">03</div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:order-first,order-last] -->
+<div class="flex justify-between ...">
+  <div class="order-last ...">01</div>
+  <div class="...">02</div>
+  <div class="order-first ...">03</div>
+</div>
+```
+
+</Figure>
+
+### 使用负值
+
+如需使用负的 order 值，在类名前加上连字符即可将其转换为负值：
+
+```html
+<!-- [!code classes:-order-1] -->
+<div class="-order-1">
+  <!-- ... -->
+</div>
+```
+
+### 使用自定义值
+
+<UsingACustomValue utility="order" value="min(var(--total-items),10)" />
+
+### 响应式设计
+
+<ResponsiveDesign property="order" defaultClass="order-first" featuredClass="order-last" />

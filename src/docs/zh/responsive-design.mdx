@@ -1,0 +1,666 @@
+import { TipGood, TipBad } from "@/components/tips";
+import { Iframe } from "@/components/iframe";
+import { Example } from "@/components/example";
+import { Figure } from "@/components/figure";
+
+export const title = "响应式设计";
+export const description = "通过响应式工具变体构建自适应界面。";
+
+## 概览
+
+Tailwind 中的每个工具类都可以在不同断点处条件应用，让你不必离开 HTML 就能轻松构建复杂的响应式界面。
+
+首先，确保你已经在文档的 `<head>` 中添加了 [viewport meta 标签](https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag)：
+
+```html
+<!-- [!code filename:index.html] -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+```
+
+接下来，要让一个工具类只在某个断点生效，只需在工具类前加上断点名，再加 `:` 即可：
+
+```html
+<!-- [!code filename:HTML]  -->
+<!-- [!code word:md\:w-32] -->
+<!-- [!code word:lg\:w-48] -->
+<!-- 默认宽度 16，中等屏幕为 32，大屏幕为 48 -->
+<img class="w-16 md:w-32 lg:w-48" src="..." />
+```
+
+默认有 5 个断点，灵感源自常见的设备分辨率：
+
+{
+
+<table>
+  <thead>
+    <tr>
+      <th>断点前缀</th>
+      <th>最小宽度</th>
+      <th>CSS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>sm</code>
+      </td>
+      <td>
+        40rem <em>(640px)</em>
+      </td>
+      <td>
+        <code>@media (width &gt;= 40rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>md</code>
+      </td>
+      <td>
+        48rem <em>(768px)</em>
+      </td>
+      <td>
+        <code>@media (width &gt;= 48rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>lg</code>
+      </td>
+      <td>
+        64rem <em>(1024px)</em>
+      </td>
+      <td>
+        <code>@media (width &gt;= 64rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>xl</code>
+      </td>
+      <td>
+        80rem <em>(1280px)</em>
+      </td>
+      <td>
+        <code>@media (width &gt;= 80rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>2xl</code>
+      </td>
+      <td>
+        96rem <em>(1536px)</em>
+      </td>
+      <td>
+        <code>@media (width &gt;= 96rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+}
+
+这对**框架内的每一个工具类**都成立——你可以在任意断点修改任何属性，连字间距、光标样式都不在话下。
+
+下面是一个营销页组件的简单示例，小屏幕使用堆叠布局，大屏幕使用并排布局：
+
+<Figure>
+
+<Example resizable padding={false}>
+  {
+    <Iframe className="h-[572px] w-full overflow-x-scroll">
+      <div className="flex h-screen w-screen items-center justify-center p-8">
+        <div className="mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow-xl ring-1 ring-gray-900/5 sm:max-w-2xl">
+          <div className="flex flex-col sm:flex-row">
+            <div className="sm:shrink-0">
+              <img
+                className="h-[200px] w-full object-cover object-bottom sm:w-[193px] sm:object-center"
+                src="https://images.unsplash.com/photo-1637734433731-621aca1c8cb6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=404&q=80"
+                width="202"
+                height="192"
+                alt="Beautiful abstract building in the sun"
+              />
+            </div>
+            <div className="space-y-2 p-6 2xl:p-8">
+              <div className="text-sm leading-6 font-medium text-indigo-600">Company retreats</div>
+              <a href="#" className="block text-base leading-6 font-semibold text-gray-900 hover:underline">
+                Incredible accommodation for your team
+              </a>
+              <p
+                className="text-sm leading-6 text-gray-600"
+                children={`Looking to take your team away on a retreat to enjoy awesome food
+              and take in some sunshine? We have a list of places to do just
+              that.`}
+              ></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Iframe>
+  }
+</Example>
+
+```html
+<!-- [!code word:md\:max-w-2xl] -->
+<div class="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
+  <!-- [!code word:md\:flex] -->
+  <div class="md:flex">
+    <!-- [!code word:md\:shrink-0] -->
+    <div class="md:shrink-0">
+      <!-- [!code word:md\:h-full] -->
+      <!-- [!code word:md\:w-48] -->
+      <img
+        class="h-48 w-full object-cover md:h-full md:w-48"
+        src="/img/building.jpg"
+        alt="Modern building architecture"
+      />
+    </div>
+    <div class="p-8">
+      <div class="text-sm font-semibold tracking-wide text-indigo-500 uppercase">Company retreats</div>
+      <a href="#" class="mt-1 block text-lg leading-tight font-medium text-black hover:underline">
+        Incredible accommodation for your team
+      </a>
+      <p class="mt-2 text-gray-500">
+        Looking to take your team away on a retreat to enjoy awesome food and take in some sunshine? We have a list of
+        places to do just that.
+      </p>
+    </div>
+  </div>
+</div>
+```
+
+</Figure>
+
+上面的例子是这样工作的：
+
+- 默认情况下外层 `div` 是 `display: block`，加上 `md:flex` 后，在中等屏幕及以上变为 `display: flex`。
+- 当父元素是 flex 容器时，我们希望图片永远不被压缩，所以加了 `md:shrink-0`，仅在中等屏幕及以上禁止压缩。技术上完全可以直接用 `shrink-0`，因为它在更小屏幕上不会有任何效果；但既然这件事只在 `md` 屏幕才重要，把这个意图体现在类名中是个好主意。
+- 在小屏幕下图片默认占满宽度。在中等屏幕及以上，我们用 `md:h-full md:w-48` 把宽度限制为固定尺寸，并让图片占满高度。
+
+本例只用到了一个断点，但你完全可以使用 `sm`、`lg`、`xl` 或 `2xl` 等响应式前缀在其他尺寸下定制该组件。
+
+## 移动优先
+
+Tailwind 使用移动优先的断点体系，与 Bootstrap 等其他框架的做法类似。
+
+这意味着不带前缀的工具类（例如 `uppercase`）在所有屏幕尺寸下都生效，而带前缀的工具类（例如 `md:uppercase`）只在指定断点_及以上_才生效。
+
+### 针对移动屏幕
+
+最容易让人意外的是：要为移动端设置样式，应使用_不带前缀_的版本，而不是带 `sm:` 前缀的版本。不要把 `sm:` 理解为"在小屏幕上"，而要理解为"在 `small` _断点_及以上"。
+
+<TipBad>
+  {
+    <>
+      不要使用 <code>sm:</code> 来针对移动设备
+    </>
+  }
+</TipBad>
+
+```html
+<!-- [!code filename:HTML]  -->
+<!-- 这只会在 640px 及更宽的屏幕上居中文本，小屏不会 -->
+<div class="sm:text-center"></div>
+```
+
+<TipGood>{<>用不带前缀的工具类针对移动端，并在更大的断点上覆盖它们</>}</TipGood>
+
+```html
+<!-- [!code filename:HTML]  -->
+<!-- 移动端居中，640px 及以上左对齐 -->
+<div class="text-center sm:text-left"></div>
+```
+
+因此，先实现设计的移动端布局、再叠加 `sm`、`md` 等更大断点上需要做的调整，往往是个好主意。
+
+### 针对断点区间
+
+默认情况下，像 `md:flex` 这类规则一旦在某断点生效，在更大断点也会保持生效。
+
+如果你想让某个工具类_仅_在某段断点区间生效，可以堆叠响应式变体（例如 `md`）和 `max-*` 变体来限定范围：
+
+```html
+<!-- [!code filename:HTML]  -->
+<div class="md:max-xl:flex">
+  <!-- ... -->
+</div>
+```
+
+Tailwind 会为每个断点生成对应的 `max-*` 变体，开箱即用的有：
+
+{
+
+<table>
+  <thead>
+    <tr>
+      <th>变体</th>
+      <th>媒体查询</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>max-sm</code>
+      </td>
+      <td>
+        <code>@media (width &lt; 40rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>max-md</code>
+      </td>
+      <td>
+        <code>@media (width &lt; 48rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>max-lg</code>
+      </td>
+      <td>
+        <code>@media (width &lt; 64rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>max-xl</code>
+      </td>
+      <td>
+        <code>@media (width &lt; 80rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>max-2xl</code>
+      </td>
+      <td>
+        <code>@media (width &lt; 96rem) &#123; ... &#125;</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+}
+
+### 针对单个断点
+
+要只针对单个断点，把响应式变体（例如 `md`）与下一个断点的 `max-*` 变体堆叠起来即可：
+
+```html
+<!-- [!code filename:HTML]  -->
+<div class="md:max-lg:flex">
+  <!-- ... -->
+</div>
+```
+
+更多内容参见[针对断点区间](#targeting-a-breakpoint-range)。
+
+## 使用自定义断点
+
+### 自定义主题
+
+使用 `--breakpoint-*` 主题变量自定义断点：
+
+```css
+/* [!code filename:app.css] */
+@import "tailwindcss";
+
+@theme {
+  /* [!code highlight:4] */
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
+}
+```
+
+这会把 `2xl` 断点改为 `100rem`（默认是 `96rem`），并新增 `xs` 与 `3xl` 断点，可在标记中使用：
+
+```html
+<!-- [!code filename:HTML]  -->
+<!-- [!code word:xs\:grid-cols-2] -->
+<!-- [!code word:3xl\:grid-cols-6] -->
+<!-- prettier-ignore -->
+<div class="grid xs:grid-cols-2 3xl:grid-cols-6">
+  <!-- ... -->
+</div>
+```
+
+注意：定义断点时务必使用相同的单位，否则生成的工具类排序可能出乎意料，导致断点类之间相互覆盖时表现异常。
+
+Tailwind 默认断点使用 `rem`，若你要在默认基础上新增断点，请同样使用 `rem`。
+
+更多关于自定义主题的内容请参阅[主题文档](/docs/theme)。
+
+### 移除默认断点
+
+要移除某个默认断点，把它的值重置为 `initial` 关键字：
+
+```css
+/* [!code filename:app.css] */
+@import "tailwindcss";
+
+@theme {
+  /* [!code highlight:2] */
+  --breakpoint-2xl: initial;
+}
+```
+
+也可以用 `--breakpoint-*: initial` 重置所有默认断点，再从零开始定义你自己的断点：
+
+```css
+/* [!code filename:app.css] */
+@import "tailwindcss";
+
+@theme {
+  /* [!code highlight:5] */
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 40rem;
+  --breakpoint-laptop: 64rem;
+  --breakpoint-desktop: 80rem;
+}
+```
+
+更多关于移除默认主题值的内容请参阅[主题文档](/docs/theme)。
+
+### 使用任意值
+
+如果你需要一个不打算加进主题的一次性断点，使用 `min` 或 `max` 变体即可基于任意值即时生成自定义断点。
+
+```html
+<!-- [!code word:min-\[320px\]\:text-center] -->
+<!-- [!code word:max-\[600px\]\:bg-sky-300] -->
+<div class="max-[600px]:bg-sky-300 min-[320px]:text-center">
+  <!-- ... -->
+</div>
+```
+
+更多关于任意值的内容请参阅[任意值](/docs/adding-custom-styles#using-arbitrary-values)文档。
+
+## 容器查询
+
+### 什么是容器查询？
+
+[容器查询](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries)是一项现代 CSS 特性，让你可以基于父元素尺寸而非整个视口尺寸来设置样式。这能让你构建出真正可移植、可复用的组件，因为它们能根据自身可用空间发生变化。
+
+### 基本示例
+
+使用 `@container` 类把一个元素标记为容器，然后用 `@sm`、`@md` 等变体根据容器尺寸为子元素设置样式：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:@container] -->
+<!-- [!code word:@md\:flex-row] -->
+<div class="@container">
+  <div class="flex flex-col @md:flex-row">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+与断点变体一样，Tailwind CSS 中的容器查询也是移动优先的——在目标容器尺寸及以上生效。
+
+### max-width 容器查询
+
+使用 `@max-sm`、`@max-md` 等变体，在容器尺寸_小于_某个值时应用样式：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:@max-md\:flex-col] -->
+<div class="@container">
+  <div class="flex flex-row @max-md:flex-col">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+### 容器查询区间
+
+把常规容器查询变体与 max-width 容器查询变体堆叠起来即可针对某段区间：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:@sm\:@max-md\:flex-col] -->
+<div class="@container">
+  <div class="flex flex-row @sm:@max-md:flex-col">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+### 命名容器
+
+对于使用了多个嵌套容器的复杂设计，你可以用 `@container/{name}` 命名容器，并使用 `@sm/{name}`、`@md/{name}` 等变体针对特定容器：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:@container/main] -->
+<!-- [!code word:@sm/main\:flex-col] -->
+<div class="@container/main">
+  <!-- ... -->
+  <div class="flex flex-row @sm/main:flex-col">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+这让你可以基于较远的容器尺寸（而不是最近的容器）来设置样式。
+
+### 使用自定义容器尺寸
+
+使用 `--container-*` 主题变量自定义容器尺寸：
+
+```css
+/* [!code filename:app.css] */
+@import "tailwindcss";
+
+@theme {
+  /* [!code highlight:2] */
+  --container-8xl: 96rem;
+}
+```
+
+这会新增一个 `8xl` 容器查询变体，可在标记中使用：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:@8xl\:flex-row] -->
+<div class="@container">
+  <!-- prettier-ignore -->
+  <div class="flex flex-col @8xl:flex-row">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+更多关于自定义主题的内容请参阅[主题文档](/docs/theme)。
+
+<h3 id="using-arbitrary-container-query-values">
+  <a href="#using-arbitrary-container-query-values">使用任意值</a>
+</h3>
+
+如果你不希望把一次性容器查询尺寸加入主题，使用 `@min-[475px]`、`@max-[960px]` 等变体即可：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:@min-\[475px\]\:flex-row] -->
+<div class="@container">
+  <div class="flex flex-col @min-[475px]:flex-row">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+### 使用容器查询单位
+
+把 [容器查询长度单位](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries#container_query_length_units)（例如 `cqw`）作为任意值用在其他工具类中，引用容器尺寸：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code word:w-\[50cqw\] -->
+<div class="@container">
+  <div class="w-[50cqw]">
+    <!-- ... -->
+  </div>
+</div>
+```
+
+### 容器尺寸参考
+
+默认情况下，Tailwind 内置的容器尺寸从 16rem _(256px)_ 到 80rem _(1280px)_：
+
+{
+
+<table>
+  <thead>
+    <tr>
+      <th>变体</th>
+      <th>最小宽度</th>
+      <th>CSS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>@3xs</code>
+      </td>
+      <td>
+        16rem <em>(256px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 16rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@2xs</code>
+      </td>
+      <td>
+        18rem <em>(288px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 18rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@xs</code>
+      </td>
+      <td>
+        20rem <em>(320px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 20rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@sm</code>
+      </td>
+      <td>
+        24rem <em>(384px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 24rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@md</code>
+      </td>
+      <td>
+        28rem <em>(448px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 28rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@lg</code>
+      </td>
+      <td>
+        32rem <em>(512px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 32rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@xl</code>
+      </td>
+      <td>
+        36rem <em>(576px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 36rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@2xl</code>
+      </td>
+      <td>
+        42rem <em>(672px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 42rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@3xl</code>
+      </td>
+      <td>
+        48rem <em>(768px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 48rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@4xl</code>
+      </td>
+      <td>
+        56rem <em>(896px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 56rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@5xl</code>
+      </td>
+      <td>
+        64rem <em>(1024px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 64rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@6xl</code>
+      </td>
+      <td>
+        72rem <em>(1152px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 72rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>@7xl</code>
+      </td>
+      <td>
+        80rem <em>(1280px)</em>
+      </td>
+      <td>
+        <code>@container (width &gt;= 80rem) &#123; … &#125;</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+}

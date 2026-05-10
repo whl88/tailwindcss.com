@@ -1,0 +1,113 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, TargetingSpecificStates, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "backdrop-filter";
+export const description = "用于给元素添加背景滤镜的工具类。";
+
+<ApiTable
+  rows={[
+    ["backdrop-filter-none", "backdrop-filter: none;"],
+    ["backdrop-filter-(<custom-property>)", "backdrop-filter: var(<custom-property>);"],
+    ["backdrop-filter-[<value>]", "backdrop-filter: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `backdrop-blur-xs`、`backdrop-grayscale` 等工具类，给元素的背景应用滤镜：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="flex scroll-p-8 justify-start overflow-scroll sm:block sm:overflow-visible">
+      <div className="flex shrink-0 items-center justify-around gap-6 p-8 font-mono font-bold sm:gap-4">
+        <div className="flex shrink-0 flex-col items-center">
+          <p className="mb-3 text-center font-mono text-xs font-medium text-gray-500 dark:text-gray-400">
+            backdrop-blur-xs
+          </p>
+          <div className="relative">
+            <div className="absolute inset-6 size-20 bg-white/30 backdrop-blur-xs"></div>
+            <img
+              className="size-32 rounded-lg object-cover"
+              src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+            />
+            <div className="absolute inset-0 rounded-lg ring-1 ring-black/10 ring-inset"></div>
+          </div>
+        </div>
+        <div className="flex shrink-0 flex-col items-center">
+          <p className="mb-3 text-center font-mono text-xs font-medium text-gray-500 dark:text-gray-400">
+            backdrop-grayscale
+          </p>
+          <div className="relative">
+            <div className="absolute inset-6 size-20 bg-white/30 backdrop-grayscale"></div>
+            <img
+              className="size-32 rounded-lg object-cover"
+              src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+            />
+            <div className="absolute inset-0 rounded-lg ring-1 ring-black/10 ring-inset"></div>
+          </div>
+        </div>
+        <div className="flex shrink-0 flex-col items-center">
+          <p className="mb-3 text-center font-mono text-xs font-medium text-gray-500 italic dark:text-gray-400">
+            combined
+          </p>
+          <div className="relative">
+            <div className="absolute inset-6 size-20 bg-white/30 backdrop-blur-xs backdrop-grayscale"></div>
+            <img
+              className="size-32 rounded-lg object-cover"
+              src="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&h=1000&q=90"
+            />
+            <div className="absolute inset-0 rounded-lg ring-1 ring-black/10 ring-inset"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:backdrop-blur-xs,backdrop-grayscale] -->
+<div class="bg-[url(/img/mountains.jpg)] ...">
+  <div class="backdrop-blur-xs ..."></div>
+</div>
+<div class="bg-[url(/img/mountains.jpg)] ...">
+  <div class="backdrop-grayscale ..."></div>
+</div>
+<div class="bg-[url(/img/mountains.jpg)] ...">
+  <div class="backdrop-blur-xs backdrop-grayscale ..."></div>
+</div>
+```
+
+</Figure>
+
+你可以组合使用以下 backdrop filter 工具类：[blur](/docs/backdrop-filter-blur)、[brightness](/docs/backdrop-filter-brightness)、[contrast](/docs/backdrop-filter-contrast)、[grayscale](/docs/backdrop-filter-grayscale)、[hue-rotate](/docs/backdrop-filter-hue-rotate)、[invert](/docs/backdrop-filter-invert)、[opacity](/docs/backdrop-filter-opacity)、[saturate](/docs/backdrop-filter-saturate)、[sepia](/docs/backdrop-filter-sepia)。
+
+### 移除滤镜
+
+使用 `backdrop-filter-none` 工具类，移除元素上所有的背景滤镜：
+
+```html
+<!-- [!code classes:md:backdrop-filter-none] -->
+<div class="backdrop-blur-md backdrop-brightness-150 md:backdrop-filter-none"></div>
+```
+
+### 使用自定义值
+
+<UsingACustomValue utility="backdrop-filter" value="url('filters.svg#filter-id')" name="backdrop filter" />
+
+### 应用于 hover 状态
+
+<TargetingSpecificStates
+  property="backdrop-filter"
+  defaultClass="backdrop-blur-sm"
+  featuredClass="backdrop-filter-none"
+/>
+
+### 响应式设计
+
+<ResponsiveDesign property="backdrop-filter" defaultClass="backdrop-blur-sm" featuredClass="backdrop-filter-none" />

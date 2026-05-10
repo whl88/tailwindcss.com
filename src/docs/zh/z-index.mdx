@@ -1,0 +1,104 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { UsingACustomValue, ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "z-index";
+export const description = "用于控制元素层叠顺序（z-index）的工具类。";
+
+<ApiTable
+  rows={[
+    ["z-<number>", "z-index: <number>;"],
+    ["z-auto", "z-index: auto;"],
+    ["z-[<value>]", "z-index: <value>;"],
+    ["z-(<custom-property>)", "z-index: var(<custom-property>);"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `z-10`、`z-50` 等 `z-<number>` 工具类，控制元素的层叠顺序（在三维方向上的定位），不受其显示顺序的限制：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex justify-center -space-x-3 font-mono text-sm leading-6 font-bold text-white">
+      <div className="z-40 flex size-16 items-center justify-center rounded-full bg-pink-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        05
+      </div>
+      <div className="z-30 flex size-16 items-center justify-center rounded-full bg-pink-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        04
+      </div>
+      <div className="z-20 flex size-16 items-center justify-center rounded-full bg-pink-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        03
+      </div>
+      <div className="z-10 flex size-16 items-center justify-center rounded-full bg-pink-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        02
+      </div>
+      <div className="z-0 flex size-16 items-center justify-center rounded-full bg-pink-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        01
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:z-40,z-30,z-20,z-10,z-0] -->
+<div class="z-40 ...">05</div>
+<div class="z-30 ...">04</div>
+<div class="z-20 ...">03</div>
+<div class="z-10 ...">02</div>
+<div class="z-0 ...">01</div>
+```
+
+</Figure>
+
+### 使用负值
+
+如需使用负的 z-index 值，在类名前加上连字符即可将其转换为负值：
+
+<Figure>
+
+<Example>
+  {
+    <div className="isolate flex justify-center -space-x-3 font-mono text-sm leading-6 font-bold text-white">
+      <div className="flex size-16 items-center justify-center rounded-full bg-fuchsia-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        01
+      </div>
+      <div className="flex size-16 items-center justify-center rounded-full bg-fuchsia-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        02
+      </div>
+      <div className="-z-10 flex size-16 items-center justify-center rounded-full bg-fuchsia-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        03
+      </div>
+      <div className="flex size-16 items-center justify-center rounded-full bg-fuchsia-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        04
+      </div>
+      <div className="flex size-16 items-center justify-center rounded-full bg-fuchsia-500 shadow-lg outline-2 outline-white dark:outline-[#11121E]">
+        05
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:-z-10] -->
+<div class="...">05</div>
+<div class="...">04</div>
+<div class="-z-10 ...">03</div>
+<div class="...">02</div>
+<div class="...">01</div>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue utility="z" name="stack order" value="calc(var(--index)+1)" />
+
+### 响应式设计
+
+<ResponsiveDesign property="z-index" defaultClass="z-0" featuredClass="z-50" />

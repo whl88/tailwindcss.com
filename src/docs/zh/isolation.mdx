@@ -1,0 +1,29 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "isolation";
+export const description = "用于控制元素是否显式创建新的层叠上下文的工具类。";
+
+<ApiTable
+  rows={[
+    ["isolate", "isolation: isolate;"],
+    ["isolation-auto", "isolation: auto;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `isolate` 和 `isolation-auto` 工具类，控制元素是否显式创建一个新的层叠上下文：
+
+```html
+<!-- [!code classes:isolate] -->
+<div class="isolate ...">
+  <!-- ... -->
+</div>
+```
+
+### 响应式设计
+
+<ResponsiveDesign property="isolation" defaultClass="isolate" featuredClass="isolation-auto" />

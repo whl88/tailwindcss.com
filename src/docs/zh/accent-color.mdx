@@ -1,0 +1,149 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import {
+  CustomizingYourThemeColors,
+  ResponsiveDesign,
+  TargetingSpecificStates,
+  UsingACustomValue,
+} from "@/components/content.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import colors from "@/docs/utils/colors";
+
+export const title = "accent-color";
+export const description = "用于控制表单控件强调色（accent color）的工具类。";
+
+<ApiTable
+  rows={[
+    ["accent-inherit", "accent-color: inherit;"],
+    ["accent-current", "accent-color: currentColor;"],
+    ["accent-transparent", "accent-color: transparent;"],
+    ...Object.entries(colors).map(([name, value]) => [
+      `accent-${name}`,
+      `accent-color: var(--color-${name}); /* ${value} */`,
+    ]),
+    ["accent-(<custom-property>)", "accent-color: var(<custom-property>);"],
+    ["accent-[<value>]", "accent-color: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 设置主题色
+
+使用 `accent-rose-500`、`accent-lime-600` 等工具类来调整元素的主题色：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-wrap justify-center gap-6">
+      <label className="flex items-center space-x-2">
+        <input type="checkbox" defaultChecked />
+        <div className="text-sm font-semibold text-gray-900 dark:text-gray-200">Browser default</div>
+      </label>
+      <label className="flex items-center space-x-2">
+        <input type="checkbox" className="accent-pink-500" defaultChecked />
+        <div className="text-sm font-semibold text-gray-900 dark:text-gray-200">Customized</div>
+      </label>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:accent-pink-500] -->
+<label>
+  <input type="checkbox" checked />
+  Browser default
+</label>
+<label>
+  <input class="accent-pink-500" type="checkbox" checked />
+  Customized
+</label>
+```
+
+</Figure>
+
+这适合用来覆盖浏览器默认颜色，为复选框、单选按钮组等元素设置样式。
+
+### 修改不透明度
+
+使用颜色不透明度修饰符来控制元素主题色的不透明度：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-wrap justify-center gap-6">
+      <label className="flex items-center space-x-2">
+        <input type="checkbox" defaultChecked className="accent-purple-500/25" />
+        <div className="text-sm font-semibold text-gray-900 dark:text-gray-200">accent-purple-500/25</div>
+      </label>
+      <label className="flex items-center space-x-2">
+        <input type="checkbox" className="accent-purple-500/75" defaultChecked />
+        <div className="text-sm font-semibold text-gray-900 dark:text-gray-200">accent-purple-500/75</div>
+      </label>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code word:/25] -->
+<!-- [!code word:/75] -->
+<input class="accent-purple-500/25" type="checkbox" checked />
+<input class="accent-purple-500/75" type="checkbox" checked />
+```
+
+</Figure>
+
+主题色不透明度的浏览器支持有限，目前只在 Firefox 中生效。
+
+### 使用自定义值
+
+<UsingACustomValue
+  element="input"
+  elementAttributes={{ type: "checkbox" }}
+  utility="accent"
+  value="#50d71e"
+  name="accent color"
+  variable="accent-color"
+/>
+
+### 应用于 hover 状态
+
+<TargetingSpecificStates property="accent-color">
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-wrap justify-center gap-6">
+      <label className="flex items-center space-x-2">
+        <input type="checkbox" className="accent-black hover:accent-pink-500" defaultChecked />
+        <div className="text-sm font-semibold text-gray-900 dark:text-gray-200">Agree to terms</div>
+      </label>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:hover:accent-pink-500] -->
+<input class="accent-black hover:accent-pink-500" type="checkbox" />
+```
+
+</Figure>
+
+</TargetingSpecificStates>
+
+### 响应式设计
+
+<ResponsiveDesign
+  element="input"
+  elementAttributes={{ type: "checkbox" }}
+  property="accent-color"
+  defaultClass="accent-black"
+  featuredClass="accent-pink-500"
+/>
+
+## 自定义主题
+
+<CustomizingYourThemeColors element="input" elementAttributes={{ type: "checkbox" }} utility="accent" />

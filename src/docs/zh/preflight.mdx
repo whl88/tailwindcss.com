@@ -1,0 +1,291 @@
+export const title = "Preflight";
+export const description = "Tailwind 预设的一组带主观选择的基础样式。";
+
+## 概览
+
+Preflight 构建在 [modern-normalize](https://github.com/sindresorhus/modern-normalize) 之上，是为 Tailwind 项目准备的一组基础样式，用以抹平浏览器之间的不一致，并让你更容易在自己的设计系统约束内工作。
+
+当你在项目中导入 `tailwindcss` 时，Preflight 会自动注入到 `base` 层中：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+/* [!code highlight:2] */
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+```
+
+Preflight 中的大部分样式都设计得不易察觉——它们只是让事物的表现更符合你的预期；但也有一些更具主张的样式，初次接触时可能会让人意外。
+
+要查看 Preflight 应用的全部样式，请[参考样式表](https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/preflight.css)。
+
+### 移除外边距
+
+Preflight 移除了所有元素的默认 margin，包括标题、引用块、段落等：
+
+```css
+/* [!code filename:CSS] */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  margin: 0;
+  padding: 0;
+}
+```
+
+这能避免你不经意间依赖那些不属于自己间距体系的浏览器默认 margin。
+
+### 重置边框样式
+
+为了让"加上 `border` 类即可显示边框"成为可能，Tailwind 用以下规则覆盖了所有元素的默认边框样式：
+
+```css
+/* [!code filename:CSS] */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  box-sizing: border-box;
+  border: 0 solid;
+}
+```
+
+由于 `border` 类只设置 `border-width` 属性，这次重置确保了添加该类后总能得到一条使用 `currentColor` 的 `1px` 实线边框。
+
+这在与某些第三方库集成时可能造成意外结果，例如 [Google maps](https://github.com/tailwindlabs/tailwindcss/issues/484)。
+
+遇到此类情况时，你可以用自定义 CSS 覆盖 Preflight 的样式：
+
+```css
+/* [!code filename:CSS] */
+@layer base {
+  .google-map * {
+    border-style: none;
+  }
+}
+```
+
+### 标题不带样式
+
+所有标题元素默认完全没有样式，字号与字重都与正文相同：
+
+```css
+/* [!code filename:CSS] */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+```
+
+这样设计有两点原因：
+
+- **避免无意中偏离你的字号体系**。浏览器默认会给标题分配一些尺寸，这些尺寸不在 Tailwind 默认字号体系中，也不一定存在于你自己的字号体系中。
+- **在 UI 开发中标题往往需要在视觉上被弱化**。让标题默认无样式，意味着任何对标题的样式调整都是有意识、有目的的。
+
+你随时可以通过[添加自定义基础样式](/docs/adding-custom-styles#adding-base-styles)为项目加回默认的标题样式。
+
+### 列表不带样式
+
+有序与无序列表默认无样式，没有项目符号或编号：
+
+```css
+/* [!code filename:CSS] */
+ol,
+ul,
+menu {
+  list-style: none;
+}
+```
+
+如果想给列表加上样式，可以使用 [list-style-type](/docs/list-style-type) 与 [list-style-position](/docs/list-style-position) 工具类：
+
+```html
+<!-- [!code filename:HTML] -->
+<ul class="list-inside list-disc">
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
+```
+
+你也可以通过[添加自定义基础样式](/docs/adding-custom-styles#adding-base-styles)为项目加回默认列表样式。
+
+#### 无障碍考虑
+
+无样式列表[不会被 VoiceOver 朗读为列表](https://unfetteredthoughts.net/2017/09/26/voiceover-and-list-style-type-none/)。如果你的内容确实是列表但又想保持无样式，请[为元素添加 "list" 角色](https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html)：
+
+```html
+<!-- [!code filename:HTML] -->
+<ul role="list">
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
+```
+
+### 图片为块级元素
+
+图片以及其他可替换元素（如 `svg`、`video`、`canvas` 等）默认 `display: block`：
+
+```css
+/* [!code filename:CSS] */
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+```
+
+这有助于避免在使用浏览器默认的 `display: inline` 时常见的对齐问题。
+
+如果你需要让其中某个元素变回 `inline`，使用 `inline` 工具类即可：
+
+```html
+<!-- [!code filename:HTML] -->
+<img class="inline" src="..." alt="..." />
+```
+
+### 图片受父级宽度约束
+
+图片与视频被限制为父元素宽度，并保持其原始宽高比：
+
+```css
+/* [!code filename:CSS] */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+这能防止它们溢出容器，并让它们默认就是响应式的。如果需要覆盖此行为，使用 `max-w-none` 工具类：
+
+```html
+<!-- [!code filename:HTML] -->
+<img class="max-w-none" src="..." alt="..." />
+```
+
+#### 带 `hidden` 属性的元素保持隐藏
+
+```css
+/* [!code filename:CSS] */
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none !important;
+}
+```
+
+这强制带有 `hidden` 属性的元素保持不可见（除非使用 `hidden="until-found"`）。如果你希望元素对用户可见，请移除 `hidden` 属性。
+
+## 扩展 Preflight
+
+如果你想在 Preflight 之上叠加自己的基础样式，使用 `@layer base` 把它们放进 `base` CSS 层：
+
+```css
+/* [!code filename:CSS] */
+@layer base {
+  h1 {
+    font-size: var(--text-2xl);
+  }
+  h2 {
+    font-size: var(--text-xl);
+  }
+  h3 {
+    font-size: var(--text-lg);
+  }
+  a {
+    color: var(--color-blue-600);
+    text-decoration-line: underline;
+  }
+}
+```
+
+更多内容请参阅[添加基础样式文档](/docs/adding-custom-styles#adding-base-styles)。
+
+## 禁用 Preflight
+
+如果你想完全禁用 Preflight——比如你正把 Tailwind 集成进现有项目，或者更愿意自己定义基础样式——只导入你需要的 Tailwind 部分即可。
+
+默认情况下，`@import "tailwindcss";` 注入的内容如下：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+```
+
+要禁用 Preflight，去掉对应的 import，保留其他即可：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base); /* [!code --] */
+@import "tailwindcss/utilities.css" layer(utilities);
+```
+
+单独引入 Tailwind CSS 的各个文件时，`source()`、`theme()`、`prefix()` 等特性应放在各自对应的 import 上。
+
+例如，源码扫描影响生成的工具类，所以 `source(…)` 应加在 `utilities.css` 的 import 上：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities); /* [!code --] */
+@import "tailwindcss/utilities.css" layer(utilities) source(none); /* [!code ++] */
+```
+
+`important` 同样会影响工具类：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities); /* [!code --] */
+@import "tailwindcss/utilities.css" layer(utilities) important; /* [!code ++] */
+```
+
+`theme(static)` 和 `theme(inline)` 影响生成的主题变量，应放在 `theme.css` 的 import 上：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme); /* [!code --] */
+@import "tailwindcss/theme.css" layer(theme) theme(static); /* [!code ++] */
+@import "tailwindcss/utilities.css" layer(utilities);
+```
+
+最后，使用 `prefix(tw)` 加前缀同时影响工具类与变量，因此应同时加在两个 import 上：
+
+```css
+/* [!code filename:CSS] */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme); /* [!code --] */
+@import "tailwindcss/utilities.css" layer(utilities); /* [!code --] */
+@import "tailwindcss/theme.css" layer(theme) prefix(tw); /* [!code ++] */
+@import "tailwindcss/utilities.css" layer(utilities) prefix(tw); /* [!code ++] */
+```

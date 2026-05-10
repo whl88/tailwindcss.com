@@ -1,0 +1,82 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "transition-duration";
+export const description = "用于控制 CSS transition 时长的工具类。";
+
+<ApiTable
+  rows={[
+    ["duration-<number>", "transition-duration: <number>ms;"],
+    ["duration-initial", "transition-duration: initial;"],
+    ["duration-(<custom-property>)", "transition-duration: var(<custom-property>);"],
+    ["duration-[<value>]", "transition-duration: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `duration-150`、`duration-700` 等工具类，按毫秒设置元素过渡的时长：
+
+<Figure hint="Hover each button to see the expected behavior">
+
+<Example>
+  {
+    <div className="flex flex-col justify-around gap-8 text-sm leading-6 font-bold text-white sm:flex-row sm:gap-0">
+      <div className="flex shrink-0 flex-col items-center">
+        <p className="mb-3 text-center font-mono text-xs font-medium text-gray-500 dark:text-gray-400">duration-150</p>
+        <button className="rounded-md bg-violet-500 px-4 py-2 text-sm font-semibold text-white duration-150 ease-in-out hover:scale-125">
+          Button A
+        </button>
+      </div>
+      <div className="flex shrink-0 flex-col items-center">
+        <p className="mb-3 text-center font-mono text-xs font-medium text-gray-500 dark:text-gray-400">duration-300</p>
+        <button className="rounded-md bg-violet-500 px-4 py-2 text-sm font-semibold text-white duration-300 ease-in-out hover:scale-125">
+          Button B
+        </button>
+      </div>
+      <div className="flex shrink-0 flex-col items-center">
+        <p className="mb-3 text-center font-mono text-xs font-medium text-gray-500 dark:text-gray-400">duration-700</p>
+        <button className="rounded-md bg-violet-500 px-4 py-2 text-sm font-semibold text-white duration-700 ease-in-out hover:scale-125">
+          Button C
+        </button>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:duration-150,duration-300,duration-700] -->
+<button class="transition duration-150 ease-in-out ...">Button A</button>
+<button class="transition duration-300 ease-in-out ...">Button B</button>
+<button class="transition duration-700 ease-in-out ...">Button C</button>
+```
+
+</Figure>
+
+### 适配减少动效
+
+如果用户偏好减少动画，可以通过 `motion-safe` 和 `motion-reduce` 变体有条件地应用动画与过渡：
+
+```html
+<!-- [!code classes:motion-reduce:duration-0] -->
+<button type="button" class="duration-300 motion-reduce:duration-0 ...">
+  <!-- ... -->
+</button>
+```
+
+### 使用自定义值
+
+<UsingACustomValue element="button" utility="duration" value="1s,15s" name="transition duration" />
+
+### 响应式设计
+
+<ResponsiveDesign
+  element="button"
+  property="transition-duration"
+  defaultClass="duration-0"
+  featuredClass="duration-150"
+/>

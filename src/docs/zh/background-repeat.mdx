@@ -1,0 +1,127 @@
+import cloudsImg from "@/docs/img/clouds.svg";
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "background-repeat";
+export const description = "用于控制背景图平铺方式的工具类。";
+
+<ApiTable
+  rows={[
+    ["bg-repeat", "background-repeat: repeat;"],
+    ["bg-repeat-x", "background-repeat: repeat-x;"],
+    ["bg-repeat-y", "background-repeat: repeat-y;"],
+    ["bg-repeat-space", "background-repeat: space;"],
+    ["bg-repeat-round", "background-repeat: round;"],
+    ["bg-no-repeat", "background-repeat: no-repeat;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `bg-repeat` 工具类，让背景图在水平和垂直方向同时平铺：
+
+<Figure>
+
+<Example padding={false}>
+  {<div className="h-64 bg-center bg-repeat" style={{ backgroundImage: `url(${cloudsImg.src})` }}></div>}
+</Example>
+
+```html
+<!-- [!code classes:bg-repeat] -->
+<div class="bg-[url(/img/clouds.svg)] bg-center bg-repeat ..."></div>
+```
+
+</Figure>
+
+### 沿水平方向平铺
+
+使用 `bg-repeat-x` 工具类，只让背景图沿水平方向平铺：
+
+<Figure>
+
+<Example padding={false}>
+  {<div className="h-64 bg-center bg-repeat-x" style={{ backgroundImage: `url(${cloudsImg.src})` }}></div>}
+</Example>
+
+```html
+<!-- [!code classes:bg-repeat-x] -->
+<div class="bg-[url(/img/clouds.svg)] bg-center bg-repeat-x ..."></div>
+```
+
+</Figure>
+
+### 沿垂直方向平铺
+
+使用 `bg-repeat-y` 工具类，只让背景图沿垂直方向平铺：
+
+<Figure>
+
+<Example padding={false}>
+  {<div className="h-64 bg-center bg-repeat-y" style={{ backgroundImage: `url(${cloudsImg.src})` }}></div>}
+</Example>
+
+```html
+<!-- [!code classes:bg-repeat-y] -->
+<div class="bg-[url(/img/clouds.svg)] bg-center bg-repeat-y ..."></div>
+```
+
+</Figure>
+
+### 避免被裁剪
+
+使用 `bg-repeat-space` 工具类，平铺背景图但不裁剪：
+
+<Figure>
+
+<Example padding={false} resizable>
+  {<div className="h-64 bg-center bg-repeat-space" style={{ backgroundImage: `url(${cloudsImg.src})` }}></div>}
+</Example>
+
+```html
+<!-- [!code classes:bg-repeat-space] -->
+<div class="bg-[url(/img/clouds.svg)] bg-center bg-repeat-space ..."></div>
+```
+
+</Figure>
+
+### 避免被裁剪 and gaps
+
+使用 `bg-repeat-round` 工具类，平铺背景图且不裁剪，必要时拉伸以避免出现缝隙：
+
+<Figure>
+
+<Example padding={false} resizable>
+  {<div className="h-64 bg-center bg-repeat-round" style={{ backgroundImage: `url(${cloudsImg.src})` }}></div>}
+</Example>
+
+```html
+<!-- [!code classes:bg-repeat-round] -->
+<div class="bg-[url(/img/clouds.svg)] bg-center bg-repeat-round ..."></div>
+```
+
+</Figure>
+
+### 禁用平铺
+
+使用 `bg-no-repeat` 工具类，禁止背景图平铺：
+
+<Figure>
+
+<Example padding={false}>
+  {<div className="h-64 bg-center bg-no-repeat" style={{ backgroundImage: `url(${cloudsImg.src})` }}></div>}
+</Example>
+
+```html
+<!-- [!code classes:bg-no-repeat] -->
+<div class="bg-[url(/img/clouds.svg)] bg-center bg-no-repeat ..."></div>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign property="background-repeat" defaultClass="bg-repeat" featuredClass="bg-repeat-x" />

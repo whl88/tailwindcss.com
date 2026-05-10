@@ -1,0 +1,100 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "gap";
+export const description = "用于控制 grid / flex 子项之间间距的工具类。";
+
+<ApiTable
+  rows={[
+    ["gap-<number>", "gap: calc(var(--spacing) * <value>);"],
+    ["gap-(<custom-property>)", "gap: var(<custom-property>);"],
+    ["gap-[<value>]", "gap: <value>;"],
+    ["gap-x-<number>", "column-gap: calc(var(--spacing) * <value>);"],
+    ["gap-x-(<custom-property>)", "column-gap: var(<custom-property>);"],
+    ["gap-x-[<value>]", "column-gap: <value>;"],
+    ["gap-y-<number>", "row-gap: calc(var(--spacing) * <value>);"],
+    ["gap-y-(<custom-property>)", "row-gap: var(<custom-property>);"],
+    ["gap-y-[<value>]", "row-gap: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `gap-2`、`gap-4` 等 `gap-<number>` 工具类，同时调整 grid / flex 布局中行与列的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid grid-cols-2 gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-violet-500 p-4">01</div>
+        <div className="rounded-lg bg-violet-500 p-4">02</div>
+        <div className="rounded-lg bg-violet-500 p-4">03</div>
+        <div className="rounded-lg bg-violet-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:gap-4] -->
+<div class="grid grid-cols-2 gap-4">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### 分别设置行间距和列间距
+
+使用 `gap-x-8`、`gap-y-4` 等 `gap-x-<number>` 或 `gap-y-<number>` 工具类，分别调整列与行的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid grid-cols-3 gap-x-8 gap-y-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-sky-500 p-4">01</div>
+        <div className="rounded-lg bg-sky-500 p-4">02</div>
+        <div className="rounded-lg bg-sky-500 p-4">03</div>
+        <div className="rounded-lg bg-sky-500 p-4">04</div>
+        <div className="rounded-lg bg-sky-500 p-4">05</div>
+        <div className="rounded-lg bg-sky-500 p-4">06</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:gap-x-8,gap-y-4] -->
+<div class="grid grid-cols-3 gap-x-8 gap-y-4">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+  <div>06</div>
+</div>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue utilities={["gap", "gap-x", "gap-y"]} value="10vw" />
+
+### 响应式设计
+
+<ResponsiveDesign properties={["gap", "column-gap", "row-gap"]} defaultClass="grid gap-4" featuredClass="gap-6" />

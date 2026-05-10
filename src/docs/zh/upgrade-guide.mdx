@@ -1,0 +1,908 @@
+export const title = "升级指南";
+export const description = "把 Tailwind CSS 项目从 v3 升级到 v4 的指南。";
+
+Tailwind CSS v4.0 是一次主版本升级。我们已尽量控制破坏性变更，但你仍可能需要进行一些修改。本指南列出了从 v3 升级到 v4 的完整步骤。
+
+**Tailwind CSS v4.0 面向 Safari 16.4+、Chrome 111+、Firefox 128+ 等现代浏览器。** 如需支持更旧的浏览器，在浏览器支持策略调整之前请继续使用 v3.4。
+
+## 使用升级工具
+
+若要将项目从 v3 升级到 v4，可以使用官方升级工具完成绝大部分迁移工作：
+
+```sh
+  # [!code filename:Terminal]
+$ npx @tailwindcss/upgrade
+```
+
+对大多数项目而言，升级工具会自动完成整个迁移流程：更新依赖、把配置迁移到 CSS，并处理模板文件中的相关变更。
+
+升级工具需要 **Node.js 20 或更高版本**，运行前请先升级运行环境。
+
+**建议在新分支中运行升级工具**，仔细查看 diff，并在浏览器中测试，确保改动符合预期。复杂项目可能仍需少量手工调整，但工具通常能节省大量时间。
+
+同时建议通读 v4 的[破坏性变更说明](#changes-from-v3)，了解升级工具可能无法覆盖、需要你自行修改的部分。
+
+## 手动升级
+
+### 使用 PostCSS
+
+在 v3 中，`tailwindcss` 包本身就是一个 PostCSS 插件；在 v4 中，PostCSS 插件位于独立的 `@tailwindcss/postcss` 包中。
+
+此外，v4 会自动处理 `@import` 与浏览器前缀，因此可以从项目中移除 `postcss-import` 和 `autoprefixer`（如果正在使用）：
+
+```js
+// [!code filename:postcss.config.mjs]
+export default {
+  plugins: {
+    // [!code --:4]
+    "postcss-import": {},
+    tailwindcss: {},
+    autoprefixer: {},
+    // [!code ++:2]
+    "@tailwindcss/postcss": {},
+  },
+};
+```
+
+### 使用 Vite
+
+若使用 Vite，建议从 PostCSS 插件迁移到专用的 Vite 插件，以获得更好性能与开发体验：
+
+```ts
+// [!code filename:vite.config.ts]
+import { defineConfig } from "vite";
+// [!code highlight:2]
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  plugins: [
+    // [!code highlight:2]
+    tailwindcss(),
+  ],
+});
+```
+
+### 使用 Tailwind CLI
+
+在 v4 中，Tailwind CLI 位于独立的 `@tailwindcss/cli` 包中。请将构建命令更新为使用新包：
+
+```sh
+/* [!code filename:Terminal] */
+  # [!code --:2]
+npx tailwindcss -i input.css -o output.css
+  # [!code ++:2]
+npx @tailwindcss/cli -i input.css -o output.css
+```
+
+## v3 以来的变更
+
+下面是 Tailwind CSS v4.0 中所有破坏性变更的汇总。
+
+我们的[升级工具](#using-the-upgrade-tool)会自动处理其中大部分变更，因此能使用工具时强烈推荐使用。
+
+### 浏览器要求
+
+Tailwind CSS v4.0 面向现代浏览器，目标版本为 Safari 16.4、Chrome 111、Firefox 128。核心功能依赖 `@property`、`color-mix()` 等现代 CSS，在旧浏览器中无法运行。
+
+若需支持更旧浏览器，建议暂时继续使用 v3.4。我们也在探索兼容性模式，以便更多人能尽早升级，后续会有更多说明。
+
+### 移除的 @tailwind 指令
+
+在 v4 中，通过普通 CSS 的 `@import` 引入 Tailwind，而不再使用 v3 中的 `@tailwind` 指令：
+
+```css
+/* [!code filename:CSS] */
+/* [!code --:4] */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* [!code ++:2] */
+@import "tailwindcss";
+```
+
+### 移除的已弃用工具类
+
+我们移除了在 v3 中已弃用、且已多年未出现在文档中的工具类。下表列出已移除项及现代替代方案：
+
+{
+
+<table>
+  <thead>
+    <tr>
+      <th>已弃用</th>
+      <th>替代方案</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">bg-opacity-*</code>
+      </td>
+      <td>
+        使用不透明度修饰符，例如 <code className="whitespace-nowrap">bg-black/50</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">text-opacity-*</code>
+      </td>
+      <td>
+        使用不透明度修饰符，例如 <code className="whitespace-nowrap">text-black/50</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">border-opacity-*</code>
+      </td>
+      <td>
+        使用不透明度修饰符，例如 <code className="whitespace-nowrap">border-black/50</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">divide-opacity-*</code>
+      </td>
+      <td>
+        使用不透明度修饰符，例如 <code className="whitespace-nowrap">divide-black/50</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">ring-opacity-*</code>
+      </td>
+      <td>
+        使用不透明度修饰符，例如 <code className="whitespace-nowrap">ring-black/50</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">placeholder-opacity-*</code>
+      </td>
+      <td>
+        使用不透明度修饰符，例如 <code className="whitespace-nowrap">placeholder-black/50</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">flex-shrink-*</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">shrink-*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">flex-grow-*</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">grow-*</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">overflow-ellipsis</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">text-ellipsis</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">decoration-slice</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">box-decoration-slice</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">decoration-clone</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">box-decoration-clone</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+}
+
+### 重命名的工具类
+
+为了让命名更一致、可预测，v4 对以下工具类进行了重命名：
+
+{
+
+<table>
+  <thead>
+    <tr>
+      <th>v3</th>
+      <th>v4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">shadow-sm</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">shadow-xs</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">shadow</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">shadow-sm</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">drop-shadow-sm</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">drop-shadow-xs</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">drop-shadow</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">drop-shadow-sm</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">blur-sm</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">blur-xs</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">blur</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">blur-sm</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">backdrop-blur-sm</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">backdrop-blur-xs</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">backdrop-blur</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">backdrop-blur-sm</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">rounded-sm</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">rounded-xs</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">rounded</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">rounded-sm</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">outline-none</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">outline-hidden</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code className="whitespace-nowrap">ring</code>
+      </td>
+      <td>
+        <code className="whitespace-nowrap">ring-3</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+}
+
+#### 更新阴影、圆角与模糊比例尺
+
+为确保每个工具类都有具名刻度，我们重命名了默认的阴影、圆角与模糊比例尺。为向后兼容，「裸」版本类名仍会生成样式，但未迁移到 <code><em>{'<utility>'}</em>-xs</code> 时，原来的 <code><em>{'<utility>'}</em>-sm</code> 外观会不同。
+
+请根据下列对应关系，将 v3 工具类全部替换为 v4 版本：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<input class="shadow-sm" />
+<!-- [!code ++:2] -->
+<input class="shadow-xs" />
+
+<!-- [!code --:2] -->
+<input class="shadow" />
+<!-- [!code ++:2] -->
+<input class="shadow-sm" />
+```
+
+#### outline 工具类重命名
+
+`outline` 工具类现在默认设置 `outline-width: 1px`，与 `border`、`ring` 系列更一致。此外，所有 `outline-<number>` 都会默认把 `outline-style` 设为 `solid`，通常不再需要单独写 `outline`：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<input class="outline outline-2" />
+<!-- [!code ++:2] -->
+<input class="outline-2" />
+```
+
+此前的 `outline-none` 并不会设置 `outline-style: none`，而是设置「看不见」的 outline，以便在强制配色模式下仍可识别，兼顾无障碍。
+
+为表意更清晰，我们把上述行为重命名为 `outline-hidden`，并新增真正的 `outline-none`，会设置 `outline-style: none`。
+
+请将项目中所有 `outline-none` 替换为 `outline-hidden`：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<input class="focus:outline-none" />
+<!-- [!code ++:2] -->
+<input class="focus:outline-hidden" />
+```
+
+#### 默认 ring 宽度变更
+
+在 v3 中，无数字的 `ring` 会生成 `3px` 的 ring。v4 改为 `1px`，与 border、outline 一致。
+
+请将所有单独的 `ring` 改为 `ring-3`：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<input class="ring ring-blue-500" />
+<!-- [!code ++:2] -->
+<input class="ring-3 ring-blue-500" />
+```
+
+### space-between 选择器
+
+为缓解大页面上的严重性能问题，我们调整了 [`space-x-*` 与 `space-y-*` 工具类](/docs/margin#adding-space-between-children) 所使用的选择器：
+
+```css
+/* [!code filename:CSS] */
+/* 之前 */
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1rem;
+}
+
+/* 现在 */
+.space-y-4 > :not(:last-child) {
+  margin-bottom: 1rem;
+}
+```
+
+若在行内元素上使用这些工具类，或对子元素额外加了 margin 来调整间距，布局可能会发生变化。
+
+若因此出现问题，建议改用 flex 或 grid，并用 `gap` 控制间距：
+
+{/* prettier-ignore */}
+```html
+<!-- [!code filename:HTML] -->
+<div class="space-y-4 p-4"> <!-- [!code --] -->
+<div class="flex flex-col gap-4 p-4"> <!-- [!code ++] -->
+  <label for="name">Name</label>
+  <input type="text" name="name" />
+</div>
+```
+
+### divide 选择器
+
+为缓解大页面上的严重性能问题，我们调整了 [`divide-x-*` 与 `divide-y-*` 工具类](/docs/border-width#between-children) 所使用的选择器：
+
+```css
+/* [!code filename:CSS] */
+/* 之前 */
+.divide-y-4 > :not([hidden]) ~ :not([hidden]) {
+  border-top-width: 4px;
+}
+
+/* 现在 */
+.divide-y-4 > :not(:last-child) {
+  border-bottom-width: 4px;
+}
+```
+
+若在行内元素上使用这些工具类，或为子元素额外调整 margin/padding、或单独修改某个子元素的边框，视觉效果可能会变。
+
+### 在渐变上使用变体
+
+在 v3 中，用变体覆盖渐变的一部分会「重置」整条渐变。例如下例在暗色模式下 `to-*` 会变成透明，而不是黄色：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:dark:from-blue-500] -->
+<div class="bg-gradient-to-r from-red-500 to-yellow-400 dark:from-blue-500">
+  <!-- ... -->
+</div>
+```
+
+在 v4 中，这些值会被保留，行为与 Tailwind 中其他工具类更一致。
+
+因此，若要在某一状态下把三停靠点渐变「还原」为双停靠点，可能需显式写上 `via-none`：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:dark:via-none] -->
+<div class="bg-linear-to-r from-red-500 via-orange-400 to-yellow-400 dark:via-none dark:from-blue-500 dark:to-teal-400">
+  <!-- ... -->
+</div>
+```
+
+### container 配置
+
+在 v3 中，`container` 工具类有 `center`、`padding` 等若干配置项；这些在 v4 中已不存在。
+
+在 v4 中请通过 `@utility` 指令扩展 `container`：
+
+```css
+/* [!code filename:CSS] */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+```
+
+### 默认边框颜色
+
+在 v3 中，`border-*` 与 `divide-*` 默认使用你配置中的 `gray-200`。v4 改为 `currentColor`，使 Tailwind 更少「主观臆断」，并与浏览器默认行为一致。
+
+请在使用 `border-*` 或 `divide-*` 时显式写出颜色：
+
+```html
+<!-- [!code classes:border-gray-200] -->
+<div class="border border-gray-200 px-2 py-3 ...">
+  <!-- ... -->
+</div>
+```
+
+或者，在项目中加入以下基础样式以延续 v3 行为：
+
+```css
+/* [!code filename:CSS] */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+```
+
+### 默认 ring 宽度和颜色
+
+我们将无数字的 `ring` 宽度从 3px 改为 1px，默认颜色从 `blue-500` 改为 `currentColor`，以便与 `border-*`、`divide-*`、`outline-*` 更一致。
+
+请将单独的 `ring` 替换为 `ring-3`：
+
+```html
+<!-- prettier-ignore -->
+<button class="focus:ring ..."> <!-- [!code --] -->
+<button class="focus:ring-3 ..."> <!-- [!code ++] -->
+  <!-- ... -->
+</button>
+```
+
+然后，在依赖默认 ring 颜色的地方补上 `ring-blue-500`：
+
+```html
+<!-- [!code classes:focus:ring-blue-500] -->
+<button class="focus:ring-3 focus:ring-blue-500 ...">
+  <!-- ... -->
+</button>
+```
+
+也可以在 CSS 中写入以下主题变量以延续 v3 行为：
+
+```css
+/* [!code filename:CSS] */
+@theme {
+  --default-ring-width: 3px;
+  --default-ring-color: var(--color-blue-500);
+}
+```
+
+请注意，这些变量仅为兼容而保留，不被视为 Tailwind CSS v4 的惯用写法。
+
+### Preflight 变化
+
+v4 对 Preflight 的基础样式做了少量调整：
+
+#### 新的默认 placeholder 颜色
+
+在 v3 中，placeholder 默认使用你配置的 `gray-400`。v4 简化为当前文字颜色、50% 不透明度。
+
+多数情况下几乎察觉不到变化（甚至可能更好看）。若要完全保持 v3 外观，可加入以下 CSS：
+
+```css
+/* [!code filename:CSS] */
+@layer base {
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+}
+```
+
+#### 按钮的默认鼠标样式
+
+为与浏览器默认行为一致，按钮现在使用 `cursor: default`，而不是 `cursor: pointer`。
+
+若仍希望按钮默认显示手型指针，可加入以下基础样式：
+
+```css
+/* [!code filename:CSS] */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+```
+
+#### 移除 dialog 的 margin
+
+为与其他元素的 reset 一致，Preflight 现在会重置 `<dialog>` 的 margin。
+
+若仍希望对话框默认居中，可在项目中加入：
+
+```css
+/* [!code filename:CSS] */
+@layer base {
+  dialog {
+    margin: auto;
+  }
+}
+```
+
+#### `hidden` attribute 优先级更高
+
+`block`、`flex` 等显示类不再覆盖元素上的 `hidden` attribute。若要让元素对用户可见，请移除 `hidden` attribute。这不适用于 `hidden="until-found"`。
+
+### 使用前缀
+
+前缀的写法现在更像变体，且始终出现在类名最前面：
+
+```html
+<!-- [!code classes:tw:bg-red-500,tw:flex,tw:hover:bg-red-600] -->
+<div class="tw:flex tw:bg-red-500 tw:hover:bg-red-600">
+  <!-- ... -->
+</div>
+```
+
+使用前缀时，仍应按「无前缀」的方式配置主题变量：
+
+```css {{ filename: "app.css" }}
+@import "tailwindcss" prefix(tw);
+
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+
+  --breakpoint-3xl: 120rem;
+
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+
+  /* ... */
+}
+```
+
+生成的 CSS 自定义属性**会**带前缀，以避免与项目中已有变量冲突：
+
+```css {{ filename: "dist.css" }}
+:root {
+  --tw-font-display: "Satoshi", "sans-serif";
+
+  --tw-breakpoint-3xl: 120rem;
+
+  --tw-color-avocado-100: oklch(0.99 0 0);
+  --tw-color-avocado-200: oklch(0.98 0.04 113.22);
+  --tw-color-avocado-300: oklch(0.94 0.11 115.03);
+
+  /* ... */
+}
+```
+
+### important 修饰符
+
+在 v3 中，可在工具类名前（变体之后）加 `!` 标记为 important。在 v4 中，应把 `!` 放在**整个类名末尾**：
+
+```html
+<!-- [!code classes:bg-red-500!,flex!,hover:bg-red-600/50!] -->
+<div class="flex! bg-red-500! hover:bg-red-600/50!">
+  <!-- ... -->
+</div>
+```
+
+旧写法仍可兼容，但已弃用。
+
+### 添加自定义工具类
+
+在 v3 中，你在 `@layer utilities` 或 `@layer components` 中定义的自定义类会被当作真正的工具类提取，并自动支持 `hover`、`focus`、`lg` 等变体；其中 `@layer components` 生成的规则在样式表中会更靠前。
+
+在 v4 中我们使用原生层叠层，不再劫持 `@layer`，因此改用 `@utility` API：
+
+```css
+/* [!code filename:CSS] */
+/* [!code --:6] */
+@layer utilities {
+  .tab-4 {
+    tab-size: 4;
+  }
+}
+/* [!code ++:4] */
+@utility tab-4 {
+  tab-size: 4;
+}
+```
+
+自定义工具类现在还会按所定义属性数量排序。这意味着像下面这样的 `.btn` 组件类可以在无需额外配置的情况下被其他 Tailwind 工具类覆盖：
+
+```css
+/* [!code filename:CSS] */
+/* [!code --:8] */
+@layer components {
+  .btn {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: ButtonFace;
+  }
+}
+/* [!code ++:6] */
+@utility btn {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: ButtonFace;
+}
+```
+
+更多说明见[添加自定义工具类](/docs/adding-custom-styles#adding-custom-utilities)文档。
+
+### 变体堆叠顺序
+
+在 v3 中，多个变体从右向左应用；v4 改为从左向右，更接近 CSS 语法习惯。
+
+请对项目中**依赖顺序**的堆叠变体反向调整顺序：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<!-- prettier-ignore -->
+<ul class="py-4 first:*:pt-0 last:*:pb-0">
+<!-- [!code ++:2] -->
+<ul class="py-4 *:first:pt-0 *:last:pb-0">
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
+```
+
+实际使用中这类情况通常很少——最常见的可能是直接子代变体（`*`）以及排版插件变体（如 `prose-headings`），且仅在与其它变体叠用时需要注意。
+
+### 任意值中的 CSS 变量
+
+在 v3 中，任意值里写 CSS 变量可以不带 `var()`；但随着 CSS 演进，这种写法容易产生歧义。v4 改为用圆括号而不是方括号表示变量简写。
+
+请将旧的变量简写全部替换为新语法：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<div class="bg-[--brand-color]"></div>
+<!-- [!code ++:2] -->
+<div class="bg-(--brand-color)"></div>
+```
+
+### grid 与 object-position 工具类中的任意值
+
+在 v3 中，`grid-cols-*`、`grid-rows-*`、`object-*` 的任意值里，逗号会被替换成空格。这是为兼容 v2 保留的特殊行为；v4 已不再需要，必须用下划线表示空格。
+
+请把原本表示空格的逗号改为下划线：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<div class="grid-cols-[max-content,auto]"></div>
+<!-- [!code ++:2] -->
+<div class="grid-cols-[max-content_auto]"></div>
+```
+
+### 移动端的 hover 样式
+
+在 v4 中，`hover` 变体仅在主输入设备支持悬停时生效：
+
+```css
+/* [!code filename:CSS] */
+@media (hover: hover) {
+  .hover\:underline:hover {
+    text-decoration: underline;
+  }
+}
+```
+
+若你的站点依赖在触摸屏上点按触发 `hover`，这可能会带来问题。此时可以用自定义变体覆盖 `hover`，恢复旧版实现：
+
+```css
+/* [!code filename:CSS] */
+@custom-variant hover (&:hover);
+```
+
+一般而言，我们更建议把 hover 当作增强体验，而不是网站正常工作的前提——触摸屏本身并没有真正的「悬停」。
+
+### 过渡 outline-color
+
+`transition` 与 `transition-colors` 现在会包含 `outline-color` 属性。
+
+因此，若你在 `:focus` 上设置带自定义颜色的 outline，会观察到颜色从默认值过渡到自定义色。为避免这种情况，请始终设置 outline 颜色，或为默认与聚焦两种状态分别写明颜色：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<button class="transition hover:outline-2 hover:outline-cyan-500"></button>
+<!-- [!code ++:2] -->
+<button class="outline-cyan-500 transition hover:outline-2"></button>
+```
+
+### 单独的 transform 属性
+
+`rotate-*`、`scale-*`、`translate-*` 现在基于 CSS 中独立的 `rotate`、`scale`、`translate` 属性。多数情况下行为不变，但有两点需要注意：
+
+#### 重置变换
+
+以前可以通过 `transform-none` 一次性重置 rotate、scale、translate；这在 v4 不再有效，需要分别重置各属性：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<button class="scale-150 focus:transform-none"></button>
+<!-- [!code ++:2] -->
+<button class="scale-150 focus:scale-none"></button>
+```
+
+#### 过渡
+
+若自定义了过渡属性列表并包含 `transform`（例如 `transition-[opacity,transform]`），则上述独立 transform 属性相关的工具类将不再参与过渡。解决办法是把具体属性写进列表，例如同时使用 `opacity-*` 与 `scale-*` 时应写 `transition-[opacity,scale]`。
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code --:2] -->
+<button class="transition-[opacity,transform] hover:scale-150"></button>
+<!-- [!code ++:2] -->
+<button class="transition-[opacity,scale] hover:scale-150"></button>
+```
+
+### 禁用核心插件
+
+在 v3 中可以通过 `corePlugins` 完全禁用某些工具类；v4 不再支持该选项。
+
+### 使用 theme() 函数
+
+v4 为主题值生成了 CSS 变量，因此只要可能，应优先使用这些变量，而不是 `theme()` 函数：
+
+```css
+/* [!code filename:CSS] */
+.my-class {
+  /* [!code --:2] */
+  background-color: theme(colors.red.500);
+  /* [!code ++:2] */
+  background-color: var(--color-red-500);
+}
+```
+
+在仍必须使用 `theme()` 的场景（例如尚不支持 CSS 变量的 media query 中），请使用 CSS 变量名，而不是以前的点号路径：
+
+```css
+/* [!code filename:CSS] */
+@media (width >= theme(screens.xl)) { /* [!code --] */
+@media (width >= theme(--breakpoint-xl)) { /* [!code ++] */
+  /* ... */
+}
+```
+
+### 使用 JavaScript 配置文件
+
+为向后兼容，仍可使用 JavaScript 配置文件，但 v4 不会自动发现它们。
+
+若仍需使用 JS 配置，请通过 `@config` 显式加载：
+
+```css
+/* [!code filename:CSS] */
+@config "../../tailwind.config.js";
+```
+
+基于 JavaScript 的配置中的 `corePlugins`、`safelist`、`separator` 在 v4.0 中不支持。若需 safelist，请使用 [`@source inline()`](/docs/detecting-classes-in-source-files#safelisting-specific-utilities)。
+
+### 在 JavaScript 中读取主题值
+
+在 v3 中我们导出过 `resolveConfig`，用于把 JS 配置展平成对象供其它 JS 使用。
+
+v4 已移除此 API，建议直接使用我们生成的 CSS 变量，更简单且能明显减小打包体积。
+
+例如，React 中流行的 [Motion](https://motion.dev/docs/react-quick-start) 库可以直接在关键帧里使用 CSS 变量：
+
+```jsx
+// [!code filename:JSX]
+// [!code word:var(--color-blue-500)]
+<motion.div animate={{ backgroundColor: "var(--color-blue-500)" }} />
+```
+
+若要在 JS 中读取已解析的 CSS 变量值，可对文档根元素使用 `getComputedStyle`：
+
+```js
+// [!code filename:spaghetti.js]
+let styles = getComputedStyle(document.documentElement);
+let shadow = styles.getPropertyValue("--shadow-xl");
+```
+
+在 v4 中，与主 CSS 文件分开打包的样式表（例如 CSS modules、Vue/Svelte/Astro 的 `<style>` 块等）无法直接访问其它文件中定义的主题变量、自定义工具类与自定义变体。
+
+若要在这些上下文中使用它们，请通过 [`@reference`](/docs/functions-and-directives#reference-directive) 引入，且不会在产物中重复打包 CSS：
+
+```html
+<!-- [!code filename:Vue] -->
+<template>
+  <h1>Hello world!</h1>
+</template>
+
+<style>
+  /* [!code highlight:2] */
+  @reference "../../app.css";
+
+  h1 {
+    @apply text-2xl font-bold text-red-500;
+  }
+</style>
+```
+
+也可以完全不使用 `@apply`，直接用主题 CSS 变量，这样 Tailwind 无需再处理这些样式，性能更好：
+
+```html
+<!-- [!code filename:Vue] -->
+<template>
+  <h1>Hello world!</h1>
+</template>
+
+<style>
+  h1 {
+    /* [!code highlight:2] */
+    color: var(--text-red-500);
+  }
+</style>
+```
+
+更多说明见[与 CSS modules 一起使用 Tailwind](/docs/compatibility#css-modules)。
+
+### 使用 Sass、Less 和 Stylus
+
+Tailwind CSS v4.0 不打算与 Sass、Less、Stylus 等预处理器配合使用。把 Tailwind 本身当作你的「预处理器」——就像你不会把 Sass 和 Stylus 叠在一起用一样，也不建议与 Sass 混用。因此无法在样式表或 Vue、Svelte、Astro 等的 `<style>` 里用 Sass/Less/Stylus 来编写 Tailwind 样式。
+
+详见[兼容性文档](/docs/compatibility#sass-less-and-stylus)。

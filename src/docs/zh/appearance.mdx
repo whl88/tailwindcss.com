@@ -1,0 +1,180 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "appearance";
+export const description = "用于关闭表单控件原生外观样式的工具类。";
+
+<ApiTable
+  rows={[
+    ["appearance-none", "appearance: none;"],
+    ["appearance-auto", "appearance: auto;"],
+  ]}
+/>
+
+## 示例
+
+### 移除默认外观
+
+使用 `appearance-none`，移除元素上由浏览器默认提供的样式：
+
+<Figure>
+
+<Example>
+  {
+    <div className="mx-auto max-w-sm items-center">
+      <div className="my-6 flex">
+        <select className="w-20">
+          <option>Yes</option>
+          <option>No</option>
+          <option>Maybe</option>
+        </select>
+        <div className="mx-6 text-sm font-semibold text-gray-900 dark:text-gray-200">
+          Default browser styles applied
+        </div>
+      </div>
+      <div className="my-6 flex items-center">
+        <div className="grid">
+          <svg
+            className="pointer-events-none relative right-1 z-10 col-start-1 row-start-1 h-4 w-4 self-center justify-self-end forced-colors:hidden"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <select className="col-start-1 row-start-1 w-20 appearance-none rounded-lg border border-gray-300 bg-gray-50 px-2 text-gray-700 hover:border-cyan-500 hover:bg-white dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-cyan-700 dark:hover:bg-gray-700 forced-colors:appearance-auto">
+            <option>Yes</option>
+            <option>No</option>
+            <option>Maybe</option>
+          </select>
+        </div>
+        <div className="mx-6 text-sm font-semibold text-gray-900 dark:text-gray-200">Remove default browser styles</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:appearance-none] -->
+<select>
+  <option>Yes</option>
+  <option>No</option>
+  <option>Maybe</option>
+</select>
+
+<div class="grid">
+  <select class="col-start-1 row-start-1 appearance-none bg-gray-50 dark:bg-gray-800 ...">
+    <option>Yes</option>
+    <option>No</option>
+    <option>Maybe</option>
+  </select>
+  <svg class="pointer-events-none col-start-1 row-start-1 ...">
+    <!-- ... -->
+  </svg>
+</div>
+```
+
+</Figure>
+
+这个工具类常用于自定义表单组件。
+
+### 恢复默认外观
+
+使用 `appearance-auto`，恢复浏览器对元素的默认样式：
+
+<Figure hint="Try emulating `forced-colors: active` in your developer tools to see the difference">
+
+<Example>
+  {
+    <div className="mx-auto my-6 grid max-w-sm items-center justify-center gap-8">
+      <div className="flex items-center">
+        <label
+          htmlFor="checkbox_2"
+          className="mx-6 grid grid-flow-col items-center gap-3 text-sm font-semibold text-gray-900 select-none dark:text-gray-200"
+        >
+          <div className="grid items-center justify-center">
+            <input
+              type="checkbox"
+              id="checkbox_2"
+              defaultChecked
+              className="peer col-start-1 row-start-1 h-4 w-4 appearance-none rounded border border-gray-300 ring-transparent checked:border-violet-600 checked:bg-violet-600 dark:border-gray-600 dark:checked:border-violet-600 forced-colors:appearance-auto"
+            />
+            <svg
+              viewBox="0 0 14 14"
+              fill="none"
+              className="invisible col-start-1 row-start-1 stroke-white peer-checked:visible dark:text-violet-300 forced-colors:hidden"
+            >
+              <path d="M3 8L6 11L11 3.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+            </svg>
+          </div>
+          Falls back to default appearance
+        </label>
+      </div>
+      <div className="flex items-center">
+        <label
+          htmlFor="checkbox_1"
+          className="mx-6 grid grid-flow-col items-center gap-3 text-sm font-semibold text-gray-900 select-none dark:text-gray-200"
+        >
+          <div className="grid items-center justify-center">
+            <input
+              type="checkbox"
+              id="checkbox_1"
+              defaultChecked
+              className="peer col-start-1 row-start-1 h-4 w-4 appearance-none rounded border border-gray-300 ring-transparent checked:border-violet-600 checked:bg-violet-600 dark:border-gray-600 dark:checked:border-violet-600"
+            />
+            <svg
+              viewBox="0 0 14 14"
+              fill="none"
+              className="invisible col-start-1 row-start-1 stroke-white peer-checked:visible dark:text-violet-300"
+            >
+              <path d="M3 8L6 11L11 3.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+            </svg>
+          </div>
+          Keeps custom appearance
+        </label>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:forced-colors:appearance-auto,forced-colors:hidden] -->
+<label>
+  <div>
+    <input type="checkbox" class="appearance-none forced-colors:appearance-auto ..." />
+    <svg class="invisible peer-checked:visible forced-colors:hidden ...">
+      <!-- ... -->
+    </svg>
+  </div>
+  Falls back to default appearance
+</label>
+
+<label>
+  <div>
+    <input type="checkbox" class="appearance-none ..." />
+    <svg class="invisible peer-checked:visible ...">
+      <!-- ... -->
+    </svg>
+  </div>
+  Keeps custom appearance
+</label>
+```
+
+</Figure>
+
+这适合在某些可访问性模式下恢复成浏览器的标准控件。
+
+### 响应式设计
+
+<ResponsiveDesign
+  element="select"
+  property="appearance"
+  defaultClass="appearance-auto"
+  featuredClass="appearance-none"
+/>

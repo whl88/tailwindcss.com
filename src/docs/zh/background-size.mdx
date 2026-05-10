@@ -1,0 +1,100 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "background-size";
+export const description = "用于控制背景图尺寸的工具类。";
+
+<ApiTable
+  rows={[
+    ["bg-auto", "background-size: auto;"],
+    ["bg-cover", "background-size: cover;"],
+    ["bg-contain", "background-size: contain;"],
+    ["bg-size-(<custom-property>)", "background-size: var(<custom-property>);"],
+    ["bg-size-[<value>]", "background-size: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 填满容器
+
+使用 `bg-cover` 工具类，将背景图缩放到完全覆盖背景图层，必要时会裁剪图像：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto flex w-56 items-center justify-center overflow-hidden rounded-lg sm:w-96">
+      <div className="absolute inset-0">
+        <Stripes border className="h-full rounded-lg" />
+      </div>
+      <div className="relative z-10 h-48 w-full bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&h=640&q=80)] bg-cover bg-center bg-no-repeat"></div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:bg-cover] -->
+<div class="bg-[url(/img/mountains.jpg)] bg-cover bg-center"></div>
+```
+
+</Figure>
+
+### 填满但不裁剪
+
+使用 `bg-contain` 工具类，将背景图缩放到外边界，但不裁剪也不拉伸：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto flex w-56 items-center justify-center overflow-hidden rounded-lg sm:w-96">
+      <div className="absolute inset-0">
+        <Stripes border className="h-full rounded-lg" />
+      </div>
+      <div className="relative z-10 h-48 w-full bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&h=640&q=80)] bg-contain bg-center bg-no-repeat sm:bg-top"></div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:bg-contain] -->
+<div class="bg-[url(/img/mountains.jpg)] bg-contain bg-center"></div>
+```
+
+</Figure>
+
+### 使用默认尺寸
+
+使用 `bg-auto` 工具类，按背景图的默认尺寸显示：
+
+<Figure>
+
+<Example>
+  {
+    <div className="relative mx-auto flex h-48 w-56 items-center justify-center overflow-hidden rounded-lg sm:w-96">
+      <div className="absolute inset-0">
+        <Stripes border className="h-full rounded-lg" />
+      </div>
+      <div className="relative z-10 h-full w-full bg-[url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=128&h=160&q=80)] bg-auto bg-center bg-no-repeat"></div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:bg-auto] -->
+<div class="bg-[url(/img/mountains.jpg)] bg-auto bg-center bg-no-repeat"></div>
+```
+
+</Figure>
+
+### 使用自定义值
+
+<UsingACustomValue utility="bg-size" value="auto_100px" name="background size" variable="image-size" />
+
+### 响应式设计
+
+<ResponsiveDesign property="background-size" defaultClass="bg-auto" featuredClass="bg-contain" />

@@ -1,0 +1,34 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "break-inside";
+export const description = "用于控制元素内部如何分列或分页的工具类。";
+
+<ApiTable
+  rows={[
+    ["break-inside-auto", "break-inside: auto;"],
+    ["break-inside-avoid", "break-inside: avoid;"],
+    ["break-inside-avoid-page", "break-inside: avoid-page;"],
+    ["break-inside-avoid-column", "break-inside: avoid-column;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `break-inside-column`、`break-inside-avoid-page` 等工具类，控制元素内部应如何处理分列或分页：
+
+```html
+<!-- [!code classes:break-inside-avoid-column] -->
+<div class="columns-2">
+  <p>Well, let me tell you something, ...</p>
+  <p class="break-inside-avoid-column">Sure, go ahead, laugh...</p>
+  <p>Maybe we can live without...</p>
+  <p>Look. If you think this is...</p>
+</div>
+```
+
+### 响应式设计
+
+<ResponsiveDesign property="break-inside" defaultClass="break-inside-avoid-column" featuredClass="break-inside-auto" />

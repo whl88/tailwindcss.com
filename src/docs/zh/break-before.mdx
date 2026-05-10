@@ -1,0 +1,38 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "break-before";
+export const description = "用于控制元素之前如何分列或分页的工具类。";
+
+<ApiTable
+  rows={[
+    ["break-before-auto", "break-before: auto;"],
+    ["break-before-avoid", "break-before: avoid;"],
+    ["break-before-all", "break-before: all;"],
+    ["break-before-avoid-page", "break-before: avoid-page;"],
+    ["break-before-page", "break-before: page;"],
+    ["break-before-left", "break-before: left;"],
+    ["break-before-right", "break-before: right;"],
+    ["break-before-column", "break-before: column;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `break-before-column`、`break-before-page` 等工具类，控制元素之前应如何处理分列或分页：
+
+```html
+<!-- [!code classes:break-before-column] -->
+<div class="columns-2">
+  <p>Well, let me tell you something, ...</p>
+  <p class="break-before-column">Sure, go ahead, laugh...</p>
+  <p>Maybe we can live without...</p>
+  <p>Look. If you think this is...</p>
+</div>
+```
+
+### 响应式设计
+
+<ResponsiveDesign property="break-before" defaultClass="break-before-column" featuredClass="break-before-auto" />

@@ -1,0 +1,106 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "text-transform";
+export const description = "用于控制文本大小写转换的工具类。";
+
+<ApiTable
+  rows={[
+    ["uppercase", "text-transform: uppercase;"],
+    ["lowercase", "text-transform: lowercase;"],
+    ["capitalize", "text-transform: capitalize;"],
+    ["normal-case", "text-transform: none;"],
+  ]}
+/>
+
+## 示例
+
+### 转换为大写
+
+使用 `uppercase` 工具类，把元素中的文本全部转换为大写：
+
+<Figure>
+
+<Example>
+  {
+    <p className="text-center text-lg font-medium text-gray-900 uppercase dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:uppercase] -->
+<p class="uppercase">The quick brown fox ...</p>
+```
+
+</Figure>
+
+### 转换为小写
+
+使用 `lowercase` 工具类，把元素中的文本全部转换为小写：
+
+<Figure>
+
+<Example>
+  {
+    <p className="text-center text-lg font-medium text-gray-900 lowercase dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:lowercase] -->
+<p class="lowercase">The quick brown fox ...</p>
+```
+
+</Figure>
+
+### 首字母大写
+
+使用 `capitalize` 工具类，把元素中每个单词的首字母大写：
+
+<Figure>
+
+<Example>
+  {
+    <p className="text-center text-lg font-medium text-gray-900 capitalize dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:capitalize] -->
+<p class="capitalize">The quick brown fox ...</p>
+```
+
+</Figure>
+
+### 重置文本大小写
+
+使用 `normal-case` 工具类，保留元素文本原本的大小写——常用于在不同断点处重置大小写转换：
+
+<Figure>
+
+<Example>
+  {
+    <p className="text-center text-lg font-medium text-gray-900 normal-case dark:text-gray-200">
+      The quick brown fox jumps over the lazy dog.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:normal-case] -->
+<p class="normal-case">The quick brown fox ...</p>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign element="p" property="text-transform" defaultClass="capitalize" featuredClass="uppercase" />

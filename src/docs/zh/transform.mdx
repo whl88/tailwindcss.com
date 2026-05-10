@@ -1,0 +1,51 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "transform";
+export const description = "用于对元素应用 transform 变换的工具类。";
+
+<ApiTable
+  rows={[
+    ["transform-(<custom-property>)", "transform: var(<custom-property>);"],
+    ["transform-[<value>]", "transform: <value>;"],
+    ["transform-none", "transform: none;"],
+    [
+      "transform-gpu",
+      "transform: translateZ(0) var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);",
+    ],
+    [
+      "transform-cpu",
+      "transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);",
+    ],
+  ]}
+/>
+
+## 示例
+
+### 硬件加速
+
+如果你的过渡在 GPU 渲染时表现优于 CPU，可以加上 `transform-gpu` 工具类强制启用硬件加速：
+
+```html
+<!-- [!code classes:transform-gpu] -->
+<div class="scale-150 transform-gpu">
+  <!-- ... -->
+</div>
+```
+
+如果在某些情况下需要取消硬件加速，可以使用 `transform-cpu` 工具类把渲染交回给 CPU。
+
+### 移除变换
+
+使用 `transform-none` 工具类，一次性移除元素上所有的 transform：
+
+```html
+<!-- [!code classes:transform-none] -->
+<div class="skew-y-3 md:transform-none">
+  <!-- ... -->
+</div>
+```
+
+### 使用自定义值
+
+<UsingACustomValue utility="transform" value="matrix(1,2,3,4,5,6)" />

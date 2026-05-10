@@ -1,0 +1,162 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "text-align";
+export const description = "用于控制文本对齐方式的工具类。";
+
+<ApiTable
+  rows={[
+    ["text-left", "text-align: left;"],
+    ["text-center", "text-align: center;"],
+    ["text-right", "text-align: right;"],
+    ["text-justify", "text-align: justify;"],
+    ["text-start", "text-align: start;"],
+    ["text-end", "text-align: end;"],
+  ]}
+/>
+
+## 示例
+
+### 文本左对齐
+
+使用 `text-left` 工具类，让元素中的文本左对齐：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="px-4 sm:px-0">
+      <div className="mx-auto max-w-lg p-8 text-sm/6 text-gray-900 dark:text-gray-200">
+        <p className="text-left">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-left] -->
+<p class="text-left">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 文本右对齐
+
+使用 `text-right` 工具类，让元素中的文本右对齐：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="px-4 sm:px-0">
+      <div className="mx-auto max-w-lg p-8 text-sm/6 text-gray-900 dark:text-gray-200">
+        <p className="text-right">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-right] -->
+<p class="text-right">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 文本居中对齐
+
+使用 `text-center` 工具类，让元素中的文本居中对齐：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="px-4 sm:px-0">
+      <div className="mx-auto max-w-lg p-8 text-sm/6 text-gray-900 dark:text-gray-200">
+        <p className="text-center">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-center] -->
+<p class="text-center">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 文本两端对齐
+
+使用 `text-justify` 工具类，让元素中的文本两端对齐：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="px-4 sm:px-0">
+      <div className="mx-auto max-w-lg p-8 text-sm/6 text-gray-900 dark:text-gray-200">
+        <p className="text-justify">
+          So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made
+          my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the
+          kinship of all living things but I tell you Jerry at that moment, I <em>was</em> a marine biologist.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:text-justify] -->
+<p class="text-justify">So I started to walk into the water...</p>
+```
+
+</Figure>
+
+### 使用逻辑属性
+
+使用 `text-start` 和 `text-end` 工具类，它们通过[逻辑属性](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties/Basic_concepts)实现，会根据文字方向自动映射到左侧或右侧：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="px-4 sm:px-0" dir="rtl" lang="ar">
+      <div className="mx-auto max-w-lg p-8 text-sm/6 text-gray-900 dark:text-gray-200">
+        <p className="text-end">
+          بدأتُ أسير نحو الماء. لن أكذب عليكم يا رفاق، كنتُ مرعوبًا. لكنني واصلتُ المسير، وبينما كنتُ أشق طريقي عبر
+          الأمواج، غمرني هدوءٌ غريب. لا أعلم إن كان ذلك تدخّلًا إلهيًا أم صلة قرابة بين جميع الكائنات الحية، لكنني أقول
+          لك يا جيري، في تلك اللحظة، كنتُ عالم أحياء بحرية.
+        </p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code word:dir="rtl"] -->
+<!-- [!code classes:text-end] -->
+<div dir="rtl" lang="ar">
+  <p class="text-end">فبدأت بالسير نحو الماء...</p>
+</div>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign element="p" property="text-align" defaultClass="text-left" featuredClass="text-center" />

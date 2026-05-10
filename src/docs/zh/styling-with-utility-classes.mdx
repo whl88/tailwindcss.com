@@ -1,0 +1,1020 @@
+import { Example } from "@/components/example";
+import { CodeExampleWrapper, CodeExampleStack } from "@/components/code-example";
+import { Iframe } from "@/components/iframe.tsx";
+import { Figure } from "@/components/figure";
+import { TipGood, TipBad, TipCompat, TipInfo } from "@/components/tips";
+import { MultiCursorAnimation, MultiCursorPreview } from "@/components/multi-cursor/animation.tsx";
+import { MultiCursorCode } from "@/components/multi-cursor/example.tsx";
+import erinLindford from "../img/erin-lindford.jpg";
+
+export const title = "用工具类设计样式";
+export const description = "用一组受约束的原子化工具类构建复杂组件。";
+
+## 概览
+
+在 Tailwind 中，你通过在标记中直接组合大量单一用途的表现型类 _(utility classes)_ 来设计样式：
+
+<Figure>
+
+<Example>
+  {
+    <div className="mx-auto flex max-w-sm items-center gap-x-4 rounded-xl bg-white p-6 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+      <svg className="size-12 shrink-0" viewBox="0 0 40 40">
+        <defs>
+          <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="a">
+            <stop stopColor="#2397B3" offset="0%"></stop>
+            <stop stopColor="#13577E" offset="100%"></stop>
+          </linearGradient>
+          <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b">
+            <stop stopColor="#73DFF2" offset="0%"></stop>
+            <stop stopColor="#47B1EB" offset="100%"></stop>
+          </linearGradient>
+        </defs>
+        <g fill="none" fillRule="evenodd">
+          <path
+            d="M28.872 22.096c.084.622.128 1.258.128 1.904 0 7.732-6.268 14-14 14-2.176 0-4.236-.496-6.073-1.382l-6.022 2.007c-1.564.521-3.051-.966-2.53-2.53l2.007-6.022A13.944 13.944 0 0 1 1 24c0-7.331 5.635-13.346 12.81-13.95A9.967 9.967 0 0 0 13 14c0 5.523 4.477 10 10 10a9.955 9.955 0 0 0 5.872-1.904z"
+            fill="url(#a)"
+            transform="translate(1 1)"
+          ></path>
+          <path
+            d="M35.618 20.073l2.007 6.022c.521 1.564-.966 3.051-2.53 2.53l-6.022-2.007A13.944 13.944 0 0 1 23 28c-7.732 0-14-6.268-14-14S15.268 0 23 0s14 6.268 14 14c0 2.176-.496 4.236-1.382 6.073z"
+            fill="url(#b)"
+            transform="translate(1 1)"
+          ></path>
+          <path
+            d="M18 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM24 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM30 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+            fill="#FFF"
+          ></path>
+        </g>
+      </svg>
+      <div>
+        <div className="text-xl font-medium text-black dark:text-white">ChitChat</div>
+        <p className="text-gray-500 dark:text-gray-400">You have a new message!</p>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- prettier-ignore -->
+<div class="mx-auto flex max-w-sm items-center gap-x-4 rounded-xl bg-white p-6 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+  <img class="size-12 shrink-0" src="/img/logo.svg" alt="ChitChat Logo" />
+  <div>
+    <div class="text-xl font-medium text-black dark:text-white">ChitChat</div>
+    <p class="text-gray-500 dark:text-gray-400">You have a new message!</p>
+  </div>
+</div>
+```
+
+</Figure>
+
+例如，在上面的 UI 中我们用到了：
+
+- [display](/docs/display#flex) 和 [padding](/docs/padding) 工具类（`flex`、`shrink-0` 与 `p-6`）控制整体布局
+- [max-width](/docs/max-width) 和 [margin](/docs/margin) 工具类（`max-w-sm` 与 `mx-auto`）限制卡片宽度并水平居中
+- [background-color](/docs/background-color)、[border-radius](/docs/border-radius) 与 [box-shadow](/docs/box-shadow) 工具类（`bg-white`、`rounded-xl` 与 `shadow-lg`）控制卡片外观
+- [width](/docs/width) 和 [height](/docs/height) 工具类（`size-12`）设置 logo 图片的宽高
+- [gap](/docs/gap) 工具类（`gap-x-4`）处理 logo 与文本之间的间距
+- [font-size](/docs/font-size)、[color](/docs/text-color) 与 [font-weight](/docs/font-weight) 工具类（`text-xl`、`text-black`、`font-medium` 等）设置卡片文本样式
+
+这种写法与许多传统最佳实践相违背，但你一旦尝试就会发现一些非常重要的好处：
+
+- **完成得更快** —— 你不需要再花时间想类名、思考选择器，也不必在 HTML 与 CSS 文件之间反复切换，设计很快就能搭起来。
+- **改起来更安心** —— 给元素增删一个工具类只会影响该元素，不必担心会意外破坏另一处使用同一段 CSS 的页面。
+- **维护老项目更容易** —— 想改样式只需在项目中找到对应元素并修改类名，而不必费力回忆半年没碰过的自定义 CSS 怎么运作。
+- **代码可移植性更好** —— 由于结构和样式都写在同一个地方，你可以很轻松地复制粘贴整段 UI，甚至跨项目复用。
+- **CSS 不再无止境地增长** —— 工具类天然可复用，CSS 不会再随着项目新增功能而线性膨胀。
+
+这些好处在小项目里就已经很明显，对于长期迭代的大型团队项目则更加宝贵。
+
+### 为什么不直接用内联样式？
+
+许多人面对这种写法的第一反应是："这不就是内联样式吗？"某种意义上确实如此——你是在直接给元素应用样式，而不是赋一个类名再去定义那个类。
+
+但相比内联样式，工具类有许多重要优势，例如：
+
+- **在约束中设计** —— 内联样式里每一个值都是魔法数字。工具类则让你从一个[预定义的设计系统](/docs/theme)中挑选样式，从而更容易构建视觉一致的 UI。
+- **hover、focus 等状态** —— 内联样式无法针对 hover 或 focus 等状态，而 Tailwind 的[状态变体](/docs/hover-focus-and-other-states)让你用工具类就能轻松设置这些状态的样式。
+- **媒体查询** —— 内联样式无法使用媒体查询，但你可以用 Tailwind 的[响应式变体](/docs/responsive-design)轻松构建完全响应式的界面。
+
+下面这个组件完全用工具类构建，包含 hover 与 active 样式且完全响应式：
+
+<Figure>
+
+<Example resizable>
+  {
+    <div className="mx-auto max-w-sm space-y-2 rounded-xl bg-white px-8 py-8 shadow-lg ring ring-black/5 @sm:flex @sm:items-center @sm:space-y-0 @sm:gap-x-6 @sm:py-4">
+      <img
+        className="mx-auto block h-24 rounded-full @sm:mx-0 @sm:shrink-0"
+        src={erinLindford.src}
+        alt="Woman's Face"
+      />
+      <div className="space-y-2 text-center @sm:text-left">
+        <div className="space-y-0.5">
+          <p className="text-lg font-semibold text-black">Erin Lindford</p>
+          <p className="font-medium text-gray-500">Product Engineer</p>
+        </div>
+        <button className="rounded-full border border-purple-200 px-4 py-1 text-sm font-semibold text-purple-600 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700">
+          Message
+        </button>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:sm:flex-row,sm:py-4,sm:gap-6,sm:mx-0,sm:shrink-0,sm:text-left,sm:items-center] -->
+<!-- [!code classes:hover:text-white,hover:bg-purple-600,hover:border-transparent,active:bg-purple-700] -->
+<div class="flex flex-col gap-2 p-8 sm:flex-row sm:items-center sm:gap-6 sm:py-4 ...">
+  <img class="mx-auto block h-24 rounded-full sm:mx-0 sm:shrink-0" src="/img/erin-lindford.jpg" alt="" />
+  <div class="space-y-2 text-center sm:text-left">
+    <div class="space-y-0.5">
+      <p class="text-lg font-semibold text-black">Erin Lindford</p>
+      <p class="font-medium text-gray-500">Product Engineer</p>
+    </div>
+    <!-- prettier-ignore -->
+    <button class="border-purple-200 text-purple-600 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700 ...">
+      Message
+    </button>
+  </div>
+</div>
+```
+
+</Figure>
+
+## 用工具类思考
+
+### 设置 hover 与 focus 状态样式
+
+要为 hover、focus 等状态设置样式，只需在工具类前加上对应状态前缀，例如 `hover:bg-sky-700`：
+
+<Figure hint="把鼠标悬停在按钮上观察背景色变化">
+
+<Example>
+  {
+    <div className="grid place-items-center">
+      <button className="rounded-full bg-sky-500 px-5 py-2 text-sm leading-5 font-semibold text-white hover:bg-sky-700">
+        Save changes
+      </button>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code word:hover\:bg-sky-700] -->
+<button class="bg-sky-500 hover:bg-sky-700 ...">Save changes</button>
+```
+
+</Figure>
+
+这些前缀在 Tailwind 中称为[变体](/docs/hover-focus-and-other-states)，仅当变体条件匹配时才会应用工具类的样式。
+
+`hover:bg-sky-700` 类生成的 CSS 大致如下：
+
+```css
+/* [!code filename: 生成的 CSS] */
+.hover\:bg-sky-700 {
+  &:hover {
+    background-color: var(--color-sky-700);
+  }
+}
+```
+
+注意这个类除非元素被悬停，否则什么都不做。它的_唯一_职责就是提供 hover 样式，再无其他。
+
+这与传统 CSS 写法不同，在传统写法中通常一个类就要负责多个状态的样式：
+
+```html
+/* [!code filename:HTML] */
+<button class="btn">Save changes</button>
+
+<style>
+  .btn {
+    background-color: var(--color-sky-500);
+    &:hover {
+      background-color: var(--color-sky-700);
+    }
+  }
+</style>
+```
+
+你甚至可以在 Tailwind 中堆叠变体，让样式仅在多个条件同时满足时才生效，比如组合 `hover:` 与 `disabled:`：
+
+```html
+<!-- [!code classes:disabled:hover:bg-sky-500] -->
+<button class="bg-sky-500 disabled:hover:bg-sky-500 ...">Save changes</button>
+```
+
+更多内容参见 [hover、focus 等状态](/docs/hover-focus-and-other-states)文档。
+
+### 媒体查询与断点
+
+像 hover、focus 一样，你也可以为不同断点设置样式——只需给工具类加上想要生效的断点前缀：
+
+<Figure hint="拖动调整示例尺寸以观察布局变化">
+
+<Example className="@container" resizable>
+  {
+    <div className="grid grid-cols-2 gap-4 text-center font-mono font-medium text-white @sm:grid-cols-3">
+      <div className="rounded-lg bg-sky-500 p-4">01</div>
+      <div className="rounded-lg bg-sky-500 p-4">02</div>
+      <div className="rounded-lg bg-sky-500 p-4">03</div>
+      <div className="rounded-lg bg-sky-500 p-4">04</div>
+      <div className="rounded-lg bg-sky-500 p-4">05</div>
+      <div className="rounded-lg bg-sky-500 p-4">06</div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:sm:grid-cols-3] -->
+<div class="grid grid-cols-2 sm:grid-cols-3">
+  <!-- ... -->
+</div>
+```
+
+</Figure>
+
+上例中 `sm:` 前缀确保 `grid-cols-3` 只在 `sm` 断点及以上才会生效，默认即 40rem：
+
+```css
+/* [!code filename: 生成的 CSS] */
+.sm\:grid-cols-3 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+```
+
+更多内容参见[响应式设计](/docs/responsive-design)文档。
+
+### 适配深色模式
+
+为深色模式下的元素设置样式只需给想要生效的工具类加上 `dark:` 前缀：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="grid grid-cols-1 sm:grid-cols-2">
+      <div className="p-8 pt-7">
+        <p className="mb-2 text-sm font-medium text-gray-500">Light mode</p>
+        <div className="rounded-lg bg-white px-6 py-8 shadow-xl ring ring-gray-900/5">
+          <div>
+            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+              <svg
+                className="h-6 w-6 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </span>
+          </div>
+          <p className="mt-5 text-base font-medium tracking-tight text-gray-900">Writes upside-down</p>
+          <p
+            className="mt-2 text-sm text-gray-500"
+            children={`The Zero Gravity Pen can be used to write in any orientation,
+          including upside-down. It even works in outer space.`}
+          />
+        </div>
+      </div>
+      <div className="bg-gray-900 p-8 pt-7">
+        <p className="mb-2 text-sm font-medium text-gray-400">Dark mode</p>
+        <div className="rounded-lg bg-gray-800 px-6 py-8 shadow-xl ring ring-gray-900/5">
+          <div>
+            <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+              <svg
+                className="h-6 w-6 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </span>
+          </div>
+          <p className="mt-5 text-base font-medium tracking-tight text-white">Writes upside-down</p>
+          <p
+            className="mt-2 text-sm text-gray-400"
+            children={`The Zero Gravity Pen can be used to write in any orientation,
+          including upside-down. It even works in outer space.`}
+          />
+        </div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code word:dark\:bg-gray-800] -->
+<!-- prettier-ignore -->
+<div class="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+  <div>
+    <span class="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
+      <svg
+        class="h-6 w-6 text-white"
+
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <!-- ... -->
+      </svg>
+    </span>
+  </div>
+  <!-- prettier-ignore -->
+  <!-- [!code word:dark\:text-white] -->
+  <h3 class="text-gray-900 dark:text-white mt-5 text-base font-medium tracking-tight ">Writes upside-down</h3>
+  <!-- prettier-ignore -->
+  <!-- [!code word:dark\:text-gray-400] -->
+  <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm ">
+    The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
+  </p>
+</div>
+```
+
+</Figure>
+
+与 hover 状态、媒体查询一样，要理解的关键是：单个工具类永远不会_同时_包含浅色与深色样式——你需要用多个类组合，一个类用于浅色样式、另一个用于深色样式。
+
+```css
+/* [!code filename: 生成的 CSS] */
+.dark\:bg-gray-800 {
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-gray-800);
+  }
+}
+```
+
+更多内容参见[深色模式](/docs/dark-mode)文档。
+
+### 使用类组合
+
+在 Tailwind 中，你常常会使用多个类共同构建一个 CSS 属性的值，例如给一个元素叠加多个滤镜：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:blur-sm,grayscale] -->
+<div class="blur-sm grayscale">
+  <!-- ... -->
+</div>
+```
+
+这两种效果都依赖 CSS 的 `filter` 属性，因此 Tailwind 借助 CSS 变量让它们可以组合：
+
+```css
+/* [!code filename:生成的 CSS] */
+.blur-sm {
+  --tw-blur: blur(var(--blur-sm));
+  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-grayscale,);
+}
+.grayscale {
+  --tw-grayscale: grayscale(100%);
+  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-grayscale,);
+}
+```
+
+上面生成的 CSS 略作了简化，关键在于：每个工具类只设置自己负责的那段效果对应的 CSS 变量，而 `filter` 属性会读取所有这些变量，未设置的变量则回退为空。
+
+Tailwind 在[渐变](/docs/background-image#adding-a-linear-gradient)、[阴影颜色](/docs/box-shadow#setting-the-shadow-color)、[变换](/docs/translate)等场景也用了同样的方式。
+
+### 使用任意值
+
+Tailwind 中的许多工具类由[主题变量](/docs/theme)驱动，例如 `bg-blue-500`、`text-xl`、`shadow-md`，它们映射到你底层的调色板、字号刻度和阴影。
+
+当你需要使用主题之外的一次性数值时，可以用方括号语法指定任意值：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:bg-[#316ff6]] -->
+<!-- prettier-ignore -->
+<button class="bg-[#316ff6] ...">
+  Sign in with Facebook
+</button>
+```
+
+这适用于色板之外的一次性颜色（_比如上面的 Facebook 蓝_），也适用于复杂的一次性值，例如非常具体的网格：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:grid-cols-[24rem_2.5rem_minmax(0,1fr)]] -->
+<div class="grid grid-cols-[24rem_2.5rem_minmax(0,1fr)]">
+  <!-- ... -->
+</div>
+```
+
+也适用于即便使用主题值仍需要 `calc()` 等 CSS 特性的场景：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:max-h-[calc(100dvh-(--spacing(6)))]] -->
+<div class="max-h-[calc(100dvh-(--spacing(6)))]">
+  <!-- ... -->
+</div>
+```
+
+甚至还有用于生成完全任意 CSS（含任意属性名）的语法，对设置 CSS 变量很有用：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:[--gutter-width:1rem],lg:[--gutter-width:2rem]] -->
+<div class="[--gutter-width:1rem] lg:[--gutter-width:2rem]">
+  <!-- ... -->
+</div>
+```
+
+更多内容参见[使用任意值](/docs/adding-custom-styles#using-arbitrary-values)文档。
+
+#### 它到底是怎么工作的？
+
+Tailwind CSS 不是像其他 CSS 框架那样的一份庞大的静态样式表——它会在编译 CSS 时根据你实际用到的类按需生成 CSS。
+
+它通过扫描项目中所有文件，寻找一切看起来像类名的符号来实现：
+
+```jsx
+// [!code filename:Button.jsx]
+// [!code word:px-4]
+// [!code word:py-2]
+// [!code word:rounded-md]
+// [!code word:text-base]
+// [!code word:px-5]
+// [!code word:py-3]
+// [!code word:rounded-lg]
+// [!code word:text-lg]
+// [!code word:font-bold]
+export default function Button({ size, children }) {
+  let sizeClasses = {
+    md: "px-4 py-2 rounded-md text-base",
+    lg: "px-5 py-3 rounded-lg text-lg",
+  }[size];
+
+  return (
+    <button type="button" className={`font-bold ${sizeClasses}`}>
+      {children}
+    </button>
+  );
+}
+```
+
+找到所有可能的类名后，Tailwind 会为每个类生成对应的 CSS，最终编译成只包含你真正需要的样式的样式表。
+
+由于 CSS 是按类名生成的，Tailwind 能识别像 `bg-[#316ff6]` 这样的任意值类并生成对应的 CSS，即使该值并不在你的主题中。
+
+更多原理参见[在源文件中检测类名](/docs/detecting-classes-in-source-files)。
+
+### 复杂选择器
+
+有时你需要在多个条件组合下设置元素样式，例如：在深色模式、特定断点、悬停时、且元素带有某个 data 属性时。
+
+下面是 Tailwind 中的写法：
+
+<CodeExampleStack>
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:dark:lg:data-current:hover:bg-indigo-600] -->
+<button class="dark:lg:data-current:hover:bg-indigo-600 ...">
+  <!-- ... -->
+</button>
+```
+
+```css
+/* [!code filename:简化后的 CSS] */
+@media (prefers-color-scheme: dark) and (width >= 64rem) {
+  button[data-current]:hover {
+    background-color: var(--color-indigo-600);
+  }
+}
+```
+
+</CodeExampleStack>
+
+Tailwind 还支持 `group-hover` 这类用法，让你在某个特定父元素被悬停时为子元素设置样式：
+
+<CodeExampleStack>
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:group,group-hover:underline] -->
+<a href="#" class="group rounded-lg p-8">
+  <!-- ... -->
+  <span class="group-hover:underline">Read more…</span>
+</a>
+```
+
+```css
+/* [!code filename:简化后的 CSS] */
+@media (hover: hover) {
+  a:hover span {
+    text-decoration-line: underline;
+  }
+}
+```
+
+</CodeExampleStack>
+
+`group-*` 语法也支持其他变体，例如 `group-focus`、`group-active` 等[更多变体](/docs/hover-focus-and-other-states#styling-based-on-parent-state)。
+
+对于真正复杂的场景（_尤其是为你不能控制的 HTML 设置样式时_），Tailwind 支持[任意变体](/docs/adding-custom-styles#arbitrary-variants)，让你直接在类名里写任意选择器：
+
+<CodeExampleStack>
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:[&>[data-active]+span]:text-blue-600] -->
+<div class="[&>[data-active]+span]:text-blue-600 ...">
+  <span data-active><!-- ... --></span>
+  <!-- [!code highlight:2] -->
+  <span>This text will be blue</span>
+</div>
+```
+
+```css
+/* [!code filename:简化后的 CSS] */
+div > [data-active] + span {
+  color: var(--color-blue-600);
+}
+```
+
+</CodeExampleStack>
+
+### 何时使用内联样式
+
+在 Tailwind CSS 项目中，内联样式仍然非常有用——尤其当数值来源于数据库或 API 这类动态来源时：
+
+```jsx
+// [!code filename:branded-button.jsx]
+export function BrandedButton({ buttonColor, textColor, children }) {
+  return (
+    <button
+      style={{
+        // [!code highlight:3]
+        backgroundColor: buttonColor,
+        color: textColor,
+      }}
+      className="rounded-md px-3 py-1.5 font-medium"
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+对于格式化为类名后难以阅读的、非常复杂的任意值，你也可能会选择内联样式：
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- prettier-ignore -->
+<div class="grid-[2fr_max(0,var(--gutter-width))_calc(var(--gutter-width)+10px)]"> <!-- [!code --] -->
+<!-- prettier-ignore -->
+<div style="grid-template-columns: 2fr max(0, var(--gutter-width)) calc(var(--gutter-width) + 10px)"> <!-- [!code ++] -->
+  <!-- ... -->
+</div>
+```
+
+另一种实用模式是用内联样式根据动态数据设置 CSS 变量，再在工具类中引用这些变量：
+
+```jsx
+// [!code filename:branded-button.jsx]
+export function BrandedButton({ buttonColor, buttonColorHover, textColor, children }) {
+  return (
+    <button
+      style={{
+        // [!code highlight:4]
+        "--bg-color": buttonColor,
+        "--bg-color-hover": buttonColorHover,
+        "--text-color": textColor,
+      }}
+      // [!code classes:bg-(--bg-color),text-(--text-color),hover:bg-(--bg-color-hover)]
+      className="bg-(--bg-color) text-(--text-color) hover:bg-(--bg-color-hover) ..."
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+## 管理重复
+
+当你完全使用工具类构建项目时，难免会在不同位置重复某些模式以重现同一种设计。
+
+例如，下面每个头像图片的工具类被重复写了五次：
+
+<Figure>
+
+<Example padding={false}>
+  <div className="bg-white">
+    <div className="mx-auto w-72 px-8 py-6 sm:w-96 sm:px-12 sm:py-8">
+      <div className="flex items-center space-x-2 text-base">
+        <h4 className="text-base font-semibold text-slate-900">Contributors</h4>
+        <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700">204</span>
+      </div>
+      <div className="mt-3 flex -space-x-2 overflow-hidden">
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+      </div>
+      <div className="mt-3 text-sm font-medium">
+        <a href="#" className="text-blue-500">
+          + 198 others
+        </a>
+      </div>
+    </div>
+  </div>
+</Example>
+
+```html
+<!-- [!code classes:inline-block,h-12,w-12,rounded-full,ring-2,ring-white] -->
+<div>
+  <div class="flex items-center space-x-2 text-base">
+    <h4 class="font-semibold text-slate-900">Contributors</h4>
+    <span class="bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700 ...">204</span>
+  </div>
+  <div class="mt-3 flex -space-x-2 overflow-hidden">
+    <!-- prettier-ignore -->
+    <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+    <!-- prettier-ignore -->
+    <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+    <!-- prettier-ignore -->
+    <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
+    <!-- prettier-ignore -->
+    <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+    <!-- prettier-ignore -->
+    <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+  </div>
+  <div class="mt-3 text-sm font-medium">
+    <a href="#" class="text-blue-500">+ 198 others</a>
+  </div>
+</div>
+```
+
+</Figure>
+
+不必担心！实际开发中这并没有看上去那么棘手，应对它的策略其实是你每天都在用的方法。
+
+### 使用循环
+
+很多时候在渲染页面里多次出现的设计元素，其实只写过一次——因为真正的标记是在循环中渲染出来的。
+
+例如，前面那段重复的头像在真实项目中几乎都会用循环来渲染：
+
+<Figure>
+
+<Example padding={false}>
+  <div className="bg-white">
+    <div className="mx-auto w-72 px-8 py-6 sm:w-96 sm:px-12 sm:py-8">
+      <div className="flex items-center space-x-2 text-base">
+        <h4 className="text-base font-semibold text-slate-900">Contributors</h4>
+        <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700">204</span>
+      </div>
+      <div className="mt-3 flex -space-x-2 overflow-hidden">
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <img
+          className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+          src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+      </div>
+      <div className="mt-3 text-sm font-medium">
+        <a href="#" className="text-blue-500">
+          + 198 others
+        </a>
+      </div>
+    </div>
+  </div>
+</Example>
+
+```svelte
+<div>
+  <div class="flex items-center space-x-2 text-base">
+    <h4 class="font-semibold text-slate-900">Contributors</h4>
+    <span class="bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-700 ...">204</span>
+  </div>
+  <div class="mt-3 flex -space-x-2 overflow-hidden">
+    <!-- prettier-ignore -->
+    <!-- [!code highlight:4] -->
+    {#each contributors as user}
+      <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" src={user.avatarUrl} alt={user.handle} />
+    {/each}
+  </div>
+  <div class="mt-3 text-sm font-medium">
+    <a href="#" class="text-blue-500">+ 198 others</a>
+  </div>
+</div>
+```
+
+</Figure>
+
+像这样在循环中渲染时，实际的类名只会被书写一次，所以并不存在真正意义上的重复问题。
+
+### 使用多光标编辑
+
+当重复仅限于单个文件中的一组元素时，最简便的做法是使用[多光标编辑](https://code.visualstudio.com/docs/editor/codebasics#_multiple-selections-multicursor)同时选中并修改每个元素的类列表：
+
+<MultiCursorAnimation>
+  <Figure>
+    <Example>
+      <MultiCursorPreview />
+    </Example>
+    <CodeExampleWrapper>
+      <MultiCursorCode />
+    </CodeExampleWrapper>
+  </Figure>
+</MultiCursorAnimation>
+
+你会惊讶地发现这往往就是最佳方案。如果能一次性快速编辑所有重复的类列表，引入额外的抽象就毫无意义。
+
+### 使用组件
+
+如果你需要在多个文件中复用某些样式，最好的策略是：在使用 React、Svelte、Vue 等前端框架时创建一个_组件_；在使用 Blade、ERB、Twig、Nunjucks 等模板语言时创建一个_模板片段_。
+
+<Figure>
+
+<Example padding={false}>
+<div className="bg-white">
+  <div className="mx-auto w-72 bg-white px-8 py-6  sm:w-96 sm:px-12 sm:py-8">
+    <div>
+      <img
+        className="rounded-lg"
+        src="https://images.unsplash.com/photo-1452784444945-3f422708fe5e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=512&q=80"
+        width="512"
+        height="341"
+        alt="Beach"
+      />
+      <div className="mt-4">
+          <div className="text-xs font-bold text-sky-500">Private Villa</div>
+          <div className="mt-1 font-bold text-gray-700">
+            <a href="#" className="hover:underline">Relaxing All-Inclusive Resort in Cancun</a>
+          </div>
+          <div className="mt-2 text-sm text-gray-600">$299 USD per night</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</Example>
+
+```jsx {{ filename: 'VacationCard.jsx' }}
+export function VacationCard({ img, imgAlt, eyebrow, title, pricing, url }) {
+  return (
+    <div>
+      <img className="rounded-lg" src={img} alt={imgAlt} />
+      <div className="mt-4">
+        <div className="text-xs font-bold text-sky-500">{eyebrow}</div>
+        <div className="mt-1 font-bold text-gray-700">
+          <a href={url} className="hover:underline">
+            {title}
+          </a>
+        </div>
+        <div className="mt-2 text-sm text-gray-600">{pricing}</div>
+      </div>
+    </div>
+  );
+}
+```
+
+</Figure>
+
+之后你就能在任意位置复用这个组件，同时样式有单一来源，可以集中维护。
+
+### 使用自定义 CSS
+
+如果你用的是 ERB 或 Twig 这类模板语言，而不是 React 或 Vue，那么为按钮这种小组件创建模板片段可能就会显得过重——还不如直接用一个 `btn` 之类的简单 CSS 类。
+
+虽然强烈推荐对更复杂的组件创建合适的模板片段，但若模板片段显得过于隆重，写一点自定义 CSS 完全没问题。
+
+下面是一个 `btn-primary` 类的示例，它通过[主题变量](/docs/theme#with-custom-css)保持设计一致：
+
+<Figure>
+
+<Example>
+
+<div className="text-center">
+  <button
+    type="button"
+    className="rounded-full bg-violet-500 px-5 py-2 font-semibold text-white shadow-md hover:bg-violet-700"
+  >
+    Save changes
+  </button>
+</div>
+
+</Example>
+
+<CodeExampleStack>
+
+```html
+<!-- [!code filename:HTML] -->
+<button class="btn-primary">Save changes</button>
+```
+
+```css
+/* [!code filename:CSS] */
+@import "tailwindcss";
+
+@layer components {
+  .btn-primary {
+    border-radius: calc(infinity * 1px);
+    background-color: var(--color-violet-500);
+    padding-inline: --spacing(5);
+    padding-block: --spacing(2);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-violet-700);
+      }
+    }
+  }
+}
+```
+
+</CodeExampleStack>
+
+</Figure>
+
+不过再次提醒，凡是比单个 HTML 元素更复杂的内容，都强烈建议使用模板片段，让样式与结构封装在同一处。
+
+## 管理样式冲突
+
+### 互相冲突的工具类
+
+当你为同一个 CSS 属性添加两个类时，会以样式表中靠后的那个为准。所以在下面的例子中，元素最终会得到 `display: grid`，即便 `class` 属性里 `flex` 写在后面：
+
+<CodeExampleStack>
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- prettier-ignore -->
+<div class="grid flex">
+  <!-- ... -->
+</div>
+```
+
+```css
+/* [!code filename: CSS] */
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+```
+
+</CodeExampleStack>
+
+总体而言，你不应该给同一个元素添加两个互相冲突的类——只添加你真正想生效的那个：
+
+```jsx
+// [!code filename:example.jsx]
+// [!code word:gridLayout\ \?\ \"grid\"\ \:\ \"flex\"]
+export function Example({ gridLayout }) {
+  return <div className={gridLayout ? "grid" : "flex"}>{/* ... */}</div>;
+}
+```
+
+在 React、Vue 等基于组件的库中，这通常意味着对外暴露专门用于样式定制的 props，而不是允许使用方从外部塞入额外的类，因为那些类很容易冲突。
+
+### 使用 important 修饰符
+
+当你确实需要强制让某个工具类生效，又没有其他办法管理优先级时，可以在类名末尾加上 `!`，让其所有声明都变为 `!important`：
+
+<CodeExampleStack>
+
+```html
+<!-- [!code filename:HTML] -->
+<!-- [!code classes:bg-red-500!] -->
+<!-- prettier-ignore -->
+<div class="bg-teal-500 bg-red-500!">
+  <!-- ... -->
+</div>
+```
+
+```css
+/* [!code filename: 生成的 CSS] */
+/* [!code word:!important] */
+.bg-red-500\! {
+  background-color: var(--color-red-500) !important;
+}
+.bg-teal-500 {
+  background-color: var(--color-teal-500);
+}
+```
+
+</CodeExampleStack>
+
+### 使用 important 标志
+
+如果你正在向一个已有大量高优先级 CSS 的项目中引入 Tailwind，可以在导入 Tailwind 时使用 `important` 标志，把_所有_工具类都标记为 `!important`：
+
+<CodeExampleStack>
+
+```css
+/* [!code filename:app.css] */
+/* [!code word:important] */
+@import "tailwindcss" important;
+```
+
+```css
+/* [!code filename:编译后的 CSS] */
+/* [!code word:!important] */
+@layer utilities {
+  .flex {
+    display: flex !important;
+  }
+  .gap-4 {
+    gap: 1rem !important;
+  }
+  .underline {
+    text-decoration-line: underline !important;
+  }
+}
+```
+
+</CodeExampleStack>
+
+### 使用 prefix 选项
+
+如果你的项目有类名与 Tailwind CSS 工具类冲突，可以使用 `prefix` 选项给所有 Tailwind 生成的类和 CSS 变量加上前缀：
+
+<CodeExampleStack>
+
+```css
+/* [!code filename:app.css] */
+/* [!code word:important] */
+@import "tailwindcss" prefix(tw);
+```
+
+```css
+/* [!code filename:编译后的 CSS] */
+/* [!code word:tw\:] */
+@layer theme {
+  :root {
+    --tw-color-red-500: oklch(0.637 0.237 25.331);
+  }
+}
+
+@layer utilities {
+  .tw\:text-red-500 {
+    color: var(--tw-color-red-500);
+  }
+}
+```
+
+</CodeExampleStack>

@@ -1,0 +1,80 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "list-style-image";
+export const description = "用于控制列表项标记图像的工具类。";
+
+<ApiTable
+  rows={[
+    ["list-image-[<value>]", "list-style-image: <value>;"],
+    ["list-image-(<custom-property>)", "list-style-image: var(<custom-property>);"],
+    ["list-image-none", "list-style-image: none;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `list-image-[<value>]` 语法，设置列表项的标记图像：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <div className="px-4 sm:px-0">
+      <div className="mx-auto max-w-sm p-8 text-gray-700 sm:text-base sm:leading-7 dark:text-gray-400">
+        <ul className="list-image-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxNCAxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSIjMzhiZGY4Ij48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMy42ODUuMTUzYS43NTIuNzUyIDAgMCAxIC4xNDMgMS4wNTJsLTggMTAuNWEuNzUuNzUgMCAwIDEtMS4xMjcuMDc1bC00LjUtNC41YS43NS43NSAwIDAgMSAxLjA2LTEuMDZsMy44OTQgMy44OTMgNy40OC05LjgxN2EuNzUuNzUgMCAwIDEgMS4wNS0uMTQzWiIgLz48L3N2Zz4=')] pl-4 text-gray-900 dark:text-gray-200">
+          <li className="pl-2">5 cups chopped Porcini mushrooms</li>
+          <li className="pl-2">1/2 cup of olive oil</li>
+          <li className="pl-2">3lb of celery</li>
+        </ul>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:list-image-[url(/img/checkmark.png)]] -->
+<ul class="list-image-[url(/img/checkmark.png)]">
+  <li>5 cups chopped Porcini mushrooms</li>
+  <!-- ... -->
+</ul>
+```
+
+</Figure>
+
+### 使用 CSS 变量
+
+使用 <code>list-image-{'(<custom-property>)'}</code> 语法，从 CSS 变量读取列表项标记图像：
+
+```html
+<!-- [!code classes:list-image-(--my-list-image)] -->
+<ul class="list-image-(--my-list-image)">
+  <!-- ... -->
+</ul>
+```
+
+它其实是 <code>list-image-{'[var(<custom-property>)]'}</code> 的简写，会自动加上 `var()` 函数。
+
+### 移除标记图像
+
+使用 `list-image-none` 工具类，移除列表项已有的标记图像：
+
+```html
+<!-- [!code classes:list-image-none] -->
+<ul class="list-image-none">
+  <!-- ... -->
+</ul>
+```
+
+### 响应式设计
+
+<ResponsiveDesign
+  property="list-style-image"
+  defaultClass="list-image-none"
+  featuredClass="list-image-[url(/img/checkmark.png)]"
+  element="ul"
+/>

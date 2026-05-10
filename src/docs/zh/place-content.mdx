@@ -1,0 +1,257 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "place-content";
+export const description = "用于一次性控制内容横纵两轴对齐方式的工具类。";
+
+<ApiTable
+  rows={[
+    ["place-content-center", "place-content: center;"],
+    ["place-content-center-safe", "place-content: safe center;"],
+    ["place-content-start", "place-content: start;"],
+    ["place-content-end", "place-content: end;"],
+    ["place-content-end-safe", "place-content: safe end;"],
+    ["place-content-between", "place-content: space-between;"],
+    ["place-content-around", "place-content: space-around;"],
+    ["place-content-evenly", "place-content: space-evenly;"],
+    ["place-content-baseline", "place-content: baseline;"],
+    ["place-content-stretch", "place-content: stretch;"],
+  ]}
+/>
+
+## 示例
+
+### Center 居中
+
+使用 `place-content-center`，把内容沿 inline 与 block 两个轴向都收拢到中心：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-[repeat(2,56px)] place-content-center gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500 p-4">01</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500 p-4">02</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500 p-4">03</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-sky-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-center] -->
+<div class="grid h-48 grid-cols-2 place-content-center gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### Start 起始端
+
+使用 `place-content-start`，把内容沿 inline 与 block 两个轴向都对齐到起始端：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-[repeat(2,56px)] place-content-start gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500 p-4">01</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500 p-4">02</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500 p-4">03</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-fuchsia-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-start] -->
+<div class="grid h-48 grid-cols-2 place-content-start gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### End 末端
+
+使用 `place-content-end`，把内容沿 inline 与 block 两个轴向都对齐到末端：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-[repeat(2,56px)] place-content-end gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-indigo-500 p-4">01</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-indigo-500 p-4">02</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-indigo-500 p-4">03</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-indigo-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-end] -->
+<div class="grid h-48 grid-cols-2 place-content-end gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### Space between 等距分布
+
+使用 `place-content-between`，让 grid 子项沿 inline 与 block 两个轴向分布，每行每列之间留出相等的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-[repeat(2,56px)] [place-content:space-between] gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-purple-500 p-4">01</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-purple-500 p-4">02</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-purple-500 p-4">03</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-purple-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-between] -->
+<div class="grid h-48 grid-cols-2 place-content-between gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### Space around 周围等距
+
+使用 `place-content-around`，让 grid 子项沿 inline 与 block 两个轴向分布，每行每列周围都留出相等的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-[repeat(2,56px)] [place-content:space-around] gap-x-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500 p-4">01</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500 p-4">02</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500 p-4">03</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-cyan-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-around] -->
+<div class="grid h-48 grid-cols-2 place-content-around gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### Space evenly 均匀分布
+
+使用 `place-content-evenly`，让 grid 子项在 inline 与 block 两个轴向上都均匀分布：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-[repeat(2,56px)] [place-content:space-evenly] rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-violet-500 p-4">01</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-violet-500 p-4">02</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-violet-500 p-4">03</div>
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-violet-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-evenly] -->
+<div class="grid h-48 grid-cols-2 place-content-evenly gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### Stretch 拉伸
+
+使用 `place-content-stretch`，让 grid 子项在 inline 与 block 两个轴向上都沿网格区域拉伸：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 grid-cols-2 place-content-stretch gap-4 rounded-lg font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex items-center justify-center rounded-lg bg-pink-500 p-4">01</div>
+        <div className="flex items-center justify-center rounded-lg bg-pink-500 p-4">02</div>
+        <div className="flex items-center justify-center rounded-lg bg-pink-500 p-4">03</div>
+        <div className="flex items-center justify-center rounded-lg bg-pink-500 p-4">04</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:place-content-stretch] -->
+<div class="grid h-48 grid-cols-2 place-content-stretch gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+</div>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign
+  property="place-content"
+  defaultClass="grid place-content-start"
+  featuredClass="place-content-center"
+/>

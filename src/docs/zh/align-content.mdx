@@ -1,0 +1,300 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+import { Stripes } from "@/components/stripes.tsx";
+
+export const title = "align-content";
+export const description = "用于控制多行 flex / grid 容器中各行的纵向排布的工具类。";
+
+<ApiTable
+  rows={[
+    ["content-normal", "align-content: normal;"],
+    ["content-center", "align-content: center;"],
+    ["content-start", "align-content: flex-start;"],
+    ["content-end", "align-content: flex-end;"],
+    ["content-between", "align-content: space-between;"],
+    ["content-around", "align-content: space-around;"],
+    ["content-evenly", "align-content: space-evenly;"],
+    ["content-baseline", "align-content: baseline;"],
+    ["content-stretch", "align-content: stretch;"],
+  ]}
+/>
+
+## 示例
+
+### Start 起始端
+
+使用 `content-start`，让容器中的各行沿交叉轴对齐到起始端：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid grid-cols-3 content-start gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-purple-500 p-4">01</div>
+        <div className="rounded-lg bg-purple-500 p-4">02</div>
+        <div className="rounded-lg bg-purple-500 p-4">03</div>
+        <div className="rounded-lg bg-purple-500 p-4">04</div>
+        <div className="rounded-lg bg-purple-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-start] -->
+<div class="grid h-56 grid-cols-3 content-start gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### Center 居中
+
+使用 `content-center`，让容器中的各行沿交叉轴居中：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 content-center gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-sky-500 p-4">01</div>
+        <div className="rounded-lg bg-sky-500 p-4">02</div>
+        <div className="rounded-lg bg-sky-500 p-4">03</div>
+        <div className="rounded-lg bg-sky-500 p-4">04</div>
+        <div className="rounded-lg bg-sky-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-center] -->
+<div class="grid h-56 grid-cols-3 content-center gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### End 末端
+
+使用 `content-end`，让容器中的各行沿交叉轴对齐到末端：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 content-end gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-pink-500 p-4">01</div>
+        <div className="rounded-lg bg-pink-500 p-4">02</div>
+        <div className="rounded-lg bg-pink-500 p-4">03</div>
+        <div className="rounded-lg bg-pink-500 p-4">04</div>
+        <div className="rounded-lg bg-pink-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-end] -->
+<div class="grid h-56 grid-cols-3 content-end gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### Space between 等距分布
+
+使用 `content-between`，让容器中的各行均匀分布，相邻行之间留出相等的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 content-between gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-violet-500 p-4">01</div>
+        <div className="rounded-lg bg-violet-500 p-4">02</div>
+        <div className="rounded-lg bg-violet-500 p-4">03</div>
+        <div className="rounded-lg bg-violet-500 p-4">04</div>
+        <div className="rounded-lg bg-violet-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-between] -->
+<div class="grid h-56 grid-cols-3 content-between gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### Space around 周围等距
+
+使用 `content-around`，让容器中的各行均匀分布，每行周围都留出相等的间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 content-around gap-x-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-blue-500 p-4">01</div>
+        <div className="rounded-lg bg-blue-500 p-4">02</div>
+        <div className="rounded-lg bg-blue-500 p-4">03</div>
+        <div className="rounded-lg bg-blue-500 p-4">04</div>
+        <div className="rounded-lg bg-blue-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-around] -->
+<div class="grid h-56 grid-cols-3 content-around gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### Space evenly 均匀分布
+
+使用 `content-evenly`，让容器中的各行均匀分布，每行周围都留出相等的间距，且不会像 `content-around` 那样在相邻行之间出现两倍间距：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 content-evenly gap-x-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="rounded-lg bg-indigo-500 p-4">01</div>
+        <div className="rounded-lg bg-indigo-500 p-4">02</div>
+        <div className="rounded-lg bg-indigo-500 p-4">03</div>
+        <div className="rounded-lg bg-indigo-500 p-4">04</div>
+        <div className="rounded-lg bg-indigo-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-evenly] -->
+<div class="grid h-56 grid-cols-3 content-evenly gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### Stretch 拉伸
+
+使用 `content-stretch`，让内容沿容器交叉轴拉伸以填满可用空间：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 content-stretch gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">01</div>
+        <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">02</div>
+        <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">03</div>
+        <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">04</div>
+        <div className="flex items-center justify-center rounded-lg bg-fuchsia-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-stretch] -->
+<div class="grid h-56 grid-cols-3 content-stretch gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### Normal 常规
+
+使用 `content-normal`，让内容按默认位置排列，等同于没有设置 `align-content`：
+
+<Figure>
+
+<Example>
+  {
+    <div className="grid h-56 grid-cols-1">
+      <Stripes border className="col-start-1 row-start-1 rounded-lg" />
+      <div className="col-start-1 row-start-1 grid h-56 w-full grid-cols-3 gap-4 rounded-lg text-center font-mono text-sm leading-6 font-bold text-white">
+        <div className="flex items-center justify-center rounded-lg bg-indigo-500 p-4">01</div>
+        <div className="flex items-center justify-center rounded-lg bg-indigo-500 p-4">02</div>
+        <div className="flex items-center justify-center rounded-lg bg-indigo-500 p-4">03</div>
+        <div className="flex items-center justify-center rounded-lg bg-indigo-500 p-4">04</div>
+        <div className="flex items-center justify-center rounded-lg bg-indigo-500 p-4">05</div>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:content-normal] -->
+<div class="grid h-56 grid-cols-3 content-normal gap-4 ...">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+</div>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign property="align-content" defaultClass="grid content-start" featuredClass="content-around" />

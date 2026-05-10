@@ -1,0 +1,43 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { ResponsiveDesign, UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "grid-auto-columns";
+export const description = "用于控制隐式生成的网格列尺寸的工具类。";
+
+<ApiTable
+  rows={[
+    ["auto-cols-auto", "grid-auto-columns: auto;"],
+    ["auto-cols-min", "grid-auto-columns: min-content;"],
+    ["auto-cols-max", "grid-auto-columns: max-content;"],
+    ["auto-cols-fr", "grid-auto-columns: minmax(0, 1fr);"],
+    ["auto-cols-(<custom-property>)", "grid-auto-columns: var(<custom-property>);"],
+    ["auto-cols-[<value>]", "grid-auto-columns: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `auto-cols-min`、`auto-cols-max` 等工具类，控制隐式生成的网格列尺寸：
+
+```html
+<!-- [!code classes:auto-cols-max] -->
+<div class="grid auto-cols-max grid-flow-col">
+  <div>01</div>
+  <div>02</div>
+  <div>03</div>
+</div>
+```
+
+### 使用自定义值
+
+<UsingACustomValue utility="auto-cols" name="size of implicitly-created grid columns" value="minmax(0,2fr)" />
+
+### 响应式设计
+
+<ResponsiveDesign
+  property="grid-auto-columns"
+  defaultClass="grid grid-flow-col auto-cols-max"
+  featuredClass="auto-cols-min"
+/>

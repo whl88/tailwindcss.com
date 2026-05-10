@@ -1,0 +1,112 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "hyphens";
+export const description = "用于控制单词在断行时是否使用连字符的工具类。";
+
+<ApiTable
+  rows={[
+    ["hyphens-none", "hyphens: none;"],
+    ["hyphens-manual", "hyphens: manual;"],
+    ["hyphens-auto", "hyphens: auto;"],
+  ]}
+/>
+
+## 示例
+
+### 禁止使用连字符断词
+
+使用 `hyphens-none` 工具类，禁止单词被连字符断开换行，即便使用了 `&shy;` 软换行建议也不例外：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <p className="mx-auto max-w-xs border-x border-x-pink-400/30 py-8 break-normal hyphens-none text-gray-900 dark:text-gray-200">
+      Officially recognized by the Duden dictionary as the longest word in German,{" "}
+      <span className="font-bold" lang="de">
+        Kraftfahrzeug&shy;haftpflichtversicherung
+      </span>{" "}
+      is a 36 letter word for motor vehicle liability insurance.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:hyphens-none] -->
+<!-- [!code word:&shy;] -->
+<!-- prettier-ignore -->
+<p class="hyphens-none">
+  ... Kraftfahrzeug&shy;haftpflichtversicherung is a ...
+</p>
+```
+
+</Figure>
+
+### 手动连字符断词
+
+使用 `hyphens-manual` 工具类，只在使用 `&shy;` 软换行建议的位置进行连字符断词：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <p className="mx-auto max-w-xs border-x border-x-pink-400/30 py-8 break-normal hyphens-manual text-gray-900 dark:text-gray-200">
+      Officially recognized by the Duden dictionary as the longest word in German,{" "}
+      <span className="font-bold" lang="de">
+        Kraftfahrzeug&shy;haftpflichtversicherung
+      </span>{" "}
+      is a 36 letter word for motor vehicle liability insurance.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:hyphens-manual] -->
+<!-- [!code word:&shy;] -->
+<!-- prettier-ignore -->
+<p class="hyphens-manual">
+  ... Kraftfahrzeug&shy;haftpflichtversicherung is a ...
+</p>
+```
+
+</Figure>
+
+这是浏览器的默认行为。
+
+### 自动连字符断词
+
+使用 `hyphens-auto` 工具类，让浏览器根据语言自动选择连字符断词位置：
+
+<Figure>
+
+<Example padding={false}>
+  {
+    <p className="mx-auto max-w-xs border-x border-x-pink-400/30 py-8 break-normal hyphens-auto text-gray-900 dark:text-gray-200">
+      Officially recognized by the Duden dictionary as the longest word in German,{" "}
+      <span className="font-bold" lang="de">
+        Kraftfahrzeughaftpflichtversicherung
+      </span>{" "}
+      is a 36 letter word for motor vehicle liability insurance.
+    </p>
+  }
+</Example>
+
+```html
+<!-- [!code classes:hyphens-auto] -->
+<!-- [!code word:lang="de"] -->
+<!-- prettier-ignore -->
+<p class="hyphens-auto" lang="de">
+  ... Kraftfahrzeughaftpflichtversicherung is a ...
+</p>
+```
+
+</Figure>
+
+The line break suggestion `&shy;` will be preferred over automatic hyphenation points.
+
+### 响应式设计
+
+<ResponsiveDesign element="p" property="hyphens" defaultClass="hyphens-none" featuredClass="hyphens-auto" />

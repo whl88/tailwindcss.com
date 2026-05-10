@@ -1,0 +1,47 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { UsingACustomValue } from "@/components/content.tsx";
+
+export const title = "will-change";
+export const description = "为预期会发生变化的元素提前优化动效的工具类。";
+
+<ApiTable
+  rows={[
+    ["will-change-auto", "will-change: auto;"],
+    ["will-change-scroll", "will-change: scroll-position;"],
+    ["will-change-contents", "will-change: contents;"],
+    ["will-change-transform", "will-change: transform;"],
+    ["will-change-<custom-property>", "will-change: var(<custom-property>);"],
+    ["will-change-[<value>]", "will-change: <value>;"],
+  ]}
+/>
+
+## 示例
+
+### 用 will-change 提前优化
+
+使用 `will-change-scroll`、`will-change-contents` 和 `will-change-transform` 工具类，让浏览器提前为预期会发生变化的元素准备必要的动画资源，从而优化即将出现的变化：
+
+```html
+<!-- [!code classes:will-change-scroll] -->
+<div class="overflow-auto will-change-scroll">
+  <!-- ... -->
+</div>
+```
+
+建议在元素即将发生变化之前才加上这些工具类，并在变化结束后用 `will-change-auto` 立刻移除。
+
+`will-change` 属性应当作为应对**已知性能问题**的最后手段。不要过度使用，或仅仅出于「担心性能问题」就到处加，反而会让页面变慢。
+
+### 使用自定义值
+
+<UsingACustomValue
+  utility="will-change"
+  name={
+    <>
+      <code>will-change</code> property
+    </>
+  }
+  value="top,left"
+  variable="properties"
+/>

@@ -1,0 +1,67 @@
+import { ApiTable } from "@/components/api-table.tsx";
+import { Example } from "@/components/example.tsx";
+import { Figure } from "@/components/figure.tsx";
+import { ResponsiveDesign } from "@/components/content.tsx";
+
+export const title = "list-style-position";
+export const description = "用于控制列表项序号或符号位置的工具类。";
+
+<ApiTable
+  rows={[
+    ["list-inside", "list-style-position: inside;"],
+    ["list-outside", "list-style-position: outside;"],
+  ]}
+/>
+
+## 示例
+
+### 基本用法
+
+使用 `list-inside` 和 `list-outside` 工具类，控制列表项标记的位置和文本缩进：
+
+<Figure>
+
+<Example>
+  {
+    <div className="flex flex-col gap-8 sm:flex-row">
+      <div className="relative">
+        <div className="absolute -top-8 -bottom-8 left-8 w-px bg-pink-400/40 dark:bg-pink-400/30"></div>
+        <p className="mb-3 ml-8 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">list-inside</p>
+        <ul className="list-inside list-disc rounded-xl p-4 pl-8 text-gray-900 dark:text-gray-200">
+          <li>5 cups chopped Porcini mushrooms</li>
+          <li>1/2 cup of olive oil</li>
+          <li>3lb of celery</li>
+        </ul>
+      </div>
+      <div className="relative">
+        <div className="absolute -top-0 -bottom-8 left-8 w-px bg-pink-400/40 sm:-top-8 dark:bg-pink-400/30"></div>
+        <p className="mb-3 ml-8 font-mono text-xs font-medium text-gray-500 dark:text-gray-400">list-outside</p>
+        <ul className="list-outside list-disc rounded-xl p-4 pl-8 text-gray-900 dark:text-gray-200">
+          <li>5 cups chopped Porcini mushrooms</li>
+          <li>1/2 cup of olive oil</li>
+          <li>3lb of celery</li>
+        </ul>
+      </div>
+    </div>
+  }
+</Example>
+
+```html
+<!-- [!code classes:list-inside] -->
+<ul class="list-inside">
+  <li>5 cups chopped Porcini mushrooms</li>
+  <!-- ... -->
+</ul>
+
+<!-- [!code classes:list-outside] -->
+<ul class="list-outside">
+  <li>5 cups chopped Porcini mushrooms</li>
+  <!-- ... -->
+</ul>
+```
+
+</Figure>
+
+### 响应式设计
+
+<ResponsiveDesign element="ul" property="list-style-position" defaultClass="list-outside" featuredClass="list-inside" />
