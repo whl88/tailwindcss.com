@@ -1,14 +1,16 @@
-# Tailwind CSS Documentation
+# Tailwind CSS 文档站点
 
-Tailwind CSS uses [Next.js](https://nextjs.org/) for its documentation.
+本项目基于 Tailwind Labs 官方的 [tailwindcss.com](https://github.com/tailwindlabs/tailwindcss.com) 文档站点改造而来，沿用 Next.js 与既有文档架构，在此基础上增加并对齐了**中文版**（界面与文档内容的本地化）。
 
-To run the project locally, first install the dependencies:
+## 本地开发
+
+依赖安装：
 
 ```bash
 pnpm install
 ```
 
-Next, run the development server:
+启动开发服务器：
 
 ```bash
 pnpm run dev
@@ -16,4 +18,4 @@ pnpm run dev
 
 ## License
 
-This project is not licensed under an open-source license and is the intellectual property of Tailwind Labs Inc. The source is available only as an educational resource and to accept fixes for minor mistakes.
+本项目未采用开源许可证，版权归原作者所有（Tailwind Labs Inc.）。源代码仅作为学习参考及接受对明显错误的修正之用。
